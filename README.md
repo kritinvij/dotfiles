@@ -1,2 +1,2 @@
 # dotfiles
-![Alt text](/../dotfiles/screen.jpg
+![Alt text]https://github.com/kritinvij/dotfiles/blob/master/screen.jpg
