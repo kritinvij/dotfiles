@@ -1,0 +1,56 @@
+[credential]
+	helper = osxkeychain
+
+[user]
+	name = --name
+	email = --email
+
+[alias]
+	co = checkout
+	checkoutr = checkout
+
+[color]
+	ui = auto
+
+[color "branch"]
+	current = yellow reverse
+	local = yellow
+	remote = green
+
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold # line info
+	old = red # deletions
+	new = green # additions
+
+[color "status"]
+	added = green
+	changed = yellow
+	untracked = cyan
+
+[diff]
+	# Detect copies as well as renames
+	renames = copies
+	# Enable an experimental heuristic that shifts the hunk boundary in an
+	# attempt to make the resulting patch easier to read.
+	indentHeuristic = true
+
+[diff "bin"]
+	# Use `hexdump` to diff binary files
+	textconv = hexdump -v -C
+
+[help]
+	# Automatically correct and execute mistyped commands
+	autocorrect = 1
+
+[merge]
+	# Include summaries of merged commits in newly created merge commit messages
+	log = true
+
+[push]
+	# Use the Git 1.x.x default to avoid errors on machines with old Git
+	# installations. To use `simple` instead, add this to your `~/.extra` file:
+	# `git config --global push.default simple`. See http://git.io/mMah-w.
+	default = matching
+	# Make `git push` push relevant annotated tags when pushing branches out.
+	followTags = true
