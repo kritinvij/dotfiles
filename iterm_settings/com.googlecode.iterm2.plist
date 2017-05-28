@@ -29,7 +29,7 @@
 	<key>HideTab</key>
 	<false/>
 	<key>LoadPrefsFromCustomFolder</key>
-	<true/>
+	<false/>
 	<key>NSNavLastRootDirectory</key>
 	<string>~/Desktop/iterm_settings</string>
 	<key>NSNavPanelExpandedSizeForOpenMode</key>
