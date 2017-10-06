@@ -1,8 +1,8 @@
 [credential]
 	helper = osxkeychain
 [user]
-	name = Kritin Vij
-	email = kritin.vij@redfin.com
+	name = --user
+	email = --user.email@domain.com
 
 [alias]
 	co = checkout
