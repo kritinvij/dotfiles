@@ -1,9 +1,8 @@
 [credential]
 	helper = osxkeychain
-
 [user]
-	name = --name
-	email = --email
+	name = Kritin Vij
+	email = kritin.vij@redfin.com
 
 [alias]
 	co = checkout
@@ -34,6 +33,21 @@
 	# Enable an experimental heuristic that shifts the hunk boundary in an
 	# attempt to make the resulting patch easier to read.
 	indentHeuristic = true
+	tool = diffmerge
+[merge]
+	tool = diffmerge
+	# Include summaries of merged commits in newly created merge commit messages
+	log = true
+	
+[mergetool "diffmerge"]
+	cmd = /Applications/DiffMerge.app/Contents/MacOS/DiffMerge --nosplash --merge --result=\"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"
+	trustExitCode = true
+
+[difftool "diffmerge"]
+	cmd = /Applications/DiffMerge.app/Contents/MacOS/DiffMerge --nosplash \"$LOCAL\" \"$REMOTE\"
+
+[mergetool]
+	keepBackup = false
 
 [diff "bin"]
 	# Use `hexdump` to diff binary files
@@ -42,10 +56,6 @@
 [help]
 	# Automatically correct and execute mistyped commands
 	autocorrect = 1
-
-[merge]
-	# Include summaries of merged commits in newly created merge commit messages
-	log = true
 
 [push]
 	# Use the Git 1.x.x default to avoid errors on machines with old Git
