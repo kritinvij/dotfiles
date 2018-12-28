@@ -108,6 +108,8 @@ fi;
 # Set the terminal title and prompt.
 PS1="\[\033]0;\W\007\]"; # working directory base name
 PS1+="\[${bold}\]\n"; # newline
+#PS1+="\[${userStyle}\]\u"; # username, sometimes this is more useful than having the host
+#PS1+="\[${white}\] at ";
 PS1+="\[${userStyle}\]\h"; # host
 PS1+="\[${white}\] in ";
 PS1+="\[${green}\]\w"; # working directory full path
