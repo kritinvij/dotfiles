@@ -44,6 +44,11 @@ export PATH="$HOME/bin:$PATH";
 # for 'too many open files' issue
 ulimit -n 16000
 
+sublime_link="/usr/local/bin/subl"
+if [[ ! -L ${sublime_link} ]]; then
+	ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
+fi
+
 ########################################################################################################################
 # PERSONAL
 alias ls="command ls ${colorflag}"
@@ -64,6 +69,3 @@ alias br='git co -b'
 alias add='git add .'
 alias comm='git commit -m'
 alias trim='git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d'
-
-
-
