@@ -49,9 +49,10 @@ if [[ ! -L ${sublime_link} ]]; then
 	ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
 fi
 
-# curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash`
 if [ -f ~/.git-completion.bash ]; then
-. ~/.git-completion.bash
+	. ~/.git-completion.bash
+else
+	curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash`
 fi
 
 
