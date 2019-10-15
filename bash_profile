@@ -49,6 +49,12 @@ if [[ ! -L ${sublime_link} ]]; then
 	ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
 fi
 
+# curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash`
+if [ -f ~/.git-completion.bash ]; then
+. ~/.git-completion.bash
+fi
+
+
 ########################################################################################################################
 # PERSONAL
 alias ls="command ls ${colorflag}"
@@ -69,3 +75,4 @@ alias br='git co -b'
 alias add='git add .'
 alias comm='git commit -m'
 alias trim='git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d'
+
