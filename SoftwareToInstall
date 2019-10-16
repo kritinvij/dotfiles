@@ -15,6 +15,7 @@ Command Line
 1. Pip
 2. Silver Searcher
 3. Pyvenv
+4. autoexpect- https://stackoverflow.com/questions/4857702/how-to-provide-password-to-a-command-that-prompts-for-one-in-bash
 
 Others
 1. Xcode and command line tools
