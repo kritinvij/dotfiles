@@ -39,6 +39,29 @@ if type _git &> /dev/null; then
 	complete -o default -o nospace -F _git g;
 fi;
 
+default_branch_git() {
+	local branchName='';
+
+	# Check if the current directory is in a Git repository.
+	if [ $(git rev-parse --is-inside-work-tree &>/dev/null; echo "${?}") == '0' ]; then
+
+		# check if the current directory is in .git before running git checks
+		if [ "$(git rev-parse --is-inside-git-dir 2> /dev/null)" == 'false' ]; then
+
+			# Ensure the index is up to date.
+			git update-index --really-refresh -q &>/dev/null;
+		fi;
+
+		# Get the short symbolic ref.
+		# If HEAD isn’t a symbolic ref, get the short SHA for the latest commit
+		# Otherwise, just give up.
+		echo "$(git symbolic-ref HEAD | grep -oh [a-zA-Z]*[\/]*$)";
+		return 0;
+	else
+		return 1;
+	fi;
+}
+
 #######################################################################################################################
 export PATH="$HOME/bin:$PATH";
 # for 'too many open files' issue
@@ -71,12 +94,12 @@ alias ls='ls -a'
 alias prof='subl ~/.bash_profile'
 alias prompt='subl ~/.bash_prompt'
 
-alias master='git checkout master && git pull --rebase && st'
+alias master='git checkout `default_branch_git` && git pull && st'
 alias diff='clear && git diff -w && git status'
 alias st='clear && git status'
-alias pull='git pull --rebase'
+alias pull='git pull origin `default_branch_git` --rebase'
 alias br='git co -b'
 alias add='git add .'
 alias comm='git commit -m'
-alias trim='git branch --merged | egrep -v "(^\*|master|dev)" | xargs git branch -d'
+alias trim='git branch --merged | egrep -v "(^\*|`default_branch_git`)" | xargs git branch -d'
 
