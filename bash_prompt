@@ -61,6 +61,33 @@ prompt_git() {
 	fi;
 }
 
+default_branch_git() {
+	# Check if the current directory is in a Git repository.
+	if [ $(git rev-parse --is-inside-work-tree &>/dev/null; echo "${?}") == '0' ]; then
+
+		# check if the current directory is in .git before running git checks
+		if [ "$(git rev-parse --is-inside-git-dir 2> /dev/null)" == 'false' ]; then
+
+			# Ensure the index is up to date.
+			git update-index --really-refresh -q &>/dev/null;
+		fi;
+
+		# Get the short symbolic ref.
+		# If HEAD isn’t a symbolic ref, get the short SHA for the latest commit
+		# Otherwise, just give up.
+		echo "$(git symbolic-ref HEAD | grep -oh [a-zA-Z]*[\/]*$)";
+	else
+		return 1;
+	fi;
+}
+
+switch_to_master_and_update() {
+	local main_branch=$(default_branch_git)
+	git co $main_branch
+	git pull --rebase
+	git status
+}
+
 if tput setaf 1 &> /dev/null; then
 	tput sgr0; # reset colors
 	bold=$(tput bold);
@@ -111,7 +138,7 @@ PS1+="\[${bold}\]\n"; # newline
 #PS1+="\[${userStyle}\]\u"; # username, sometimes this is more useful than having the host
 #PS1+="\[${white}\] at ";
 # PS1+="\[${userStyle}\]\h"; # host
-PS1+="\[${yellow}\]$(date "+%X") ";
+PS1+="\[${yellow}\]$(date "+%T") ";
 PS1+="\[${userStyle}\]kritin";
 PS1+="\[${white}\] in ";
 PS1+="\[${green}\]\w"; # working directory full path
