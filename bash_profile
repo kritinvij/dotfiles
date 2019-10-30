@@ -94,7 +94,7 @@ alias ls='ls -a'
 alias prof='subl ~/.bash_profile'
 alias prompt='subl ~/.bash_prompt'
 
-alias master='git checkout `default_branch_git` && git pull && st'
+alias master=switch_to_master_and_update
 alias diff='clear && git diff -w && git status'
 alias st='clear && git status'
 alias pull='git pull origin `default_branch_git` --rebase'
