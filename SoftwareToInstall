@@ -20,5 +20,5 @@ Command Line
 
 Others
 1. Xcode and command line tools
-2. For cloud desktop to open html links: sudo yum -y install lynx
+2. For cloud desktop to open html links: sudo yum -y install lynx or run python locally `python -m http.server`
 
