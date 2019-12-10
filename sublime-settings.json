@@ -20,4 +20,5 @@
 	"tab_size": 4,
 	"translate_tabs_to_spaces": false,
 	"word_wrap": true,
+	"default_extension": "txt",
 }
