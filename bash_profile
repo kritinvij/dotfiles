@@ -104,4 +104,4 @@ alias comm='git commit -m'
 alias trim='git branch --merged | egrep -v "(^\*|`default_branch_git`)" | xargs git branch -d'
 alias ame='git commit --amend'
 alias cane='git commit --amend --no-edit'
-
+alias log='git log --graph --oneline --all'
