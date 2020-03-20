@@ -39,27 +39,14 @@ if type _git &> /dev/null; then
 	complete -o default -o nospace -F _git g;
 fi;
 
-default_branch_git() {
-	local branchName='';
+dir_status_check() {
+	inside_git_repo="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
 
-	# Check if the current directory is in a Git repository.
-	if [ $(git rev-parse --is-inside-work-tree &>/dev/null; echo "${?}") == '0' ]; then
-
-		# check if the current directory is in .git before running git checks
-		if [ "$(git rev-parse --is-inside-git-dir 2> /dev/null)" == 'false' ]; then
-
-			# Ensure the index is up to date.
-			git update-index --really-refresh -q &>/dev/null;
-		fi;
-
-		# Get the short symbolic ref.
-		# If HEAD isn’t a symbolic ref, get the short SHA for the latest commit
-		# Otherwise, just give up.
-		echo "$(git symbolic-ref HEAD | grep -oh [a-zA-Z]*[\/]*$)";
-		return 0;
+	if [ "$inside_git_repo" ]; then
+  		clear && git status
 	else
-		return 1;
-	fi;
+  		clear
+	fi
 }
 
 #######################################################################################################################
@@ -94,14 +81,14 @@ alias ls='ls -a'
 alias prof='subl ~/.bash_profile'
 alias prompt='subl ~/.bash_prompt'
 
-alias master=switch_to_master_and_update
+alias master='git checkout master'
 alias diff='clear && git diff -w && git status'
-alias st='clear && git status'
-alias pull='git pull origin `default_branch_git` --rebase'
+alias st='dir_status_check'
+alias pull='git pull origin master --rebase'
 alias br='git co -b'
 alias add='git add .'
 alias comm='git commit -m'
-alias trim='git branch --merged | egrep -v "(^\*|`default_branch_git`)" | xargs git branch -d'
+alias trim='git branch --merged | egrep -v "(^\*|master)" | xargs git branch -d'
 alias ame='git commit --amend'
 alias cane='git commit --amend --no-edit'
 alias log='git log --graph --oneline --all'
