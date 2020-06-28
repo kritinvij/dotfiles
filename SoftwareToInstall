@@ -15,8 +15,12 @@ Command Line
 1. Pip
 2. Silver Searcher - https://github.com/ggreer/the_silver_searcher
 3. Pyenv - https://github.com/pyenv/pyenv
-4. autoexpect- https://stackoverflow.com/questions/4857702/how-to-provide-password-to-a-command-that-prompts-for-one-in-bash
+4. autoexpect - https://stackoverflow.com/questions/4857702/how-to-provide-password-to-a-command-that-prompts-for-one-in-bash
 5. tmux
+6. tldr page - https://github.com/tldr-pages/tldr
+7. fd - alternative to find - https://github.com/sharkdp/fd/
+8. lsd - alternative to ls - https://github.com/Peltoche/lsd
+9. bat - alternative to cat - https://github.com/sharkdp/bat
 
 Others
 1. Xcode and command line tools
