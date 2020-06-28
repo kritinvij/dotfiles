@@ -21,6 +21,9 @@ Command Line
 7. fd - alternative to find - https://github.com/sharkdp/fd/
 8. lsd - alternative to ls - https://github.com/Peltoche/lsd
 9. bat - alternative to cat - https://github.com/sharkdp/bat
+10. diff-so-fancy - better diff - https://github.com/so-fancy/diff-so-fancy
+11. jq - https://github.com/stedolan/jq
+
 
 Others
 1. Xcode and command line tools
