@@ -1,1 +1,18 @@
+# Scroll with mouse
 termcapinfo xterm* ti@:te@
+
+# Automatically detach on hangup.
+  autodetach on					# default: on
+
+# Don't display the copyright page
+  startup_message off			# default: on
+
+# Change default scrollback value for new windows
+  defscrollback 99999			# default: 100
+
+hardstatus on
+hardstatus alwayslastline
+hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{=kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B}%Y-%m-%d %{W}%c %{g}]'
+
+caption always "%{= ..}%-w%{= BW}%n %t%{-}%+w %-= @%H - %D %d %M - %c"
+backtick 2 300 0 whoami
