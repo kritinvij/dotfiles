@@ -159,6 +159,9 @@ alias sudo='sudo '
 # Lock the screen (when going AFK)
 alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
 
+# If pyenv is installed, this alias helps the `brew doctor` not complain about python config files
+# alias brew='env PATH=${PATH//$(pyenv root)/shims:/} brew'
+
 alias ..='cd ..'
 alias c='clear'
 alias ls='ls -a'
