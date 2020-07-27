@@ -107,17 +107,17 @@ prompt_git() {
             git update-index --really-refresh -q &>/dev/null;
 
             # Check for uncommitted changes in the index.
-            if [[ ! $(git diff --quiet --ignore-submodules --cached) ]]; then
+            if [[ -n $(git diff --quiet --ignore-submodules --cached) ]]; then
                 s+='+';
             fi;
 
             # Check for unstaged changes.
-            if [[ ! $(git diff-files --quiet --ignore-submodules --) ]]; then
+            if [[ -n $(git diff-files --quiet --ignore-submodules --) ]]; then
                 s+='!';
             fi;
 
             # Check for untracked files.
-            if [[  -n "$(git ls-files --others --exclude-standard)" ]]; then
+            if [[ -n "$(git ls-files --others --exclude-standard)" ]]; then
                 s+='?';
             fi;
 
