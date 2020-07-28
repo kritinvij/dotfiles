@@ -51,6 +51,9 @@
 [pull]
 	rebase = true
 
+[rerere]
+	enabled = true
+
 [push]
 	# Use the Git 1.x.x default to avoid errors on machines with old Git
 	# installations. To use `simple` instead, add this to your `~/.extra` file:
