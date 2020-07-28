@@ -18,6 +18,16 @@ for file in ~/.{path,exports,aliases,functions,extra}; do
 done;
 unset file;
 
+# git auto-complete
+autoload -Uz compinit && compinit
+
+#######################################################################################################################
+# for 'too many open files' issue
+ulimit -n 16000
+
+sublime_link="/usr/local/bin/subl"
+########################################################################################################################
+
 dir_status_check() {
 	inside_git_repo="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
 
@@ -28,12 +38,6 @@ dir_status_check() {
 	fi
 }
 
-#######################################################################################################################
-# for 'too many open files' issue
-ulimit -n 16000
-
-sublime_link="/usr/local/bin/subl"
-########################################################################################################################
 default_branch_git() {
     local branchName='';
 
