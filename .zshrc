@@ -148,6 +148,7 @@ precmd() {
     setopt PROMPT_SUBST
     PROMPT="${bold}${yellow}$(date "+%T") ${userStyle}kritin ${white}in ${green}%9c $(prompt_git)${reset}
 $ "
+#  ${white}at ${cyan}${(%):-%m} // to display host address for cloud desktops
 }
 
 
