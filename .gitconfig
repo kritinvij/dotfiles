@@ -1,5 +1,6 @@
 [credential]
 	helper = osxkeychain
+
 [user]
 	name = --user
 	email = --user.email@domain.com
