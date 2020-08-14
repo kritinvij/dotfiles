@@ -57,6 +57,7 @@ ulimit -n 16000
 sublime_link="/usr/local/bin/subl"
 if [[ ! -L ${sublime_link} ]]; then
 	ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
+	export EDITOR='subl -w'
 fi
 
 if [ -f ~/.git-completion.bash ]; then
