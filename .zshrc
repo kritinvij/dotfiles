@@ -59,7 +59,7 @@ default_branch_git() {
         fi;
 
         # Get the short symbolic ref.
-        # If HEAD isnÃ¢ÂÂt a symbolic ref, get the short SHA for the latest commit
+        # If HEAD isn't a symbolic ref, get the short SHA for the latest commit
         # Otherwise, just give up.
         echo "$(git symbolic-ref HEAD | grep -oh [a-zA-Z]*[\/]*$)";
         return 0;
