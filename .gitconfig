@@ -2,7 +2,7 @@
 	helper = osxkeychain
 
 [user]
-	name = --user
+	name = --"Full Name"
 	email = --user.email@domain.com
 
 [alias]
