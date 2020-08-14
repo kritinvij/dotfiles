@@ -34,6 +34,7 @@
 	# Enable an experimental heuristic that shifts the hunk boundary in an
 	# attempt to make the resulting patch easier to read.
 	indentHeuristic = true
+
 [merge]
 	# Include summaries of merged commits in newly created merge commit messages
 	log = true
