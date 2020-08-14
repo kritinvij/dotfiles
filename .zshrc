@@ -26,6 +26,12 @@ autoload -Uz compinit && compinit
 ulimit -n 16000
 
 sublime_link="/usr/local/bin/subl"
+if [ -L ${sublime_link} ] && [ -e ${sublime_link} ] ; then
+    # do nothing, the link exists and is good.
+else
+   ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/subl
+fi
+
 ########################################################################################################################
 
 dir_status_check() {
