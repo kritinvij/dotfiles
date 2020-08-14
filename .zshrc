@@ -194,5 +194,5 @@ alias trim='git branch --merged | egrep -v "(^\*|`default_branch_git`)" | xargs 
 alias ame='git commit --amend'
 alias cane='git commit --amend --no-edit'
 alias log='git log --graph --oneline --all'
-
-################
+alias doc='brew update && brew upgrade && brew update && brew cleanup && brew doctor'
+########################################################################################################################
