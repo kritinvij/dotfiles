@@ -1,6 +1,6 @@
 {
-  "timeStamp": 1601728227342,
-  "version": "1.29.2",
+  "timeStamp": 1603981359273,
+  "version": "1.30.6",
   "userSettings": {
     "advancedUserEnabled": true,
     "alwaysDetachLogger": true,
@@ -13,15 +13,15 @@
     "externalLists": "",
     "firewallPaneMinimized": true,
     "hyperlinkAuditingDisabled": true,
-    "ignoreGenericCosmeticFilters": true,
+    "ignoreGenericCosmeticFilters": false,
     "largeMediaSize": 50,
     "parseAllABPHideFilters": true,
     "popupPanelSections": 63,
     "prefetchingDisabled": true,
     "requestLogMaxEntries": 1000,
-    "showIconBadge": true,
+    "showIconBadge": false,
     "tooltipsDisabled": true,
-    "webrtcIPAddressHidden": false
+    "webrtcIPAddressHidden": true
   },
   "selectedFilterLists": [
     "user-filters",
@@ -47,11 +47,7 @@
     "ublock-annoyances",
     "dpollock-0",
     "mvps-0",
-    "plowe-0",
-    "SWE-1",
-    "THA-0",
-    "TUR-0",
-    "VIE-1"
+    "plowe-0"
   ],
   "hiddenSettings": {
     "allowGenericProceduralFilters": false,
@@ -65,6 +61,7 @@
     "cacheStorageAPI": "unset",
     "cacheStorageCompression": true,
     "cacheControlForFirefox1376932": "no-cache, no-store, must-revalidate",
+    "cloudStorageCompression": false,
     "cnameIgnoreList": "unset",
     "cnameIgnore1stParty": true,
     "cnameIgnoreExceptions": true,
@@ -103,15 +100,17 @@
     "chrome-extension-scheme",
     "edge-scheme",
     "inisonline.jahs.ie",
+    "mcm.amazon.com",
     "moz-extension-scheme",
     "opera-scheme",
     "vivaldi-scheme",
+    "w.amazon.com",
     "www.mygovid.ie",
     "wyciwyg-scheme"
   ],
-  "netWhitelist": "about-scheme\naccount.mygovid.ie\nchrome-extension-scheme\nedge-scheme\ninisonline.jahs.ie\nmoz-extension-scheme\nopera-scheme\nvivaldi-scheme\nwww.mygovid.ie\nwyciwyg-scheme",
-  "dynamicFilteringString": "behind-the-scene * * noop\nbehind-the-scene * inline-script noop\nbehind-the-scene * 1p-script noop\nbehind-the-scene * 3p-script noop\nbehind-the-scene * 3p-frame noop\nbehind-the-scene * image noop\nbehind-the-scene * 3p noop",
+  "netWhitelist": "about-scheme\naccount.mygovid.ie\nchrome-extension-scheme\nedge-scheme\ninisonline.jahs.ie\nmcm.amazon.com\nmoz-extension-scheme\nopera-scheme\nvivaldi-scheme\nw.amazon.com\nwww.mygovid.ie\nwyciwyg-scheme",
+  "dynamicFilteringString": "behind-the-scene * * noop\nbehind-the-scene * inline-script noop\nbehind-the-scene * 1p-script noop\nbehind-the-scene * 3p-script noop\nbehind-the-scene * 3p-frame noop\nbehind-the-scene * image noop\nbehind-the-scene * 3p noop\n* googletagservices.com * block\nwww.reddit.com googletagservices.com * block\n* amazon-adsystem.com * block\nwww.reddit.com amazon-adsystem.com * block\n* aaxads.com * block\nwww.reddit.com aaxads.com * block",
   "urlFilteringString": "",
-  "hostnameSwitchesString": "no-large-media: behind-the-scene false\nno-cosmetic-filtering: * true",
+  "hostnameSwitchesString": "no-large-media: behind-the-scene false\nno-csp-reports: * true\nno-popups: soccerstreams-100.com true",
   "userFilters": ""
 }
