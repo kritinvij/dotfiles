@@ -21,26 +21,7 @@ unset file;
 # git auto-complete
 autoload -Uz compinit && compinit
 
-######################
-# For cloud desktop/ssh machines
-# export AUTO_TITLE_SCREENS="NO"	
-# export PROMPT="	
-#   %{$fg[white]%}(%D %*) <%?> [%~] $program %{$fg[default]%}	
-#   %{$fg[cyan]%}%m %#%{$fg[default]%} "	
-# export RPROMPT=	
-# set-title() {	
-#   echo -e "\e]0;$*\007"	
-# }	
-# ssh() {	
-#   set-title $*;	
-#   /usr/bin/ssh -2 $*;	
-#   set-title $HOST;	
-# }	
-
 #######################################################################################################################
-# for 'too many open files' issue
-ulimit -n 16000
-
 sublime_link="/usr/local/bin/subl"
 if [ -L ${sublime_link} ] && [ -e ${sublime_link} ] ; then
     # do nothing, the link exists and is good.
