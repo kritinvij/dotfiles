@@ -35,21 +35,21 @@
 // 	return origFetch(url, init, ...args);
 // };
 
-/// twitch-videoad.js
+// twitch-videoad.js
 const origFetch = window.fetch;
 window.fetch = (url, init, ...args) => {
 	if (typeof url === "string") {
 		if (url.includes("/access_token")) {
-			// url = url.replace("player_type=site", "player_type=site");
+			url = url.replace("player_type=site", "player_type=thunderdome");
 		} else if (
 			url.includes("/gql") &&
 			init &&
 			typeof init.body === "string" &&
 			init.body.includes("PlaybackAccessToken")
 		) {
-			// const newBody = JSON.parse(init.body);
-			// newBody.variables.playerType = "site";
-			// init.body = JSON.stringify(newBody);
+			const newBody = JSON.parse(init.body);
+			newBody.variables.playerType = "thunderdome";
+			init.body = JSON.stringify(newBody);
 		}
 	}
 	return origFetch(url, init, ...args);
