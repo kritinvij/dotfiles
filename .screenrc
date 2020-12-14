@@ -1,6 +1,9 @@
 # Scroll with mouse
 termcapinfo xterm* ti@:te@
 
+# Sets the output scrollback to this many lines in the past
+defscrollback 1000000
+
 # Automatically detach on hangup.
   autodetach on					# default: on
 
