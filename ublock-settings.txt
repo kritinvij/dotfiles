@@ -1,24 +1,13 @@
 {
-  "timeStamp": 1609149046008,
-  "version": "1.31.2",
+  "timeStamp": 1623086995956,
+  "version": "1.35.2",
   "userSettings": {
     "advancedUserEnabled": true,
-    "alwaysDetachLogger": true,
-    "autoUpdate": true,
-    "cloudStorageEnabled": false,
-    "collapseBlocked": true,
-    "colorBlindFriendly": false,
-    "contextMenuEnabled": true,
-    "dynamicFilteringEnabled": false,
-    "externalLists": "",
     "firewallPaneMinimized": false,
-    "hyperlinkAuditingDisabled": true,
-    "ignoreGenericCosmeticFilters": false,
-    "largeMediaSize": 50,
-    "parseAllABPHideFilters": true,
+    "importedLists": [
+      "https://www.fanboy.co.nz/enhancedstats.txt"
+    ],
     "popupPanelSections": 31,
-    "prefetchingDisabled": true,
-    "requestLogMaxEntries": 1000,
     "showIconBadge": false,
     "tooltipsDisabled": true,
     "webrtcIPAddressHidden": true
@@ -35,7 +24,6 @@
     "easylist",
     "adguard-spyware",
     "easyprivacy",
-    "fanboy-enhanced",
     "urlhaus-1",
     "spam404-0",
     "adguard-annoyance",
@@ -47,29 +35,34 @@
     "ublock-annoyances",
     "dpollock-0",
     "mvps-0",
-    "plowe-0"
+    "plowe-0",
+    "https://www.fanboy.co.nz/enhancedstats.txt"
   ],
   "hiddenSettings": {
     "userResourcesLocation": "https://raw.githubusercontent.com/kritinvij/dotfiles/master/twitch-ad-blocker.js https://raw.githubusercontent.com/kritinvij/dotfiles/master/nano-adblocker.js"
   },
   "whitelist": [
+    "abc.com",
     "about-scheme",
     "account.mygovid.ie",
-    "chrome-extension-scheme",
     "edge-scheme",
     "inisonline.jahs.ie",
     "mcm.amazon.com",
     "moz-extension-scheme",
     "opera-scheme",
+    "pkehgijcmpdhfbdbbnkijodmdjhbjlgp.chrome-extension-scheme",
     "store.team17.com",
+    "support.n26.com",
+    "visalist.io",
     "vivaldi-scheme",
     "w.amazon.com",
+    "www.cbs.com",
     "www.mygovid.ie",
+    "www.zumper.com",
     "wyciwyg-scheme"
   ],
-  "netWhitelist": "about-scheme\naccount.mygovid.ie\nchrome-extension-scheme\nedge-scheme\ninisonline.jahs.ie\nmcm.amazon.com\nmoz-extension-scheme\nopera-scheme\nstore.team17.com\nvivaldi-scheme\nw.amazon.com\nwww.mygovid.ie\nwyciwyg-scheme",
-  "dynamicFilteringString": "behind-the-scene * * noop\nbehind-the-scene * inline-script noop\nbehind-the-scene * 1p-script noop\nbehind-the-scene * 3p-script noop\nbehind-the-scene * 3p-frame noop\nbehind-the-scene * image noop\nbehind-the-scene * 3p noop\n* googletagservices.com * block\nwww.reddit.com googletagservices.com * block\n* amazon-adsystem.com * block\nwww.reddit.com amazon-adsystem.com * block\n* aaxads.com * block\nwww.reddit.com aaxads.com * block\nwww.twitch.tv googletagservices.com * block\nwww.twitch.tv amazon-adsystem.com * block\n* imrworldwide.com * block\nwww.twitch.tv imrworldwide.com * block\n* scorecardresearch.com * block\nwww.twitch.tv scorecardresearch.com * block\n* www.googletagservices.com * block\nwww.twitch.tv www.googletagservices.com * block\n* c.amazon-adsystem.com * block\nwww.twitch.tv c.amazon-adsystem.com * block\n* s.amazon-adsystem.com * block\nwww.twitch.tv s.amazon-adsystem.com * block\n* countess.twitch.tv * block\nwww.twitch.tv countess.twitch.tv * block\n* supervisor.ext-twitch.tv * block\nwww.twitch.tv supervisor.ext-twitch.tv * block\n* googletagmanager.com * block\nazm.to googletagmanager.com * block\n* www.googletagmanager.com * block\nazm.to www.googletagmanager.com * block\n* fonts.googleapis.com * block\nazm.to fonts.googleapis.com * block\n* definedlaunching.com * block\nazm.to definedlaunching.com * block\n* sb.scorecardresearch.com * block\nwww.twitch.tv sb.scorecardresearch.com * block\n* pubsub-edge.twitch.tv * block\nwww.twitch.tv pubsub-edge.twitch.tv * block\n* app.link * block\nwww.twitch.tv app.link * block\n* d2v02itv0y9u9t.cloudfront.net * block\nwww.twitch.tv d2v02itv0y9u9t.cloudfront.net * block\n* d3aqoihi2n8ty8.cloudfront.net * block\nwww.twitch.tv d3aqoihi2n8ty8.cloudfront.net * block\n* cdn-gl.imrworldwide.com * block\nwww.twitch.tv cdn-gl.imrworldwide.com * noop",
+  "dynamicFilteringString": "behind-the-scene * * noop\nbehind-the-scene * inline-script noop\nbehind-the-scene * 1p-script noop\nbehind-the-scene * 3p-script noop\nbehind-the-scene * 3p-frame noop\nbehind-the-scene * image noop\nbehind-the-scene * 3p noop\n* googletagservices.com * block\nwww.reddit.com googletagservices.com * block\n* amazon-adsystem.com * block\nwww.reddit.com amazon-adsystem.com * block\n* aaxads.com * block\nwww.reddit.com aaxads.com * block\nwww.twitch.tv googletagservices.com * block\nwww.twitch.tv amazon-adsystem.com * block\n* imrworldwide.com * block\nwww.twitch.tv imrworldwide.com * block\n* scorecardresearch.com * block\nwww.twitch.tv scorecardresearch.com * block\n* www.googletagservices.com * block\nwww.twitch.tv www.googletagservices.com * block\n* c.amazon-adsystem.com * block\nwww.twitch.tv c.amazon-adsystem.com * block\n* s.amazon-adsystem.com * block\nwww.twitch.tv s.amazon-adsystem.com * block\n* countess.twitch.tv * block\nwww.twitch.tv countess.twitch.tv * block\n* supervisor.ext-twitch.tv * block\nwww.twitch.tv supervisor.ext-twitch.tv * block\n* googletagmanager.com * block\nazm.to googletagmanager.com * block\n* www.googletagmanager.com * block\nazm.to www.googletagmanager.com * block\nazm.to fonts.googleapis.com * block\n* definedlaunching.com * block\nazm.to definedlaunching.com * block\n* sb.scorecardresearch.com * block\nwww.twitch.tv sb.scorecardresearch.com * block\n* pubsub-edge.twitch.tv * block\nwww.twitch.tv pubsub-edge.twitch.tv * block\n* app.link * block\nwww.twitch.tv app.link * block\n* d2v02itv0y9u9t.cloudfront.net * block\nwww.twitch.tv d2v02itv0y9u9t.cloudfront.net * block\n* d3aqoihi2n8ty8.cloudfront.net * block\nwww.twitch.tv d3aqoihi2n8ty8.cloudfront.net * block\n* cdn-gl.imrworldwide.com * block\nwww.twitch.tv cdn-gl.imrworldwide.com * noop",
   "urlFilteringString": "",
   "hostnameSwitchesString": "no-large-media: behind-the-scene false\nno-csp-reports: * true\nno-popups: soccerstreams-100.com true\nno-popups: azm.to true",
-  "userFilters": ""
+  "userFilters": "facebook.com##div[role=\"feed\"] div > span > span > a > span:upward(div[role=\"feed\"] > div)\n\n! 2021-04-23 https://www.projectfreetv.fun\n||cdn.performit.xyz/images/fcn/Series3.jpg$image\nwww.projectfreetv.fun##.fcnbox_notification_count\nwww.projectfreetv.fun###fcninnerbox\n\n! 2021-05-16 https://reddt1.soccerstreams.net\nreddt1.soccerstreams.net##.video-container\n\n||music.youtube.com^$csp=worker-src 'none'\n||www.youtube.com^$csp=worker-src 'none'\nyoutube.com##+js(json-prune, 2.playerResponse.adPlacements playerResponse.adPlacements playerResponse.playerAds adPlacements playerAds)\nyoutube.com##+js(json-prune, 2.playerResponse.adPlacements)\nyoutube.com##+js(json-prune, playerResponse.adPlacements)\nyoutube.com##+js(json-prune, playerResponse.playerAds)\nyoutube.com##+js(set, ytInitialPlayerResponse.adPlacements, null)\n"
 }
