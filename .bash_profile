@@ -45,7 +45,7 @@ dir_status_check() {
 	if [ "$inside_git_repo" ]; then
   		clear && git status
 	else
-  		clear
+  		clear && ls
 	fi
 }
 
