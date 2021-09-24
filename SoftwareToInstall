@@ -25,8 +25,9 @@ Command Line
 8. bat - alternative to cat - `brew install bat` - https://github.com/sharkdp/bat
 9. diff-so-fancy - better diff - `brew install diff-so-fancy` - https://github.com/so-fancy/diff-so-fancy
 10. jq - `brew install jq` - https://github.com/stedolan/jq
-11. pip
-12. tmux
+10. nvm - https://github.com/nvm-sh/nvm
+12. pip
+13. tmux
 
 
 Others
