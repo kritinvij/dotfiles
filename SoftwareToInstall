@@ -15,21 +15,20 @@ Productivity
 8. Giphy Capture
 
 Command Line
-1. Pip
-2. Silver Searcher - https://github.com/ggreer/the_silver_searcher
-3. Pyenv - https://github.com/pyenv/pyenv
-4. autoexpect - https://stackoverflow.com/questions/4857702/how-to-provide-password-to-a-command-that-prompts-for-one-in-bash
-5. tmux
-6. tldr page - https://github.com/tldr-pages/tldr
-7. fd - alternative to find - https://github.com/sharkdp/fd/
-8. lsd - alternative to ls - https://github.com/Peltoche/lsd
-9. bat - alternative to cat - https://github.com/sharkdp/bat
-10. diff-so-fancy - better diff - https://github.com/so-fancy/diff-so-fancy
-11. jq - https://github.com/stedolan/jq
-12. screen
+1. Silver Searcher - `brew install the_silver_searcher` - https://github.com/ggreer/the_silver_searcher
+2. Pyenv - `brew install pyenv` - https://github.com/pyenv/pyenv
+3. autoexpect - https://stackoverflow.com/questions/4857702/how-to-provide-password-to-a-command-that-prompts-for-one-in-bash
+4. screen - `brew install screen`
+5. tldr page - `brew install tldr` - https://github.com/tldr-pages/tldr
+6. fd - alternative to find - `brew install fd` - https://github.com/sharkdp/fd/
+7. lsd - alternative to ls - `brew install lsd` - https://github.com/Peltoche/lsd (and give iterm full disk access)
+8. bat - alternative to cat - `brew install bat` - https://github.com/sharkdp/bat
+9. diff-so-fancy - better diff - `brew install diff-so-fancy` - https://github.com/so-fancy/diff-so-fancy
+10. jq - `brew install jq` - https://github.com/stedolan/jq
+11. pip
+12. tmux
 
 
 Others
-1. Xcode and command line tools
+1. Xcode and command line tools - `xcode-select --install`
 2. For cloud desktop to open html links: sudo yum -y install lynx or run python locally `python -m http.server`
-
