@@ -27,7 +27,7 @@ sublime_link="/usr/local/bin/subl"
 if [ -L ${sublime_link} ] && [ -e ${sublime_link} ] ; then
     # do nothing, the link exists and is good.
 else
-   ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/subl
+   sudo ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/subl
    export EDITOR='subl -w'
 fi
 
@@ -192,6 +192,6 @@ alias trim='git branch --merged | egrep -v "(^\*|`default_branch_git`)" | xargs 
 alias ame='git commit --amend'
 alias cane='git commit --amend --no-edit'
 alias log='git log --graph --oneline --all'
-alias ='brew upgrade && brew cleanup && brew doctor'
+alias doc='brew upgrade && brew cleanup && brew doctor'
 alias gcp='git cherry-pick '
 ########################################################################################################################
