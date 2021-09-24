@@ -1,9 +1,0 @@
-# Install Java JDK
-/usr/libexec/java_home -V
-export JAVA_HOME=<output from previous command>
-
-brew install pyenv xz
-# python-build 3.6.8 ~/.runtimes/Python36
-# python-build --definitions | grep 3.6
-
-
