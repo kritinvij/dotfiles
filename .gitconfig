@@ -2,8 +2,8 @@
 	helper = osxkeychain
 
 [user]
-	name = --"Full Name"
-	email = --user.email@domain.com
+	name = "Full Name"
+	email = user.email@domain.com
 
 [alias]
 	co = checkout
