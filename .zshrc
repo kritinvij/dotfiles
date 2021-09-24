@@ -163,7 +163,7 @@ $ "
 
 ########################################################################################################################
 # PERSONAL
-alias ls="lsd -a"
+alias ls="lsd"
 alias grep='grep --color=auto'
 alias sudo='sudo '
 # Lock the screen (when going AFK)
@@ -174,7 +174,7 @@ alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resource
 
 alias ..='cd ..'
 alias c='clear'
-alias ls='lsd -a'
+alias la='ls -a'
 
 alias sz='source ~/.zshrc'
 alias prof='subl ~/.zshrc'
