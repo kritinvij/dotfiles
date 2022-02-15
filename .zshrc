@@ -1,78 +1,4 @@
-# Add `~/bin` to the `$PATH`
-export PATH="$HOME/bin:$PATH";
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init --path)"
-fi
-export PATH=$HOME/.toolbox/bin:$PATH
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_231.jdk/Contents/Home
-export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-export PATH="/usr/local/sbin:$PATH"
-
-# Load the shell dotfiles, and then some:
-# * ~/.path can be used to extend `$PATH`.
-# * ~/.extra can be used for other settings you don't want to commit.
-for file in ~/.{path,exports,aliases,functions,extra}; do
-	[ -r "$file" ] && [ -f "$file" ] && source "$file";
-done;
-unset file;
-
-# git auto-complete
-autoload -Uz compinit && compinit
-
-#######################################################################################################################
-sublime_link="/usr/local/bin/subl"
-if [ -L ${sublime_link} ] && [ -e ${sublime_link} ] ; then
-    # do nothing, the link exists and is good.
-else
-   sudo ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/subl
-   export EDITOR='subl -w'
-fi
-
-########################################################################################################################
-
-dir_status_check() {
-	inside_git_repo="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
-
-	if [ "$inside_git_repo" ]; then
-  		clear && git status
-	else
-  		clear && ls
-	fi
-}
-
-default_branch_git() {
-    local branchName='';
-
-    # Check if the current directory is in a Git repository.
-    if [ $(git rev-parse --is-inside-work-tree &>/dev/null; echo "${?}") == '0' ]; then
-
-        # check if the current directory is in .git before running git checks
-        if [ "$(git rev-parse --is-inside-git-dir &>/dev/null)" == 'false' ]; then
-
-            # Ensure the index is up to date.
-            git update-index --really-refresh -q 2> /dev/null;
-        fi;
-
-        # Get the short symbolic ref.
-        # If HEAD isn't a symbolic ref, get the short SHA for the latest commit
-        # Otherwise, just give up.
-        echo "$(git symbolic-ref HEAD | grep -oh [a-zA-Z]*[\/]*$)";
-        return 0;
-    else
-        return 1;
-    fi;
-}
-
-switch_to_mainline_and_update() {
-    local main_branch=$(default_branch_git)
-    git co $main_branch
-    git pull --rebase
-    git status
-}
-
+########################## Colors and Formatting ##########################
 bold=$(tput bold);
 reset=$(tput sgr0);
 
@@ -101,6 +27,17 @@ if [[ "${SSH_TTY}" ]]; then
 else
     hostStyle="${yellow}";
 fi;
+
+########################## Easy Git ##########################
+dir_status_check() {
+    inside_git_repo="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
+
+    if [ "$inside_git_repo" ]; then
+        clear && git status
+    else
+        clear && ls
+    fi
+}
 
 prompt_git() {
     local s='';
@@ -152,7 +89,35 @@ prompt_git() {
     fi;
 }
 
+# git auto-complete
+autoload -Uz compinit && compinit
 
+
+########################## Paths ##########################
+export PATH="$HOME/bin:$PATH";
+export PATH="/usr/local/sbin:$PATH"
+
+# pyenv
+# export PYENV_ROOT="$HOME/.pyenv"
+# export PATH="$PYENV_ROOT/bin:$PATH"
+# if command -v pyenv 1>/dev/null 2>&1; then
+#   eval "$(pyenv init --path)"
+# fi
+
+# export PATH="/usr/local/opt/ruby/bin:$PATH"
+# export PATH="/usr/local/opt/openjdk@11/bin:$PATH"
+# export JAVA_HOME="/usr/local/opt/openjdk@11/"
+
+
+sublime_link="/usr/local/bin/subl"
+if [ -L ${sublime_link} ] && [ -e ${sublime_link} ] ; then
+    # do nothing, the link exists and is good.
+else
+   ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/subl
+   export EDITOR='subl -w'
+fi
+
+########################## zsh ##########################
 precmd() {
     setopt PROMPT_SUBST
     PROMPT="${bold}${yellow}$(date "+%T") ${userStyle}kritin ${white}in ${green}%9c $(prompt_git)${reset}
@@ -160,17 +125,23 @@ $ "
 #  ${white}at ${cyan}${(%):-%m} // to display host address for cloud desktops
 }
 
+# Load the shell dotfiles, and then some:
+# * ~/.path can be used to extend `$PATH`.
+# * ~/.extra can be used for other settings you don't want to commit.
+for file in ~/.{path,exports,aliases,functions,extra}; do
+    [ -r "$file" ] && [ -f "$file" ] && source "$file";
+done;
+unset file;
 
-########################################################################################################################
-# PERSONAL
-alias ls="lsd"
+########################## Personal Aliases ##########################
+alias ls='lsd'
 alias grep='grep --color=auto'
 alias sudo='sudo '
 # Lock the screen (when going AFK)
 alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
 
 # If pyenv is installed, this alias helps the `brew doctor` not complain about python config files
-# alias brew='env PATH=${PATH//$(pyenv root)/shims:/} brew'
+alias brew='env PATH=${PATH//$(pyenv root)/shims:/} brew'
 
 alias ..='cd ..'
 alias c='clear'
@@ -180,18 +151,20 @@ alias sz='source ~/.zshrc'
 alias prof='subl ~/.zshrc'
 alias prompt='subl ~/.bash_prompt'
 
-alias mainline=switch_to_mainline_and_update
 alias diff='git diff -w'
 alias diffc='git diff -w --cached'
 alias st='dir_status_check'
-alias pull='git pull origin `default_branch_git` --rebase'
+alias pull='git pull origin mainline --rebase'
 alias br='git co -b'
 alias add='git add .'
 alias comm='git commit -m'
-alias trim='git branch --merged | egrep -v "(^\*|`default_branch_git`)" | xargs git branch -d'
+alias trim='git branch --merged | egrep -v "(^\*|mainline)" | xargs git branch -d'
 alias ame='git commit --amend'
 alias cane='git commit --amend --no-edit'
+alias acane='git add . && git commit --amend --no-edit'
 alias log='git log --graph --oneline --all'
 alias doc='brew upgrade && brew cleanup && brew doctor'
 alias gcp='git cherry-pick '
-########################################################################################################################
+
+
+
