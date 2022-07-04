@@ -1,6 +1,6 @@
--Xms2048m
+-Xms4096m
 -Xmx8196m
--XX:ReservedCodeCacheSize=512m
+-XX:ReservedCodeCacheSize=1028m
 -XX:+UseG1GC
 -XX:SoftRefLRUPolicyMSPerMB=50
 -XX:CICompilerCount=2
