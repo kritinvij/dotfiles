@@ -1,3 +1,5 @@
+alias ls='lsd'
+
 ########################## Colors and Formatting ##########################
 bold=$(tput bold);
 reset=$(tput sgr0);
@@ -134,14 +136,13 @@ done;
 unset file;
 
 ########################## Personal Aliases ##########################
-alias ls='lsd'
 alias grep='grep --color=auto'
 alias sudo='sudo '
 # Lock the screen (when going AFK)
 alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
 
 # If pyenv is installed, this alias helps the `brew doctor` not complain about python config files
-alias brew='env PATH=${PATH//$(pyenv root)/shims:/} brew'
+# alias brew='env PATH=${PATH//$(pyenv root)/shims:/} brew'
 
 alias ..='cd ..'
 alias c='clear'
@@ -166,5 +167,7 @@ alias log='git log --graph --oneline --all'
 alias doc='brew upgrade && brew cleanup && brew doctor'
 alias gcp='git cherry-pick '
 
+export PATH=/opt/homebrew/bin:/usr/local/sbin:/Users/krvij/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/laps:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
 
-
+cd ~/
+ls
