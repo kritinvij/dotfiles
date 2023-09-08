@@ -1,3 +1,5 @@
+# Keep this one on top so all ls functionalities are replaced
+# brew install lsd otherwise won't work
 alias ls='lsd'
 
 ########################## Colors and Formatting ##########################
@@ -94,22 +96,29 @@ prompt_git() {
 # git auto-complete
 autoload -Uz compinit && compinit
 
-
 ########################## Paths ##########################
 export PATH="$HOME/bin:$PATH";
 export PATH="/usr/local/sbin:$PATH"
 
+# yarn
+# export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
 # pyenv
 # export PYENV_ROOT="$HOME/.pyenv"
-# export PATH="$PYENV_ROOT/bin:$PATH"
-# if command -v pyenv 1>/dev/null 2>&1; then
-#   eval "$(pyenv init --path)"
-# fi
+# command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+# eval "$(pyenv init -)"
+
+# If pyenv is installed, this alias helps the `brew doctor` not complain about python config files
+# alias brew='env PATH=${PATH//$(pyenv root)/shims:/} brew'
 
 # export PATH="/usr/local/opt/ruby/bin:$PATH"
 # export PATH="/usr/local/opt/openjdk@11/bin:$PATH"
 # export JAVA_HOME="/usr/local/opt/openjdk@11/"
 
+# nvm
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 sublime_link="/usr/local/bin/subl"
 if [ -L ${sublime_link} ] && [ -e ${sublime_link} ] ; then
@@ -138,11 +147,6 @@ unset file;
 ########################## Personal Aliases ##########################
 alias grep='grep --color=auto'
 alias sudo='sudo '
-# Lock the screen (when going AFK)
-alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
-
-# If pyenv is installed, this alias helps the `brew doctor` not complain about python config files
-# alias brew='env PATH=${PATH//$(pyenv root)/shims:/} brew'
 
 alias ..='cd ..'
 alias c='clear'
@@ -150,7 +154,6 @@ alias la='ls -a'
 
 alias sz='source ~/.zshrc'
 alias prof='subl ~/.zshrc'
-alias prompt='subl ~/.bash_prompt'
 
 alias diff='git diff -w'
 alias diffc='git diff -w --cached'
@@ -167,7 +170,4 @@ alias log='git log --graph --oneline --all'
 alias doc='brew upgrade && brew cleanup && brew doctor'
 alias gcp='git cherry-pick '
 
-export PATH=/opt/homebrew/bin:/usr/local/sbin:/Users/krvij/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/laps:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
-
-cd ~/
-ls
+cd ~; ls;
