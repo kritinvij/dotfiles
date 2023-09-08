@@ -1,14 +1,16 @@
 Utility
-1. Appcleaner
-2. NoSleep
-3. Flux
-4. clipy-app.com
+1. iTerm
+2. Flux
+3. clipy-app.com
+4. Appcleaner
+5. Caffeine/Amphetamine/NoSleep
+6. ScreenBrush
 
 Productivity
-1. Spotify
-2. SublimeText
-3. Keep Notes
-4. iterm2
+1. BusyCal
+2. Spotify
+3. SublimeText
+4. Keep Notes
 5. Whatsapp
 6. VLC
 7. Steam
@@ -17,18 +19,17 @@ Productivity
 Command Line
 1. Silver Searcher - `brew install the_silver_searcher` - https://github.com/ggreer/the_silver_searcher
 2. Pyenv - `brew install pyenv` - https://github.com/pyenv/pyenv
-3. autoexpect - https://stackoverflow.com/questions/4857702/how-to-provide-password-to-a-command-that-prompts-for-one-in-bash
-4. screen - `brew install screen`
-5. tldr page - `brew install tldr` - https://github.com/tldr-pages/tldr
-6. fd - alternative to find - `brew install fd` - https://github.com/sharkdp/fd/
-7. lsd - alternative to ls - `brew install lsd` - https://github.com/Peltoche/lsd (and give iterm full disk access)
-8. bat - alternative to cat - `brew install bat` - https://github.com/sharkdp/bat
-9. diff-so-fancy - better diff - `brew install diff-so-fancy` - https://github.com/so-fancy/diff-so-fancy
+3. Node Version Manager - nvm - https://github.com/nvm-sh/nvm
+4. tldr page - `brew install tldr` - https://github.com/tldr-pages/tldr
+5. fd - alternative to find - `brew install fd` - https://github.com/sharkdp/fd/
+6. lsd - alternative to ls - `brew install lsd` - https://github.com/Peltoche/lsd (and give iterm full disk access)
+7. bat - alternative to cat - `brew install bat` - https://github.com/sharkdp/bat
+8. diff-so-fancy - better diff - `brew install diff-so-fancy` - https://github.com/so-fancy/diff-so-fancy
+9. screen - `brew install screen`
 10. jq - `brew install jq` - https://github.com/stedolan/jq
-10. nvm - https://github.com/nvm-sh/nvm
+11. autoexpect - https://stackoverflow.com/questions/4857702/how-to-provide-password-to-a-command-that-prompts-for-one-in-bash
 12. pip
 13. tmux
-
 
 Others
 1. Xcode and command line tools - `xcode-select --install`
