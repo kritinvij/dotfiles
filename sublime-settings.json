@@ -2,10 +2,10 @@
 // and are overridden in turn by syntax-specific settings.
 {
 	"color_scheme": "Packages/Color Scheme - Default/Mariana.tmTheme",
-	"font_size": 11,
+	"font_size": 15,
 	"open_files_in_new_window": false,
 	"shift_tab_unindent": true,
-	"show_navigation_bar": false,
+	"show_navigation_bar": true,
 	"theme": "Adaptive.sublime-theme",
 	"trim_trailing_white_space_on_save": true,
 	"ensure_newline_at_eof_on_save": true,
@@ -14,11 +14,16 @@
 	"remember_open_files": true,
 	"rulers":
 	[
-		80
+		120,150
 	],
 	"show_encoding": true,
 	"tab_size": 4,
 	"translate_tabs_to_spaces": false,
 	"word_wrap": true,
-	"default_extension": "txt",
+	"default_extension": "md",
+	"ignored_packages":
+	[
+		"Vintage",
+	],
+	"default_dir": "/Users/krvij/Desktop/",
 }
