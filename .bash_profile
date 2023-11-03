@@ -63,7 +63,7 @@ fi
 if [ -f ~/.git-completion.bash ]; then
 	. ~/.git-completion.bash
 else
-	curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash
+	curl https://raw.githubusercontent.com/git/git/main/contrib/completion/git-completion.bash -o ~/.git-completion.bash
 fi
 
 
@@ -82,14 +82,14 @@ alias ls='ls -a'
 alias prof='subl ~/.bash_profile'
 alias prompt='subl ~/.bash_prompt'
 
-alias master='git checkout master'
+alias main='git checkout main'
 alias diff='clear && git diff -w && git status'
 alias st='dir_status_check'
-alias pull='git pull origin master --rebase'
+alias pull='git pull origin main --rebase'
 alias br='git co -b'
 alias add='git add .'
 alias comm='git commit -m'
-alias trim='git branch --merged | egrep -v "(^\*|master)" | xargs git branch -d'
+alias trim='git branch --merged | egrep -v "(^\*|main)" | xargs git branch -d'
 alias ame='git commit --amend'
 alias cane='git commit --amend --no-edit'
 alias log='git log --graph --oneline --all'
