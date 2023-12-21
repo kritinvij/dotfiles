@@ -1,15 +1,14 @@
 #!/bin/bash
 
-# store the current dir
+# Store the current dir
 CUR_DIR=$(pwd)
 
 # Let the person running the script know what's going on.
-echo "\n\033[1mPulling in latest changes for all repositories...\033[0m\n"
+echo "\nPulling in latest changes for all repositories...\n"
 
 # Find all git repositories and update it to the main latest revision
 for i in $(find . -name ".git" | cut -c 3-); do
-    echo "";
-    echo "\033[33m"+$i+"\033[0m";
+    echo $i+;
 
     # We have to go to the .git parent directory to call the pull command
     cd "$i";
@@ -17,11 +16,13 @@ for i in $(find . -name ".git" | cut -c 3-); do
 
     # Switch to main branch
     # git checkout main;
+
     # Pull
+    echo $pwd;
     git pull;
 
-    # lets get back to the CUR_DIR
-    cd $CUR_DIR
+    # Go back to the CUR_DIR
+    cd $CUR_DIR;
 done
 
-echo "\n\033[32mComplete!\033[0m\n"
+echo "\nCompleted fetching latest code!\n"
