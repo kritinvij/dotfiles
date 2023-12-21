@@ -17,8 +17,8 @@ for i in $(find . -name ".git" | cut -c 3-); do
 
     # Switch to main branch
     # git checkout main;
-    # finally pull
-    git pull origin main;
+    # Pull
+    git pull;
 
     # lets get back to the CUR_DIR
     cd $CUR_DIR
