@@ -19,6 +19,7 @@ for i in $(find . -name ".git" -maxdepth 2 | cut -c 3-); do
 
     # Pull
     git pull;
+    git fetch;
     printf "\n";
 
     # Go back to the base parent directory
