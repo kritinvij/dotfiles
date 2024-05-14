@@ -93,40 +93,45 @@ prompt_git() {
     fi;
 }
 
-# git auto-complete
-autoload -Uz compinit && compinit
 
 ########################## Paths ##########################
 export PATH="$HOME/bin:$PATH";
 export PATH="/usr/local/sbin:$PATH"
 
-# yarn
-# export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export PATH=/opt/homebrew/bin:/usr/local/sbin:/Users/krvij/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/laps:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"
+export PATH="/opt/homebrew/sbin:$PATH"
 
 # pyenv
-# export PYENV_ROOT="$HOME/.pyenv"
-# command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-# eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
 
 # If pyenv is installed, this alias helps the `brew doctor` not complain about python config files
-# alias brew='env PATH=${PATH//$(pyenv root)/shims:/} brew'
+alias brew='env PATH=${PATH//$(pyenv root)/shims:/} brew'
+
+# tfenv
+export PATH="$HOME/.tfenv/bin:$PATH"
+
+# nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # export PATH="/usr/local/opt/ruby/bin:$PATH"
 # export PATH="/usr/local/opt/openjdk@11/bin:$PATH"
 # export JAVA_HOME="/usr/local/opt/openjdk@11/"
 
-# nvm
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 sublime_link="/usr/local/bin/subl"
 if [ -L ${sublime_link} ] && [ -e ${sublime_link} ] ; then
-    # do nothing, the link exists and is good.
+    # The link exists and is good. Do nothing.
+    :
 else
    ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/subl
    export EDITOR='subl -w'
 fi
+
 
 ########################## zsh ##########################
 precmd() {
@@ -144,6 +149,35 @@ for file in ~/.{path,exports,aliases,functions,extra}; do
 done;
 unset file;
 
+# git auto-complete
+autoload -Uz compinit && compinit
+
+# microsoft inshellisense
+[ -f ~/.inshellisense/key-bindings.zsh ] && source ~/.inshellisense/key-bindings.zsh
+
+# scala
+eval "$(scala-cli install completions --env --shell zsh)"
+# >>> scala-cli completions >>>
+# <<<Add fpath here>>>
+compinit
+# <<< scala-cli completions <<<
+
+
+########################## Gradle Commands ##########################
+# No tests, lint, format
+alias gbb='./gradlew build -x check'
+alias gcb='./gradlew clean build spotlessApply test'
+alias gb='./gradlew build spotlessApply'
+alias gbt='./gradlew spotlessApply build test'
+alias gp='./gradlew preview'
+alias gpr='./gradlew preview -PRUN_VALIDATIONS=true'
+alias gpub='./gradlew publish'
+alias gt='./gradlew test'
+alias glint='./gradlew spotlessApply'
+alias gmvn='./gradlew publishToMavenLocal'
+alias grun='./gradlew bootRun'
+
+
 ########################## Personal Aliases ##########################
 alias grep='grep --color=auto'
 alias sudo='sudo '
@@ -151,6 +185,7 @@ alias sudo='sudo '
 alias ..='cd ..'
 alias c='clear'
 alias la='ls -a'
+alias c3='cal -3'
 
 alias sz='source ~/.zshrc'
 alias prof='subl ~/.zshrc'
@@ -160,6 +195,7 @@ alias diffc='git diff -w --cached'
 alias st='dir_status_check'
 alias pull='git pull origin $(git rev-parse --abbrev-ref HEAD) --rebase; git fetch;'
 alias sync='git pull origin $(git rev-parse --abbrev-ref HEAD) --rebase; git fetch;'
+alias main='git co main; sync'
 alias br='git co -b'
 alias add='git add .'
 alias comm='git commit -m'
@@ -171,5 +207,6 @@ alias acane='git add . && git commit --amend --no-edit'
 alias log='git log --graph --oneline --all'
 alias doc='brew upgrade && brew cleanup && brew doctor'
 alias gcp='git cherry-pick '
+alias hm='cd ~/'
 
-cd ~; ls;
+cd ~/; ls;
