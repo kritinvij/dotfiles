@@ -95,8 +95,9 @@ prompt_git() {
 
 
 ########################## Paths ##########################
-export PATH="$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
-export PATH="$HOME/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+export PATH="$HOME/bin:$PATH";
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"
