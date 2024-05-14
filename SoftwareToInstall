@@ -5,9 +5,10 @@ Utility
 4. Appcleaner
 5. Caffeine/Amphetamine/NoSleep
 6. ScreenBrush
+7. MeetingBar
 
 Productivity
-1. BusyCal
+1. BusyCal/Amie
 2. Spotify
 3. SublimeText
 4. Keep Notes
@@ -30,6 +31,8 @@ Command Line
 11. autoexpect - https://stackoverflow.com/questions/4857702/how-to-provide-password-to-a-command-that-prompts-for-one-in-bash
 12. pip
 13. tmux
+14. tfenv
+15. git-hooks-go
 
 Others
 1. Xcode and command line tools - `xcode-select --install`
