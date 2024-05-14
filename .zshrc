@@ -95,13 +95,12 @@ prompt_git() {
 
 
 ########################## Paths ##########################
-export PATH="$HOME/bin:$PATH";
-export PATH="/usr/local/sbin:$PATH"
+export PATH="$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+export PATH="$HOME/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 
-export PATH=/opt/homebrew/bin:/usr/local/sbin:/Users/krvij/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/laps:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"
-export PATH="/opt/homebrew/sbin:$PATH"
+
 
 # pyenv
 export PYENV_ROOT="$HOME/.pyenv"
