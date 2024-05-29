@@ -20,6 +20,7 @@ for i in $(find . -name ".git" -maxdepth 2 | cut -c 3-); do
     # Pull
     git pull;
     git fetch;
+    git branch | grep -v "main" | grep -v "$(git rev-parse --abbrev-ref HEAD)" | xargs git branch -D;
     printf "\n";
 
     # Go back to the base parent directory
