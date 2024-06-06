@@ -11,8 +11,9 @@ for i in $(find . -name ".git" -maxdepth 2 | cut -c 3-); do
 
     CUR_FILE_FULLPATH=$(pwd)
     CUR_FILENAME="$(basename -- "$CUR_FILE_FULLPATH")"
+    CUR_BRANCH=$(git branch --show-current)
 
-    printf "=================== %s ===================\n" $CUR_FILENAME;
+    printf "=================== %s @ %s ===================\n" $CUR_FILENAME $CUR_BRANCH;
 
     # Switch to main branch
     # git checkout main;
