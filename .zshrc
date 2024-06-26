@@ -96,12 +96,11 @@ prompt_git() {
 
 ########################## Paths ##########################
 export PATH="$HOME/bin:$PATH";
+export PATH="$HOME/.local/bin:$PATH"
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
-
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"
-
 
 # pyenv
 export PYENV_ROOT="$HOME/.pyenv"
@@ -118,10 +117,6 @@ export PATH="$HOME/.tfenv/bin:$PATH"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# export PATH="/usr/local/opt/ruby/bin:$PATH"
-# export PATH="/usr/local/opt/openjdk@11/bin:$PATH"
-# export JAVA_HOME="/usr/local/opt/openjdk@11/"
 
 sublime_link="/usr/local/bin/subl"
 if [ -L ${sublime_link} ] && [ -e ${sublime_link} ] ; then
@@ -156,24 +151,26 @@ autoload -Uz compinit && compinit
 [ -f ~/.inshellisense/key-bindings.zsh ] && source ~/.inshellisense/key-bindings.zsh
 
 # scala
-eval "$(scala-cli install completions --env --shell zsh)"
+# eval "$(scala-cli install completions --env --shell zsh)"
 # >>> scala-cli completions >>>
-# <<<Add fpath here>>>
-compinit
+# fpath=("/Users/krvij/Library/Application Support/ScalaCli/completions/zsh" $fpath)
+# compinit
 # <<< scala-cli completions <<<
 
 
 ########################## Gradle Commands ##########################
 # No tests, lint, format
 alias gbb='./gradlew build -x check'
-alias gcb='./gradlew clean build spotlessApply test'
-alias gb='./gradlew build spotlessApply'
-alias gbt='./gradlew spotlessApply build test'
+alias gql='./gradlew lintAndAutofixGraphqlFiles'
+alias gcb='./gradlew clean build spotlessApply checkstyleMain test'
+alias gcbnt='./gradlew clean build spotlessApply checkstyleMain'
+alias gb='./gradlew build spotlessApply checkstyleMain test'
+alias gbnt='./gradlew spotlessApply checkstyleMain build'
 alias gp='./gradlew preview'
 alias gpr='./gradlew preview -PRUN_VALIDATIONS=true'
 alias gpub='./gradlew publish'
 alias gt='./gradlew test'
-alias glint='./gradlew spotlessApply'
+alias glint='./gradlew spotlessApply checkstyleMain'
 alias gmvn='./gradlew publishToMavenLocal'
 alias grun='./gradlew bootRun'
 
@@ -189,6 +186,7 @@ alias c3='cal -3'
 
 alias sz='source ~/.zshrc'
 alias prof='subl ~/.zshrc'
+alias all='/Users/krvij/base/coursera/pullall.sh'
 
 alias diff='git diff -w'
 alias diffc='git diff -w --cached'
@@ -199,7 +197,7 @@ alias main='git co main; sync'
 alias br='git co -b'
 alias add='git add .'
 alias comm='git commit -m'
-alias trim='git branch --merged | egrep -v "(^\*|main)" | xargs git branch -d'
+alias trim='git branch | grep -v "main" | grep -v "$(git rev-parse --abbrev-ref HEAD)" | xargs git branch -D'
 alias pr='gh pr create'
 alias ame='git commit --amend'
 alias cane='git commit --amend --no-edit'
