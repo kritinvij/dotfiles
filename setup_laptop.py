@@ -433,6 +433,12 @@ if __name__ == '__main__':
         Tool('postman', 'postman'),
         Tool('docker', 'docker', 'brew install --cask docker'),
         Tool('awscli', 'awscli'),
+        Tool('tldr', 'tldr'),
+        Tool('diff-so-fancy', 'diff-so-fancy'),
+        Tool('lsd', 'lsd'),
+        Tool('bat', 'bat'),
+        Tool('fd', 'fd'),
+        Tool('ag', 'silver-searcher'),
     ]
 
     for tool in tools:
