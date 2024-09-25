@@ -5,7 +5,7 @@ import subprocess
 import getpass
 
 NODE_VERSION_TO_INSTALL = "16.15.0"
-PYTHON_VERSION_TO_INSTALL = "3.12.3"
+PYTHON_VERSION_TO_INSTALL = "3.12.4"
 TERRAFORM_VERSION_TO_INSTALL = "1.5.5"
 
 
@@ -17,7 +17,6 @@ class bcolors:
 
 
 class UserInteraction:
-
     def ask_user_connection(self):
         response = input("Are you connected to CORS-CORP wifi in the office or VPN, otherwise (Yes/No): ")
         if response is not None and response.strip().lower().startswith('y'):
@@ -134,12 +133,17 @@ class Tool:
             try:
                 installed_version = subprocess.check_output(['python', '--version']).decode('utf-8').strip()
                 if 'Python {}'.format(PYTHON_VERSION_TO_INSTALL) <= installed_version:
-                    print(bcolors.OKGREEN + f"    python {PYTHON_VERSION_TO_INSTALL} is installed." + bcolors.ENDC)
+                    print(bcolors.OKGREEN + f"    python {PYTHON_VERSION_TO_INSTALL} is installed and in use." + bcolors.ENDC)
                     return True
                 else:
-                    print(
-                        bcolors.FAIL + f"python is not installed with the correct version: {PYTHON_VERSION_TO_INSTALL}. Current version: {installed_version}" + bcolors.ENDC)
-                    return False
+                    result = subprocess.run(['pyenv', 'versions'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+                    if PYTHON_VERSION_TO_INSTALL in result.stdout:
+                        print(bcolors.BLUE + f"Latest python is installed but not in use. Please switch by running `pyenv global {PYTHON_VERSION_TO_INSTALL}`. Make sure you don't have a .python-versions file in the dir or parent dir. Either delete the override file or run `pyenv global {PYTHON_VERSION_TO_INSTALL}`." + bcolors.ENDC)
+                        return True
+                    else:
+                        print(
+                            bcolors.FAIL + f"python is not upto date with the correct version: {PYTHON_VERSION_TO_INSTALL}. Current version: {installed_version}" + bcolors.ENDC)
+                        return False
             except Exception as e:
                 print(bcolors.FAIL + "python is not installed." + bcolors.ENDC)
                 return False
@@ -190,7 +194,7 @@ class Tool:
         elif self.name == 'git-hooks-go':
             try:
                 # Try to get the version of git-hooks-go
-                subprocess.check_output(['git-hooks', '-v'], stderr=subprocess.STDOUT)
+                subprocess.check_output(['git-hooks', '-v'], shell=True, stderr=subprocess.DEVNULL)
                 print(bcolors.OKGREEN + f'{self.name} is already installed.' + bcolors.ENDC)
                 return True
             except subprocess.CalledProcessError:
@@ -208,6 +212,25 @@ class Tool:
                     print(bcolors.OKGREEN + f'{self.name} is already installed.' + bcolors.ENDC)
                     return True
             return False
+        elif self.name == 'awscli':
+            try:
+                # Run "aws --version" command to check if awscli is installed
+                result = subprocess.run(['aws', '--version'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+
+                # Amazon's AWS CLI version output usually starts with "aws-cli"
+                if 'aws-cli' in result.stdout or 'aws-cli' in result.stderr:
+                    print(bcolors.OKGREEN + f'{self.name} is already installed.' + bcolors.ENDC)
+                    return True
+                else:
+                    print(bcolors.FAIL + f"{self.name} is not installed." + bcolors.ENDC)
+                    return False
+            except FileNotFoundError:
+                # If the command is not found, FileNotFoundError is raised
+                print(bcolors.FAIL + f"{self.name} is not installed." + bcolors.ENDC)
+                return False
+            except Exception as e:
+                print(bcolors.FAIL + f"{self.name} is not installed." + bcolors.ENDC)
+                return False
         else:
             # Default case
             try:
@@ -227,7 +250,9 @@ class Tool:
                     zshrc_path = os.path.expanduser('~/.zshrc')
                     open(zshrc_path, 'a').close()
 
-                    run_command('/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"')
+                    install_homebrew_cmd = '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"'
+                    subprocess.run(install_homebrew_cmd, shell=True, check=True, executable="/bin/zsh")
+
                     print(bcolors.OKGREEN + f"{self.name} is now installed" + bcolors.ENDC)
 
                     # Add NVM to .zshrc
@@ -265,9 +290,9 @@ class Tool:
                 )
 
                 commands = [
-                    'export NVM_DIR="$HOME/.nvm"',
-                    '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"',
-                    '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"',
+                    r'export NVM_DIR="$HOME/.nvm"',
+                    r'[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"',
+                    r'[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"',
                 ]
 
                 # Add NVM to .zshrc
@@ -327,7 +352,7 @@ class Tool:
                 # Load pyenv into current zsh shell
                 os.environ['PYENV_ROOT'] = os.path.expanduser('~/.pyenv')
                 os.environ['PATH'] = f'{os.environ["PYENV_ROOT"]}/bin:{os.environ["PATH"]}'
-                subprocess.run(['eval "$(pyenv init -)"'], shell=True)
+                subprocess.run(['eval "$(pyenv init)"'], shell=True)
 
                 lines = [
                     'export PYENV_ROOT="$HOME/.pyenv"',
@@ -407,12 +432,7 @@ if __name__ == '__main__':
         Tool('jq', 'jq'),
         Tool('postman', 'postman'),
         Tool('docker', 'docker', 'brew install --cask docker'),
-        Tool('tldr', 'tldr'),
-        Tool('diff-so-fancy', 'diff-so-fancy'),
-        Tool('lsd', 'lsd'),
-        Tool('bat', 'bat'),
-        Tool('fd', 'fd'),
-        Tool('ag', 'silver-searcher'),
+        Tool('awscli', 'awscli'),
     ]
 
     for tool in tools:
