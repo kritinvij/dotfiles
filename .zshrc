@@ -206,6 +206,6 @@ alias log='git log --graph --oneline --all'
 alias doc='brew upgrade && brew cleanup && brew doctor'
 alias gcp='git cherry-pick '
 alias hm='cd ~/'
-alias all='/Users/krvij/base/coursera/pullall.sh;doc'
+alias all='./pullall.sh;doc'
 
 cd ~/; ls;
