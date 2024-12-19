@@ -28,4 +28,4 @@ for i in $(find . -name ".git" -maxdepth 2 | cut -c 3-); do
     cd $BASE_DIR;
 done
 
-printf "Completed fetching latest changes!";
+printf "Completed fetching latest changes!\n";
