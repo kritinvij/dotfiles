@@ -21,7 +21,7 @@ Command Line
 1. Silver Searcher - `brew install the_silver_searcher` - https://github.com/ggreer/the_silver_searcher
 2. Pyenv - `brew install pyenv` - https://github.com/pyenv/pyenv
 3. Node Version Manager - nvm - https://github.com/nvm-sh/nvm
-4. tldr page - `brew install tldr` - https://github.com/tldr-pages/tldr
+4. 
 5. fd - alternative to find - `brew install fd` - https://github.com/sharkdp/fd/
 6. lsd - alternative to ls - `brew install lsd` - https://github.com/Peltoche/lsd (and give iterm full disk access)
 7. bat - alternative to cat - `brew install bat` - https://github.com/sharkdp/bat
