@@ -438,7 +438,7 @@ if __name__ == '__main__':
         Tool('bat', 'bat'),
         Tool('fd', 'fd'),
         Tool('ag', 'silver-searcher'),
-        Tool('autoupdate, 'autoupdate', 'brew tap domt4/autoupdate && brew autoupdate start 18000 --cleanup --upgrade --immediate --sudo'),
+        Tool('autoupdate, 'autoupdate', 'brew install pinentry-mac && brew tap domt4/autoupdate && brew autoupdate start 18000 --cleanup --upgrade --immediate --sudo'),
     ]
 
     for tool in tools:
