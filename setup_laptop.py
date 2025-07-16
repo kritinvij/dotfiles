@@ -438,6 +438,7 @@ if __name__ == '__main__':
         Tool('bat', 'bat'),
         Tool('fd', 'fd'),
         Tool('ag', 'silver-searcher'),
+        Tool('autoupdate, 'autoupdate', 'brew tap domt4/autoupdate'),
     ]
 
     for tool in tools:
