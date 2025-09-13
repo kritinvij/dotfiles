@@ -39,3 +39,7 @@ Command Line
 Others
 1. Xcode and command line tools - `xcode-select --install`
 2. For cloud desktop to open html links: sudo yum -y install lynx or run python locally `python -m http.server`
+
+For Windows
+1. https://github.com/Aetherinox/pause-windows-updates
+2. 
