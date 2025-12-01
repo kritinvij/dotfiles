@@ -93,6 +93,11 @@ prompt_git() {
     fi;
 }
 
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/krvij/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
 
 ########################## Paths ##########################
 export PATH="$HOME/bin:$PATH";
@@ -117,6 +122,14 @@ export PATH="$HOME/.tfenv/bin:$PATH"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+############### DO NOT UPLOAD THIS TO GITHUB ###############
+############### DO NOT UPLOAD THIS TO GITHUB ###############
+############### DO NOT UPLOAD THIS TO GITHUB ###############
+export GH_TOKEN=""
+############### DO NOT UPLOAD THIS TO GITHUB ###############
+############### DO NOT UPLOAD THIS TO GITHUB ###############
+############### DO NOT UPLOAD THIS TO GITHUB ###############
 
 sublime_link="/usr/local/bin/subl"
 if [ -L ${sublime_link} ] && [ -e ${sublime_link} ] ; then
@@ -162,11 +175,11 @@ autoload -Uz compinit && compinit
 # No tests, lint, format
 alias gbb='./gradlew build -x check'
 alias gql='./gradlew lintAndAutofixGraphqlFiles'
-alias gcb='./gradlew clean build spotlessApply checkstyleMain test'
-alias gcbnt='./gradlew clean build spotlessApply checkstyleMain'
-alias gb='./gradlew build spotlessApply checkstyleMain test'
-alias gbnt='./gradlew spotlessApply checkstyleMain build'
-alias gp='./gradlew preview'
+alias gcb='./gradlew clean build spotlessApply checkstyleMain test; ./gradlew generateProto;'
+alias gcbnt='./gradlew clean build spotlessApply checkstyleMain; ./gradlew generateProto;'
+alias gb='./gradlew build spotlessApply checkstyleMain test; ./gradlew generateProto;'
+alias gbnt='./gradlew spotlessApply checkstyleMain build; ./gradlew generateProto;'
+alias gp='./gradlew preview -PKEEP_SECONDS=259200'
 alias gpr='./gradlew preview -PRUN_VALIDATIONS=true'
 alias gpub='./gradlew publish'
 alias gt='./gradlew test'
@@ -186,18 +199,22 @@ alias c3='cal -3'
 
 alias sz='source ~/.zshrc'
 alias prof='subl ~/.zshrc'
-alias all='/Users/krvij/base/coursera/pullall.sh'
 
 alias diff='git diff -w'
 alias diffc='git diff -w --cached'
 alias st='dir_status_check'
+alias trim="primary=\$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@'); \
+            current=\$(git rev-parse --abbrev-ref HEAD); \
+            git branch --format='%(refname:short)' \
+              | grep -v \"\$primary\" \
+              | grep -v \"\$current\" \
+              | xargs -r git branch -D"
 alias pull='git pull origin $(git rev-parse --abbrev-ref HEAD) --rebase; git fetch;'
 alias sync='git pull origin $(git rev-parse --abbrev-ref HEAD) --rebase; git fetch;'
-alias main='git co main; sync'
+alias main='git co $(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed '\''s@^refs/remotes/origin/@@'\''); sync; trim'
 alias br='git co -b'
 alias add='git add .'
 alias comm='git commit -m'
-alias trim='git branch | grep -v "main" | grep -v "$(git rev-parse --abbrev-ref HEAD)" | xargs git branch -D'
 alias pr='gh pr create'
 alias ame='git commit --amend'
 alias cane='git commit --amend --no-edit'
