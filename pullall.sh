@@ -6,8 +6,8 @@
 #       Default "compact mode".
 #       - Shows only UPDATED and FAILED repositories.
 #       - UNCHANGED repos are hidden to reduce noise.
-#       - Any repo not on "main" is ALWAYS shown in a separate
-#         "Repositories that are not on `main` branch" section
+#       - Any repo not on its primary branch is ALWAYS shown in a separate
+#         "Repositories that are not on their primary branch" section
 #         before the summary table (with dirty/clean info).
 #
 #   ./pull-all --full
@@ -20,7 +20,8 @@
 #
 
 # ========= Config =========
-PRIMARY_BRANCH="main"
+# Fallback primary branch name if we can't detect origin/HEAD
+FALLBACK_PRIMARY_BRANCH="main"
 MIN_PANEL_WIDTH=120
 MAX_PROCS=13
 
@@ -101,11 +102,34 @@ print_panel() {
     printf "%b\n\n" "$(colorize "$color" "$bot")"
 }
 
-determine_status() {
-    local branch="$1"
-    local raw_output="$2"
+# Detect the primary/default branch for the current repo.
+# Preference order:
+#   1) origin/HEAD symbolic-ref
+#   2) `git remote show origin` HEAD branch
+#   3) FALLBACK_PRIMARY_BRANCH
+detect_primary_branch() {
+    local primary
 
-    if [ "$branch" != "$PRIMARY_BRANCH" ]; then
+    # Example output: refs/remotes/origin/main
+    primary=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
+
+    if [ -z "$primary" ]; then
+        primary=$(git remote show origin 2>/dev/null | sed -n '/HEAD branch/s/.*: //p')
+    fi
+
+    if [ -z "$primary" ]; then
+        primary="$FALLBACK_PRIMARY_BRANCH"
+    fi
+
+    echo "$primary"
+}
+
+determine_status() {
+    local current_branch="$1"
+    local primary_branch="$2"
+    local raw_output="$3"
+
+    if [ "$current_branch" != "$primary_branch" ]; then
         echo "SKIPPED"
     elif echo "$raw_output" | grep -E -qi '^(fatal:|error:)' ; then
         echo "FAILED"
@@ -135,8 +159,8 @@ if [ -z "$REPOS" ]; then
 fi
 
 SUMMARY_FILE=$(mktemp)
-OFFMAIN_FILE=$(mktemp)
-trap "rm -f \"$SUMMARY_FILE\" \"$OFFMAIN_FILE\"" EXIT
+OFFPRIMARY_FILE=$(mktemp)
+trap "rm -f \"$SUMMARY_FILE\" \"$OFFPRIMARY_FILE\"" EXIT
 
 BOX_WIDTH=$(panel_width)
 BODY_WIDTH=$((BOX_WIDTH - 4))
@@ -149,7 +173,10 @@ for i in $REPOS; do
 
     CUR_FILE_FULLPATH=$(pwd)
     CUR_FILENAME="$(basename -- "$CUR_FILE_FULLPATH")"
-    CUR_BRANCH=$(git branch --show-current)
+    CUR_BRANCH=$(git branch --show-current 2>/dev/null || echo "")
+
+    # Determine this repo's primary branch
+    PRIMARY_BRANCH="$(detect_primary_branch)"
 
     # Detect dirty working tree
     if [ -n "$(git status --porcelain)" ]; then
@@ -158,16 +185,17 @@ for i in $REPOS; do
         DIRTY_STATE="CLEAN"
     fi
 
-    # Track non-main branches (with cleanliness) for compact mode
-    if [ "$CUR_BRANCH" != "$PRIMARY_BRANCH" ]; then
-        printf "%s\t%s\t%s\n" "$CUR_FILENAME" "$CUR_BRANCH" "$DIRTY_STATE" >> "$OFFMAIN_FILE"
+    # Track non-primary branches (with cleanliness) for compact mode
+    if [ -n "$CUR_BRANCH" ] && [ "$CUR_BRANCH" != "$PRIMARY_BRANCH" ]; then
+        # repo, current-branch, primary-branch, dirty/clean
+        printf "%s\t%s\t%s\t%s\n" "$CUR_FILENAME" "$CUR_BRANCH" "$PRIMARY_BRANCH" "$DIRTY_STATE" >> "$OFFPRIMARY_FILE"
     fi
 
     # Run git operations
-    # - Skip git pull for non-main branches
+    # - Skip git pull for non-primary branches
     # - Always fetch/prune and cleanup branches
     RAW_OUTPUT=$(
-        if [ "$CUR_BRANCH" = "$PRIMARY_BRANCH" ]; then
+        if [ -n "$CUR_BRANCH" ] && [ "$CUR_BRANCH" = "$PRIMARY_BRANCH" ]; then
             git pull 2>&1
         else
             echo -e "${YELLOW}Skipping pull because branch is not '$PRIMARY_BRANCH'${RESET}"
@@ -178,7 +206,7 @@ for i in $REPOS; do
                    | xargs -r git branch -D 2>/dev/null
     )
 
-    STATUS_LABEL=$(determine_status "$CUR_BRANCH" "$RAW_OUTPUT")
+    STATUS_LABEL=$(determine_status "$CUR_BRANCH" "$PRIMARY_BRANCH" "$RAW_OUTPUT")
 
     # Record status for summary
     printf "%s\t%s\n" "$CUR_FILENAME" "$STATUS_LABEL" >> "$SUMMARY_FILE"
@@ -203,7 +231,7 @@ for i in $REPOS; do
     # - Full mode: always show
     # - Compact mode: hide UNCHANGED, show others
     if [ "$FULL_MODE" -eq 1 ] || [ "$STATUS_LABEL" != "UNCHANGED" ]; then
-        TITLE="$CUR_FILENAME @ $CUR_BRANCH [$STATUS_LABEL]"
+        TITLE="$CUR_FILENAME @ ${CUR_BRANCH:-"(no branch)"} [$STATUS_LABEL] (primary: $PRIMARY_BRANCH)"
         print_panel "$HEADER_COLOR" "$TITLE" "$BOX_WIDTH" <<< "$OUTPUT"
     fi
 
@@ -218,16 +246,16 @@ done
 
 wait
 
-# -------- Non-main branches (compact mode only) --------
-if [ "$FULL_MODE" -eq 0 ] && [ -s "$OFFMAIN_FILE" ]; then
-    printf "%b\n" "$(colorize "$BOLD" "Repositories that are not on \`$PRIMARY_BRANCH\` branch:")"
-    while IFS=$'\t' read -r repo branch dirty; do
+# -------- Non-primary branches (compact mode only) --------
+if [ "$FULL_MODE" -eq 0 ] && [ -s "$OFFPRIMARY_FILE" ]; then
+    printf "%b\n" "$(colorize "$BOLD" "Repositories that are not on their primary branch:")"
+    while IFS=$'\t' read -r repo branch primary dirty; do
         if [ "$dirty" = "DIRTY" ]; then
-            printf "  - %s @ %s (has uncommitted changes)\n" "$repo" "$branch"
+            printf "  - %s @ %s (primary: %s, has uncommitted changes)\n" "$repo" "$branch" "$primary"
         else
-            printf "  - %s @ %s\n" "$repo" "$branch"
+            printf "  - %s @ %s (primary: %s)\n" "$repo" "$branch" "$primary"
         fi
-    done < "$OFFMAIN_FILE"
+    done < "$OFFPRIMARY_FILE"
     printf "\n"
 fi
 
