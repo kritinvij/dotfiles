@@ -24,6 +24,10 @@
 FALLBACK_PRIMARY_BRANCH="main"
 MIN_PANEL_WIDTH=120
 MAX_PROCS=13
+GIT_TIMEOUT=60   # seconds for git operations (pull/fetch/etc.)
+
+# Don't ever prompt for credentials / input; fail fast instead.
+export GIT_TERMINAL_PROMPT=0
 
 # ========= Colors =========
 RED="\033[0;31m"
@@ -102,6 +106,19 @@ print_panel() {
     printf "%b\n\n" "$(colorize "$color" "$bot")"
 }
 
+# Run a command with a timeout if `timeout` is available.
+# Usage: with_timeout 60 git pull
+with_timeout() {
+    local seconds="$1"; shift
+
+    if command -v timeout >/dev/null 2>&1; then
+        timeout "$seconds" "$@"
+    else
+        # Fallback: no timeout binary; just run the command normally.
+        "$@"
+    fi
+}
+
 # Detect the primary/default branch for the current repo.
 # Preference order:
 #   1) origin/HEAD symbolic-ref
@@ -128,9 +145,13 @@ determine_status() {
     local current_branch="$1"
     local primary_branch="$2"
     local raw_output="$3"
+    local exit_code="$4"
 
     if [ "$current_branch" != "$primary_branch" ]; then
         echo "SKIPPED"
+    # Any non-zero exit (including timeout=124) is a failure.
+    elif [ -n "$exit_code" ] && [ "$exit_code" -ne 0 ]; then
+        echo "FAILED"
     elif echo "$raw_output" | grep -E -qi '^(fatal:|error:)' ; then
         echo "FAILED"
     elif echo "$raw_output" | grep -q "Already up to date."; then
@@ -194,25 +215,39 @@ for i in $REPOS; do
     # Run git operations
     # - Skip git pull for non-primary branches
     # - Always fetch/prune and cleanup branches
-    RAW_OUTPUT=$(
+    TMP_OUT=$(mktemp)
+    STATUS_EXIT=0
+
+    {
         if [ -n "$CUR_BRANCH" ] && [ "$CUR_BRANCH" = "$PRIMARY_BRANCH" ]; then
-            git pull 2>&1
+            with_timeout "$GIT_TIMEOUT" git pull || STATUS_EXIT=$?
         else
             echo -e "${YELLOW}Skipping pull because branch is not '$PRIMARY_BRANCH'${RESET}"
         fi
-        git fetch --all --prune 2>&1
+
+        # Even if pull fails or is skipped, still try fetch/prune with timeout.
+        with_timeout "$GIT_TIMEOUT" git fetch --all --prune || STATUS_EXIT=$?
+
         git branch | grep -v "$PRIMARY_BRANCH" \
                    | grep -v "$(git rev-parse --abbrev-ref HEAD)" \
-                   | xargs -r git branch -D 2>/dev/null
-    )
+                   | xargs -r git branch -D 2>/dev/null || true
+    } &> "$TMP_OUT"
 
-    STATUS_LABEL=$(determine_status "$CUR_BRANCH" "$PRIMARY_BRANCH" "$RAW_OUTPUT")
+    RAW_OUTPUT=$(cat "$TMP_OUT")
+    rm -f "$TMP_OUT"
+
+    # If the timeout command killed the operation (usual exit code 124), annotate the output.
+    if [ "$STATUS_EXIT" -eq 124 ]; then
+        RAW_OUTPUT="${RAW_OUTPUT}\n[Timed out after ${GIT_TIMEOUT}s]"
+    fi
+
+    STATUS_LABEL=$(determine_status "$CUR_BRANCH" "$PRIMARY_BRANCH" "$RAW_OUTPUT" "$STATUS_EXIT")
 
     # Record status for summary
     printf "%s\t%s\n" "$CUR_FILENAME" "$STATUS_LABEL" >> "$SUMMARY_FILE"
 
     # Colorize *keywords only*, leave rest white/default
-    OUTPUT=$(echo "$RAW_OUTPUT" | sed \
+    OUTPUT=$(echo -e "$RAW_OUTPUT" | sed \
         -e "s/Already up to date./$(echo -e "${RESET}Already up to date.${RESET}")/" \
         -e "s/^error:/$(echo -e "${RED}error:${RESET}")/" \
         -e "s/^fatal:/$(echo -e "${RED}fatal:${RESET}")/" \
