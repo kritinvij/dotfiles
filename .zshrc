@@ -134,10 +134,17 @@ if [ -d "$HOME/.tfenv" ]; then
 fi
 
 # nvm
-# Lazy-load nvm - only initialize when actually used
 export NVM_DIR="$HOME/.nvm"
+
+# Add default node version to PATH for non-interactive scripts (e.g., git hooks)
+# This ensures node/npm are available without requiring lazy-load initialization
+if [ -d "$NVM_DIR/versions/node" ]; then
+  DEFAULT_NODE_PATH="$NVM_DIR/versions/node/$(ls -1 $NVM_DIR/versions/node | sort -V | tail -1)/bin"
+  export PATH="$DEFAULT_NODE_PATH:$PATH"
+fi
+
+# Lazy-load nvm - only initialize when actually used (for interactive shell)
 if [ -s "$NVM_DIR/nvm.sh" ]; then
-  # Initialize nvm once when any node-related command is first used
   _load_nvm() {
     unset -f nvm node npm npx yarn # this unsets the wrapper functions we defined below for the rest of the session
     source "$NVM_DIR/nvm.sh" # future calls to nvm/npm/node/npx/yarn in this session will now use the real executables
