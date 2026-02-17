@@ -13,21 +13,24 @@ setopt SHARE_HISTORY             # Share history across sessions
 setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks
 setopt HIST_VERIFY               # Show before executing history commands
 
+# Security Note: Commands starting with a space won't be saved to history
+# Use this pattern for sensitive commands: ' command_with_password'
+
 ########################## Colors and Formatting ##########################
 # Cache tput colors to avoid subprocess overhead on every shell start
 if [[ ! -f ~/.zsh_colors ]] || [[ ~/.zshrc -nt ~/.zsh_colors ]]; then
-    {
-        echo "bold=$(tput bold)"
-        echo "reset=$(tput sgr0)"
-        echo "black=$(tput setaf 0)"
-        echo "blue=$(tput setaf 33)"
-        echo "cyan=$(tput setaf 37)"
-        echo "green=$(tput setaf 64)"
-        echo "orange=$(tput setaf 166)"
-        echo "red=$(tput setaf 124)"
-        echo "white=$(tput setaf 15)"
-        echo "yellow=$(tput setaf 136)"
-    } > ~/.zsh_colors
+    cat > ~/.zsh_colors << 'EOF'
+bold=$'\e[1m'
+reset=$'\e[0m'
+black=$'\e[30m'
+blue=$'\e[38;5;33m'
+cyan=$'\e[38;5;37m'
+green=$'\e[38;5;64m'
+orange=$'\e[38;5;166m'
+red=$'\e[38;5;124m'
+white=$'\e[97m'
+yellow=$'\e[38;5;136m'
+EOF
 fi
 source ~/.zsh_colors
 
@@ -62,10 +65,10 @@ prompt_git() {
     # Use git status --porcelain for faster status check
     local git_status=$(git status --porcelain 2>/dev/null)
 
-    # Check for changes
-    [[ -n $(echo "$git_status" | grep '^M') ]] && s+='!'
-    [[ -n $(echo "$git_status" | grep '^A') || -n $(echo "$git_status" | grep '^M') ]] && s+='+'
-    [[ -n $(echo "$git_status" | grep '^??') ]] && s+='?'
+    # Check for changes using native zsh pattern matching
+    [[ "$git_status" == *$'\nM'* || "$git_status" == $'M'* ]] && s+='!'
+    [[ "$git_status" == *$'\nA'* || "$git_status" == $'A'* || "$git_status" == *$'\nM'* || "$git_status" == $'M'* ]] && s+='+'
+    [[ "$git_status" == *$'\n??'* || "$git_status" == $'??'* ]] && s+='?'
 
     # Check for stash
     git rev-parse --verify refs/stash &>/dev/null && s+='$'
@@ -136,8 +139,8 @@ export NVM_DIR="$HOME/.nvm"
 if [ -s "$NVM_DIR/nvm.sh" ]; then
   # Initialize nvm once when any node-related command is first used
   _load_nvm() {
-    unset -f nvm node npm npx # this unsets the wrapper functions we defined below for the rest of the session
-    source "$NVM_DIR/nvm.sh" # future calls to nvm/npm/node/npx in this session will now use the real executables
+    unset -f nvm node npm npx yarn # this unsets the wrapper functions we defined below for the rest of the session
+    source "$NVM_DIR/nvm.sh" # future calls to nvm/npm/node/npx/yarn in this session will now use the real executables
     [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
   }
 
@@ -146,6 +149,7 @@ if [ -s "$NVM_DIR/nvm.sh" ]; then
   node() { _load_nvm && node "$@"; }
   npm() { _load_nvm && npm "$@"; }
   npx() { _load_nvm && npx "$@"; }
+  yarn() { _load_nvm && yarn "$@"; }
 fi
 
 ############### DO NOT UPLOAD THIS TO GITHUB ###############
@@ -157,13 +161,15 @@ export GH_TOKEN=""
 ############### DO NOT UPLOAD THIS TO GITHUB ###############
 
 sublime_link="/usr/local/bin/subl"
-if [ -L ${sublime_link} ] && [ -e ${sublime_link} ] ; then
+if [ -L "${sublime_link}" ] && [ -e "${sublime_link}" ]; then
     # The link exists and is good. Do nothing.
     :
 else
    ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/subl
-   export EDITOR='subl -w'
 fi
+
+# Always set EDITOR
+export EDITOR='subl -w'
 
 
 ########################## zsh ##########################
@@ -204,6 +210,9 @@ setopt COMPLETE_IN_WORD          # Complete from cursor position
 setopt ALWAYS_TO_END             # Move cursor to end after completion
 setopt AUTO_MENU                 # Show menu on successive tab press
 zstyle ':completion:*' menu select  # Use menu for completion selection
+
+# Case-insensitive completion
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 
 # Shell behavior options
 setopt AUTO_PUSHD                # cd pushes old directory onto stack
