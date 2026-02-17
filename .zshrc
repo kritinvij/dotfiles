@@ -212,7 +212,9 @@ setopt CORRECT                   # Suggest corrections for typos
 setopt NO_BEEP                   # Disable beep on error
 
 # scala-cli completions setup (fpath already configured above)
-# Note: If completions don't work, run once manually: scala-cli install completions --shell zsh
+if [[ ! -f "$HOME/Library/Application Support/ScalaCli/completions/zsh/_scala-cli" ]]; then
+    eval "$(scala-cli install completions --env --shell zsh)"
+fi
 
 ########################## Gradle Commands ##########################
 # No tests, lint, format
