@@ -97,16 +97,16 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 
 if command -v pyenv &>/dev/null; then
+  _pyenv_commands=(pyenv python python3 pip pip3)
+
   _load_pyenv() {
-    unset -f pyenv python python3 pip pip3
+    unset -f pyenv python python3 pip pip3 _load_pyenv 2>/dev/null
     eval "$(pyenv init -)"
   }
 
-  pyenv() { _load_pyenv && pyenv "$@"; }
-  python() { _load_pyenv && python "$@"; }
-  python3() { _load_pyenv && python3 "$@"; }
-  pip() { _load_pyenv && pip "$@"; }
-  pip3() { _load_pyenv && pip3 "$@"; }
+  for cmd in "${_pyenv_commands[@]}"; do
+    eval "${cmd}() { _load_pyenv && ${cmd} \"\$@\"; }"
+  done
 fi
 
 # If pyenv is installed, this function helps the `brew doctor` not complain about python config files
@@ -124,13 +124,15 @@ brew() {
 export PATH="$HOME/.tfenv/bin:$PATH"
 
 if [ -d "$HOME/.tfenv" ]; then
+  _tfenv_commands=(tfenv terraform)
+
   _load_tfenv() {
-    unset -f tfenv terraform
-    # tfenv is already in PATH, just need to ensure terraform shim works
+    unset -f tfenv terraform _load_tfenv 2>/dev/null
   }
 
-  tfenv() { _load_tfenv && command tfenv "$@"; }
-  terraform() { _load_tfenv && command terraform "$@"; }
+  for cmd in "${_tfenv_commands[@]}"; do
+    eval "${cmd}() { _load_tfenv && command ${cmd} \"\$@\"; }"
+  done
 fi
 
 # nvm
@@ -143,20 +145,20 @@ if [ -d "$NVM_DIR/versions/node" ]; then
   export PATH="$DEFAULT_NODE_PATH:$PATH"
 fi
 
-# Lazy-load nvm - only initialize when actually used (for interactive shell)
+# Lazy-load nvm - only initialize when actually used (interactive and non-interactive)
 if [ -s "$NVM_DIR/nvm.sh" ]; then
+  _nvm_commands=(nvm node npm npx yarn claude-code-acp clasp)
+
   _load_nvm() {
-    unset -f nvm node npm npx yarn # this unsets the wrapper functions we defined below for the rest of the session
-    source "$NVM_DIR/nvm.sh" # future calls to nvm/npm/node/npx/yarn in this session will now use the real executables
+    # Hardcoded list so this works when array is unavailable (e.g. non-interactive subshells)
+    unset -f nvm node npm npx yarn claude-code-acp clasp _load_nvm 2>/dev/null
+    source "$NVM_DIR/nvm.sh"
     [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
   }
 
-  # Create wrapper functions that trigger nvm initialization
-  nvm() { _load_nvm && nvm "$@"; }
-  node() { _load_nvm && node "$@"; }
-  npm() { _load_nvm && npm "$@"; }
-  npx() { _load_nvm && npx "$@"; }
-  yarn() { _load_nvm && yarn "$@"; }
+  for cmd in "${_nvm_commands[@]}"; do
+    eval "${cmd}() { _load_nvm && ${cmd} \"\$@\"; }"
+  done
 fi
 
 ############### DO NOT UPLOAD THIS TO GITHUB ###############
