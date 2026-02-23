@@ -147,11 +147,11 @@ fi
 
 # Lazy-load nvm - only initialize when actually used (interactive and non-interactive)
 if [ -s "$NVM_DIR/nvm.sh" ]; then
-  _nvm_commands=(nvm node npm npx yarn claude-code-acp clasp)
+  _nvm_commands=(nvm node npm npx yarn claude-code-acp claude clasp)
 
   _load_nvm() {
     # Hardcoded list so this works when array is unavailable (e.g. non-interactive subshells)
-    unset -f nvm node npm npx yarn claude-code-acp clasp _load_nvm 2>/dev/null
+    unset -f nvm node npm npx yarn claude-code-acp claude clasp _load_nvm 2>/dev/null
     source "$NVM_DIR/nvm.sh"
     [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
   }
