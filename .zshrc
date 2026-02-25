@@ -99,13 +99,13 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 if command -v pyenv &>/dev/null; then
   _pyenv_commands=(pyenv python python3 pip pip3)
 
-  _load_pyenv() {
-    unset -f pyenv python python3 pip pip3 _load_pyenv 2>/dev/null
+  pyenv_lazy_init() {
+    unset -f pyenv python python3 pip pip3 pyenv_lazy_init 2>/dev/null
     eval "$(pyenv init -)"
   }
 
   for cmd in "${_pyenv_commands[@]}"; do
-    eval "${cmd}() { _load_pyenv && ${cmd} \"\$@\"; }"
+    eval "${cmd}() { pyenv_lazy_init && ${cmd} \"\$@\"; }"
   done
 fi
 
@@ -126,12 +126,12 @@ export PATH="$HOME/.tfenv/bin:$PATH"
 if [ -d "$HOME/.tfenv" ]; then
   _tfenv_commands=(tfenv terraform)
 
-  _load_tfenv() {
-    unset -f tfenv terraform _load_tfenv 2>/dev/null
+  tfenv_lazy_init() {
+    unset -f tfenv terraform tfenv_lazy_init 2>/dev/null
   }
 
   for cmd in "${_tfenv_commands[@]}"; do
-    eval "${cmd}() { _load_tfenv && command ${cmd} \"\$@\"; }"
+    eval "${cmd}() { tfenv_lazy_init && command ${cmd} \"\$@\"; }"
   done
 fi
 
@@ -147,17 +147,19 @@ fi
 
 # Lazy-load nvm - only initialize when actually used (interactive and non-interactive)
 if [ -s "$NVM_DIR/nvm.sh" ]; then
-  _nvm_commands=(nvm node npm npx yarn claude-code-acp claude clasp)
+  _nvm_commands=(nvm node npm npx yarn claude-code-acp clasp)
 
-  _load_nvm() {
+  nvm_lazy_init() {
     # Hardcoded list so this works when array is unavailable (e.g. non-interactive subshells)
-    unset -f nvm node npm npx yarn claude-code-acp claude clasp _load_nvm 2>/dev/null
+    unset -f nvm node npm npx yarn claude-code-acp clasp nvm_lazy_init 2>/dev/null
+    # Stub compdef to avoid completion errors in non-interactive shells (e.g. Claude Code)
+    compdef() { : }
     source "$NVM_DIR/nvm.sh"
     [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
   }
 
   for cmd in "${_nvm_commands[@]}"; do
-    eval "${cmd}() { _load_nvm && ${cmd} \"\$@\"; }"
+    eval "${cmd}() { nvm_lazy_init && ${cmd} \"\$@\"; }"
   done
 fi
 
@@ -353,4 +355,4 @@ alias acane='git add . && git commit --amend --no-edit'
 alias log='git log --graph --oneline --all'
 alias doc='brew upgrade && brew cleanup && brew doctor'
 alias gcp='git cherry-pick '
-alias hm='cd ~/'
+alias cl='claude --append-system-prompt "Ask clarifying questions before answering. Do not assume things. I like analogies helpful when learning new concepts. If you request any permissions from me, make sure you edit the ~/.claude/settings.json section to allow for that permission automatically the next time."'
