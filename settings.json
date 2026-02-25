@@ -1,0 +1,42 @@
+{
+  "env": {
+    "ENABLE_TOOL_SEARCH": "true"
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/krvij/.claude/hooks/init-env.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "personal-memory@coursera-claude-marketplace": true,
+    "tdd@coursera-claude-marketplace": true,
+    "best-practices-be@coursera-claude-marketplace": true,
+    "coursera-claude-commands@coursera-claude-marketplace": true,
+    "meta-skills@coursera-claude-marketplace": true,
+    "dev-workflow@coursera-claude-marketplace": true
+  },
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:coursera.atlassian.net)",
+      "WebFetch(domain:docs.google.com)",
+      "WebFetch(domain:api.atlassian.com)",
+      "mcp__plugin_slack_slack__*",
+      "mcp__oncall__*",
+      "mcp__dev__*",
+      "mcp__data__*",
+      "mcp__vibe_coding__*",
+      "mcp__google_workspace__*"
+    ]
+  }
+}
