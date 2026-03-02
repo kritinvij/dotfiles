@@ -14,29 +14,21 @@
       }
     ]
   },
-  "enabledPlugins": {
-    "personal-memory@coursera-claude-marketplace": true,
-    "tdd@coursera-claude-marketplace": true,
-    "best-practices-be@coursera-claude-marketplace": true,
-    "coursera-claude-commands@coursera-claude-marketplace": true,
-    "meta-skills@coursera-claude-marketplace": true,
-    "dev-workflow@coursera-claude-marketplace": true
-  },
   "permissions": {
     "allow": [
       "Bash(ls:*)",
       "Bash(find:*)",
       "Bash(grep:*)",
-      "WebFetch(domain:github.com)",
-      "WebFetch(domain:coursera.atlassian.net)",
-      "WebFetch(domain:docs.google.com)",
-      "WebFetch(domain:api.atlassian.com)",
-      "mcp__plugin_slack_slack__*",
+      "WebSearch(*)",
+      "WebFetch(*)",
+      "mcp__claude_ai_Slack__*",
       "mcp__oncall__*",
       "mcp__dev__*",
       "mcp__data__*",
-      "mcp__vibe_coding__*",
-      "mcp__google_workspace__*"
+      "mcp__fe__*",
+      "mcp__vibe-coding__*",
+      "mcp__google-workspace__*",
+      "mcp__claude_ai_*"
     ]
   }
 }
