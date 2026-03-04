@@ -1,4 +1,8 @@
 {
+  "statusLine": {
+    "type": "command",
+    "command": "bash /Users/krvij/.claude/statusline-command.sh"
+  },
   "env": {
     "ENABLE_TOOL_SEARCH": "true"
   },
@@ -13,6 +17,8 @@
         ]
       }
     ]
+  },
+  "enabledPlugins": {
   },
   "permissions": {
     "allow": [
@@ -41,6 +47,9 @@
       "mcp__fe__*",
       "mcp__vibe-coding__*",
       "mcp__google-workspace__*",
+      "mcp__memory__*",
+      "mcp__doc__*",
+      "mcp__playwright__*",
       "mcp__claude_ai_*"
     ]
   }
