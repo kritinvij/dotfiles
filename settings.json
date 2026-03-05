@@ -4,7 +4,8 @@
     "command": "bash /Users/krvij/.claude/statusline-command.sh"
   },
   "env": {
-    "ENABLE_TOOL_SEARCH": "true"
+    "ENABLE_TOOL_SEARCH": "true",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "120000"
   },
   "hooks": {
     "SessionStart": [
@@ -22,6 +23,9 @@
   },
   "permissions": {
     "allow": [
+      "Bash(*)",
+      "Read(/Users/krvij/.claude/settings.json)",
+      "Edit(/Users/krvij/.claude/settings.json)",
       "Bash(ls:*)",
       "Bash(find:*)",
       "Bash(grep:*)",
