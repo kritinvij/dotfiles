@@ -36,6 +36,7 @@ Command Line
 13. tmux
 14. tfenv
 15. git-hooks-go
+16. eq - https://eqmac.app/
 
 Others
 1. Xcode and command line tools - `xcode-select --install`
