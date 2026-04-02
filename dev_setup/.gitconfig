@@ -10,7 +10,7 @@
 	# Use delta as the pager for all git output (diff, log, blame, etc.)
 	pager        = delta
 	# Global gitignore file applied to all repos
-	excludesFile = /Users/krvij/.gitignore
+	excludesFile = /Users/path-to-file/.gitignore
 
 [fetch]
 	# Automatically delete local remote-tracking branches that no longer exist on remote
