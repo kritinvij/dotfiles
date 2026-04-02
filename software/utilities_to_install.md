@@ -9,6 +9,7 @@ Utility
 8. Raycast
 9. Hidden Bar
 10. https://github.com/Plutoberth/SonyHeadphonesClient/releases
+11. eq - https://eqmac.app/
 
 Productivity
 1. BusyCal/Amie
@@ -25,7 +26,6 @@ Command Line
 2. autoexpect - https://stackoverflow.com/questions/4857702/how-to-provide-password-to-a-command-that-prompts-for-one-in-bash
 3. pip
 4. tmux
-5. eq - https://eqmac.app/
 
 Others
 1. Xcode and command line tools - `xcode-select --install`
@@ -33,4 +33,3 @@ Others
 
 For Windows
 1. https://github.com/Aetherinox/pause-windows-updates
-2. 
