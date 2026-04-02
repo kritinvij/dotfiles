@@ -1,0 +1,56 @@
+# Install in global scope / user scope like ~/.gitignore
+
+# Claude
+.claude/
+CLAUDE.md
+
+# Editors — Cursor
+.cursor/
+
+# Editors — JetBrains
+.idea/
+*.iml
+
+# Environment
+.env.local
+.env.*.local
+
+# Java / Scala
+*.class
+target/
+.bloop/
+.metals/
+.scala-build/
+
+# Logs
+*.log
+logs/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Misc
+.cache/
+tools/documentation-generator/bin
+
+# Node
+node_modules/
+.npm/
+.yarn/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# Worktrees
+.worktrees/
