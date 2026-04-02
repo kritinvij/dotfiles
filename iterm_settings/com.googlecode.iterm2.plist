@@ -2,12 +2,34 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>AIFeatureFunctionCalling</key>
+	<true/>
+	<key>AIFeatureHostedCodeInterpeter</key>
+	<true/>
+	<key>AIFeatureHostedFileSearch</key>
+	<true/>
+	<key>AIFeatureHostedWebSearch</key>
+	<true/>
+	<key>AIFeatureStreamingResponses</key>
+	<true/>
+	<key>AITermAPI</key>
+	<integer>2</integer>
+	<key>AIVectorStore</key>
+	<integer>0</integer>
 	<key>AboutToPasteTabsWithCancel</key>
 	<true/>
 	<key>AboutToPasteTabsWithCancel_selection</key>
 	<integer>2</integer>
 	<key>AdjustWindowForFontSizeChange</key>
 	<false/>
+	<key>AiMaxTokens</key>
+	<integer>400000</integer>
+	<key>AiModel</key>
+	<string>gpt-5.2</string>
+	<key>AiResponseMaxTokens</key>
+	<integer>128000</integer>
+	<key>AitermURL</key>
+	<string>https://api.openai.com/v1/responses</string>
 	<key>AllowClipboardAccess</key>
 	<true/>
 	<key>AlternateMouseScroll</key>
@@ -20,10 +42,12 @@
 	<false/>
 	<key>DisableFullscreenTransparency</key>
 	<false/>
-	<key>DoubleClickPerformsSmartSelection</key>
-	<true/>
 	<key>EnableAPIServer</key>
 	<true/>
+	<key>EnableDivisionView</key>
+	<false/>
+	<key>EnableProxyIcon</key>
+	<false/>
 	<key>GlobalKeyMap</key>
 	<dict>
 		<key>0x19-0x60000</key>
@@ -139,16 +163,20 @@
 			<string></string>
 		</dict>
 	</dict>
+	<key>HTMLTabTitles</key>
+	<true/>
 	<key>HapticFeedbackForEsc</key>
 	<false/>
 	<key>HideActivityIndicator</key>
 	<true/>
 	<key>HideScrollbar</key>
-	<true/>
+	<false/>
 	<key>HideTab</key>
 	<false/>
 	<key>HotkeyMigratedFromSingleToMulti</key>
 	<true/>
+	<key>IRMemory</key>
+	<integer>400</integer>
 	<key>NeverWarnAboutPossibleOverrides</key>
 	<true/>
 	<key>NeverWarnAboutPossibleOverrides_selection</key>
@@ -160,6 +188,8 @@
 			<true/>
 			<key>Ambiguous Double Width</key>
 			<false/>
+			<key>Animate Movement</key>
+			<true/>
 			<key>Ansi 0 Color</key>
 			<dict>
 				<key>Blue Component</key>
@@ -369,6 +399,8 @@
 			<key>Description</key>
 			<string>Default</string>
 			<key>Disable Window Resizing</key>
+			<true/>
+			<key>Draw Powerline Glyphs</key>
 			<true/>
 			<key>Flashing Bell</key>
 			<true/>
@@ -728,6 +760,8 @@
 			<integer>0</integer>
 			<key>Prompt Before Closing 2</key>
 			<false/>
+			<key>Reduce Flicker</key>
+			<true/>
 			<key>Right Option Key Sends</key>
 			<integer>0</integer>
 			<key>Rows</key>
@@ -774,81 +808,15 @@
 			<key>Silence Bell</key>
 			<false/>
 			<key>Smart Selection Rules</key>
-			<array>
-				<dict>
-					<key>actions</key>
-					<array/>
-					<key>notes</key>
-					<string>Java/Scala stack trace</string>
-					<key>precision</key>
-					<string>very_high</string>
-					<key>regex</key>
-					<string>at com\.coursera\.[^\(]+\([^\)]+\)</string>
-				</dict>
-				<dict>
-					<key>actions</key>
-					<array>
-						<dict>
-							<key>action</key>
-							<integer>1</integer>
-							<key>parameter</key>
-							<string>https://coursera.atlassian.net/browse/\0</string>
-							<key>title</key>
-							<string>Open in Jira</string>
-						</dict>
-					</array>
-					<key>notes</key>
-					<string>Jira ticket</string>
-					<key>precision</key>
-					<string>very_high</string>
-					<key>regex</key>
-					<string>[A-Z]{2,6}-[0-9]+</string>
-				</dict>
-				<dict>
-					<key>actions</key>
-					<array>
-						<dict>
-							<key>action</key>
-							<integer>1</integer>
-							<key>parameter</key>
-							<string>https://github.com/webedx-spark/infra-services/issues/\1</string>
-							<key>title</key>
-							<string>Open on GitHub</string>
-						</dict>
-					</array>
-					<key>notes</key>
-					<string>GitHub PR/Issue</string>
-					<key>precision</key>
-					<string>high</string>
-					<key>regex</key>
-					<string>#[0-9]{3,5}</string>
-				</dict>
-				<dict>
-					<key>actions</key>
-					<array>
-						<dict>
-							<key>action</key>
-							<integer>3</integer>
-							<key>parameter</key>
-							<string>\0</string>
-							<key>title</key>
-							<string>Copy AWS ID</string>
-						</dict>
-					</array>
-					<key>notes</key>
-					<string>AWS resource ID</string>
-					<key>precision</key>
-					<string>very_high</string>
-					<key>regex</key>
-					<string>(i-[0-9a-f]{8,17}|arn:aws:[^\s]+)</string>
-				</dict>
-			</array>
+			<array/>
 			<key>Sync Title</key>
 			<false/>
 			<key>Tags</key>
 			<array/>
 			<key>Terminal Type</key>
 			<string>xterm-256color</string>
+			<key>Thin Strokes</key>
+			<integer>1</integer>
 			<key>Transparency</key>
 			<real>0.20557045118343195</real>
 			<key>Triggers</key>
@@ -1256,13 +1224,6 @@
 					<key>Text</key>
 					<string>0x7f</string>
 				</dict>
-				<key>0x7f-0x100000</key>
-				<dict>
-					<key>Action</key>
-					<integer>11</integer>
-					<key>Text</key>
-					<string>0x15</string>
-				</dict>
 				<key>0xf700-0x220000</key>
 				<dict>
 					<key>Action</key>
@@ -1319,13 +1280,6 @@
 					<key>Text</key>
 					<string>0x1b 0x1b 0x5b 0x42</string>
 				</dict>
-				<key>0xf702-0x100000</key>
-				<dict>
-					<key>Action</key>
-					<integer>11</integer>
-					<key>Text</key>
-					<string>0x01</string>
-				</dict>
 				<key>0xf702-0x220000</key>
 				<dict>
 					<key>Action</key>
@@ -1354,20 +1308,6 @@
 					<key>Text</key>
 					<string>0x1b 0x1b 0x5b 0x44</string>
 				</dict>
-				<key>0xf702-0x300000</key>
-				<dict>
-					<key>Action</key>
-					<integer>11</integer>
-					<key>Text</key>
-					<string>0x01</string>
-				</dict>
-				<key>0xf703-0x100000</key>
-				<dict>
-					<key>Action</key>
-					<integer>11</integer>
-					<key>Text</key>
-					<string>0x05</string>
-				</dict>
 				<key>0xf703-0x220000</key>
 				<dict>
 					<key>Action</key>
@@ -1395,13 +1335,6 @@
 					<integer>11</integer>
 					<key>Text</key>
 					<string>0x1b 0x1b 0x5b 0x43</string>
-				</dict>
-				<key>0xf703-0x300000</key>
-				<dict>
-					<key>Action</key>
-					<integer>11</integer>
-					<key>Text</key>
-					<string>0x05</string>
 				</dict>
 				<key>0xf704-0x20000</key>
 				<dict>
@@ -1577,6 +1510,8 @@
 			<string></string>
 			<key>Silence Bell</key>
 			<false/>
+			<key>Smart Selection Rules</key>
+			<array/>
 			<key>Sync Title</key>
 			<false/>
 			<key>Tags</key>
@@ -1605,6 +1540,8 @@
 			<string>/Users/kritin.vij/code/main</string>
 		</dict>
 	</array>
+	<key>NotifyOnlyForCriticalShellIntegrationUpdates</key>
+	<false/>
 	<key>OnlyWhenMoreTabs</key>
 	<false/>
 	<key>OpenArrangementAtStartup</key>
@@ -1651,19 +1588,27 @@
 	<key>QuitWhenAllWindowsClosed</key>
 	<false/>
 	<key>SavePasteHistory</key>
-	<false/>
+	<true/>
+	<key>SeparateStatusBarsPerPane</key>
+	<true/>
 	<key>ShowBookmarkName</key>
 	<true/>
+	<key>ShowFullScreenTabBar</key>
+	<false/>
+	<key>ShowPaneTitlesEvenIfOnlyOnePane</key>
+	<false/>
 	<key>SoundForEsc</key>
 	<false/>
+	<key>SshIntegrationForURLs</key>
+	<true/>
 	<key>TabStyle</key>
 	<integer>3</integer>
 	<key>TabStyleWithAutomaticOption</key>
 	<integer>5</integer>
+	<key>TmuxPauseModeAgeLimit</key>
+	<integer>120</integer>
 	<key>UseBorder</key>
 	<false/>
-	<key>UseMetal</key>
-	<true/>
 	<key>UseVirtualKeyCodesForDetectingDigits</key>
 	<true/>
 	<key>VisualIndicatorForEsc</key>
