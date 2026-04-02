@@ -14,7 +14,7 @@
       "Skill(*)",
       "mcp__*"
     ],
-    "defaultMode": "auto"
+    "defaultMode": "plan"
   },
   "model": "opusplan",
   "hooks": {
