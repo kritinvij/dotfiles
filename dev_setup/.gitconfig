@@ -13,6 +13,12 @@
 	excludesFile = ~/.gitignore
 	# Global hooks directory (e.g. pre-push guard)
 	hooksPath    = ~/.git-hooks
+	# Use macOS FSEvents to make git status near-instant on large repos
+	fsmonitor    = true
+
+[feature]
+	# Enable Git's large-repo performance optimizations
+	manyFiles = true
 
 [fetch]
 	# Automatically delete local remote-tracking branches that no longer exist on remote

@@ -226,6 +226,9 @@ unset file;
 fpath=("$HOME/Library/Application Support/ScalaCli/completions/zsh" $fpath)
 # <<< scala-cli completions <<<
 
+# zsh-completions — extended completions for gradle, aws, docker, terraform, etc.
+fpath=(/opt/homebrew/share/zsh-completions $fpath)
+
 # Optimize compinit - only rebuild cache if older than 24 hours
 autoload -Uz compinit
 if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then

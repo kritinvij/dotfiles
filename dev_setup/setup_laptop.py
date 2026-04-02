@@ -686,6 +686,7 @@ if __name__ == '__main__':
         Tool('imgcat', 'imgcat', 'ln -sf /Applications/iTerm.app/Contents/Resources/utilities/imgcat /usr/local/bin/imgcat'),
         Tool('zsh-autosuggestions', 'zsh-autosuggestions'),
         Tool('zsh-syntax-highlighting', 'zsh-syntax-highlighting'),
+        Tool('zsh-completions', 'zsh-completions'),
         Tool('lsd', 'lsd'),
         Tool('bat', 'bat'),
         Tool('fd', 'fd'),
