@@ -12,10 +12,16 @@
 # If HEAD is detached, symbolic-ref exits non-zero and branch will be empty.
 branch=$(git symbolic-ref HEAD 2>/dev/null | sed 's|refs/heads/||')
 
-# Abort the push if targeting a protected branch.
+# Per-repo opt-out: run `git config hooks.skipMainCheck true` in any repo to
+# disable the main/master protection for it (e.g. personal dotfiles repos).
+skip=$(git config --local hooks.skipMainCheck 2>/dev/null)
+
+# Abort the push if targeting a protected branch (unless opted out).
 if [ "$branch" = "main" ] || [ "$branch" = "master" ]; then
-  echo "Direct push to $branch blocked. Use a PR." >&2
-  exit 1
+  if [ "$skip" != "true" ]; then
+    echo "Direct push to $branch blocked. Use a PR." >&2
+    exit 1
+  fi
 fi
 
 # If the repo has its own .git/hooks/pre-push, run it too and forward all
