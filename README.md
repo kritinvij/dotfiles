@@ -1,2 +1,2 @@
 # dotfiles
-![Alt text](https://github.com/kritinvij/dotfiles/blob/master/screen.jpg "ScreenCap")
+![Alt text](https://github.com/kritinvij/dotfiles/blob/main/screen.jpg "ScreenCap")
