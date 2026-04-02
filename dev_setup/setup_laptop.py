@@ -425,7 +425,6 @@ export PATH="$HOME/bin:$HOME/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:$HO
             )
 
             # Add NVM lazy-load to .zshrc (idempotent)
-            # Note: We add nvm's default node to PATH so scripts using #!/usr/bin/env node work
             nvm_zshrc_content = '''
 # nvm
 export NVM_DIR="$HOME/.nvm"
@@ -437,20 +436,22 @@ if [ -d "$NVM_DIR/versions/node" ]; then
   export PATH="$DEFAULT_NODE_PATH:$PATH"
 fi
 
-# Lazy-load nvm - only initialize when actually used (for interactive shell)
+# Lazy-load nvm - only initialize when actually used (interactive and non-interactive)
 if [ -s "$NVM_DIR/nvm.sh" ]; then
-  _load_nvm() {
-    unset -f nvm node npm npx yarn
+  _nvm_commands=(nvm node npm npx yarn claude-code-acp clasp)
+
+  nvm_lazy_init() {
+    # Hardcoded list so this works when array is unavailable (e.g. non-interactive subshells)
+    unset -f nvm node npm npx yarn claude-code-acp clasp nvm_lazy_init 2>/dev/null
+    # Stub compdef to avoid completion errors in non-interactive shells (e.g. Claude Code)
+    compdef() { : }
     source "$NVM_DIR/nvm.sh"
     [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
   }
 
-  # Create wrapper functions that trigger nvm initialization
-  nvm() { _load_nvm && nvm "$@"; }
-  node() { _load_nvm && node "$@"; }
-  npm() { _load_nvm && npm "$@"; }
-  npx() { _load_nvm && npx "$@"; }
-  yarn() { _load_nvm && yarn "$@"; }
+  for cmd in "${_nvm_commands[@]}"; do
+    eval "${cmd}() { nvm_lazy_init && ${cmd} \\"\\$@\\"; }"
+  done
 fi
 '''
             append_to_zshrc_if_missing(nvm_zshrc_content, '# nvm')
@@ -502,16 +503,26 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 
 if command -v pyenv &>/dev/null; then
-  _load_pyenv() {
-    unset -f pyenv python python3 pip pip3
+  _pyenv_commands=(pyenv python python3 pip pip3)
+
+  pyenv_lazy_init() {
+    unset -f pyenv python python3 pip pip3 pyenv_lazy_init 2>/dev/null
     eval "$(pyenv init -)"
   }
-  pyenv() { _load_pyenv && pyenv "$@"; }
-  python() { _load_pyenv && python "$@"; }
-  python3() { _load_pyenv && python3 "$@"; }
-  pip() { _load_pyenv && pip "$@"; }
-  pip3() { _load_pyenv && pip3 "$@"; }
+
+  for cmd in "${_pyenv_commands[@]}"; do
+    eval "${cmd}() { pyenv_lazy_init && ${cmd} \\"\\$@\\"; }"
+  done
 fi
+
+# Prevents brew doctor complaining about python shims in PATH
+brew() {
+  if command -v pyenv &>/dev/null && [[ -n "${PYENV_ROOT}" ]]; then
+    env PATH=${PATH//$(pyenv root)/shims:/} command brew "$@"
+  else
+    command brew "$@"
+  fi
+}
 '''
             append_to_zshrc_if_missing(pyenv_zshrc_content, '# pyenv')
             log(Colors.OKGREEN + f'{self.name} is now installed' + Colors.ENDC)
@@ -544,7 +555,7 @@ fi
             return True
         elif self.name == 'tfenv':
             run_command(self.install_command)
-            
+
             # Add tfenv lazy-load to .zshrc (idempotent)
             tfenv_zshrc_content = '''
 # tfenv
@@ -552,11 +563,15 @@ fi
 export PATH="$HOME/.tfenv/bin:$PATH"
 
 if [ -d "$HOME/.tfenv" ]; then
-  _load_tfenv() {
-    unset -f tfenv terraform
+  _tfenv_commands=(tfenv terraform)
+
+  tfenv_lazy_init() {
+    unset -f tfenv terraform tfenv_lazy_init 2>/dev/null
   }
-  tfenv() { _load_tfenv && command tfenv "$@"; }
-  terraform() { _load_tfenv && command terraform "$@"; }
+
+  for cmd in "${_tfenv_commands[@]}"; do
+    eval "${cmd}() { tfenv_lazy_init && command ${cmd} \\"\\$@\\"; }"
+  done
 fi
 '''
             append_to_zshrc_if_missing(tfenv_zshrc_content, '# tfenv')
