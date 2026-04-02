@@ -1,0 +1,58 @@
+{
+  "env": {
+    "ENABLE_TOOL_SEARCH": "true",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "128000"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(*)",
+      "Read(*)",
+      "Edit(*)",
+      "Write(*)",
+      "WebSearch(*)",
+      "WebFetch(*)",
+      "Skill(*)",
+      "mcp__*"
+    ],
+    "defaultMode": "auto"
+  },
+  "model": "opusplan",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/krvij/.claude/hooks/prettier.sh"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/krvij/.claude/hooks/init-env.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash /Users/krvij/.claude/statusline-command.sh"
+  },
+  "enabledPlugins": {
+    "superpowers@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true,
+    "skill-creator@claude-plugins-official": true,
+    "playground@claude-plugins-official": true,
+    "data@claude-plugins-official": true,
+    "data-engineering@claude-plugins-official": true
+  },
+  "effortLevel": "high",
+  "skipAutoPermissionPrompt": true
+}
