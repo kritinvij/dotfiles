@@ -21,22 +21,11 @@ Productivity
 8. Giphy Capture
 
 Command Line
-1. Silver Searcher - `brew install the_silver_searcher` - https://github.com/ggreer/the_silver_searcher
-2. Pyenv - `brew install pyenv` - https://github.com/pyenv/pyenv
-3. Node Version Manager - nvm - https://github.com/nvm-sh/nvm
-4. Brew Autoupdate - https://github.com/DomT4/homebrew-autoupdate
-5. fd - alternative to find - `brew install fd` - https://github.com/sharkdp/fd/
-6. lsd - alternative to ls - `brew install lsd` - https://github.com/Peltoche/lsd (and give iterm full disk access)
-7. bat - alternative to cat - `brew install bat` - https://github.com/sharkdp/bat
-8. delta - better diff - `brew install git-delta` - https://github.com/dandavison/delta
-9. screen - `brew install screen`
-10. jq - `brew install jq` - https://github.com/stedolan/jq
-11. autoexpect - https://stackoverflow.com/questions/4857702/how-to-provide-password-to-a-command-that-prompts-for-one-in-bash
-12. pip
-13. tmux
-14. tfenv
-15. git-hooks-go
-16. eq - https://eqmac.app/
+1. screen - `brew install screen`
+2. autoexpect - https://stackoverflow.com/questions/4857702/how-to-provide-password-to-a-command-that-prompts-for-one-in-bash
+3. pip
+4. tmux
+5. eq - https://eqmac.app/
 
 Others
 1. Xcode and command line tools - `xcode-select --install`

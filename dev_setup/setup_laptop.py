@@ -665,7 +665,7 @@ if __name__ == '__main__':
         Tool('jq', 'jq'),
         Tool('postman', 'postman'),
         Tool('awscli', 'awscli'),
-        Tool('diff-so-fancy', 'diff-so-fancy'),
+        Tool('delta', 'git-delta'),
         Tool('lsd', 'lsd'),
         Tool('bat', 'bat'),
         Tool('fd', 'fd'),
