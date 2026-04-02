@@ -1,88 +1,138 @@
-[credential]
-	helper = osxkeychain
+# ── Identity ──────────────────────────────────────────────────────────────────
 
 [user]
-	name = "Full Name"
-	email = user.email@domain.com
+	name  = Full Name
+	email = Email
 
-[alias]
-	co = checkout
-	checkoutr = checkout
+# ── Core behavior ─────────────────────────────────────────────────────────────
+
+[core]
+	# Use delta as the pager for all git output (diff, log, blame, etc.)
+	pager        = delta
+	# Global gitignore file applied to all repos
+	excludesFile = /Users/krvij/.gitignore
+
+[fetch]
+	# Automatically delete local remote-tracking branches that no longer exist on remote
+	prune = true
+
+[pull]
+	# Always rebase instead of merge when pulling (keeps history linear)
+	rebase = true
+
+[push]
+	# Only push the current branch to its upstream
+	default    = simple
+	# Automatically push annotated tags along with branch pushes
+	followTags = true
+
+[merge]
+	# Include one-line summaries of merged commits in merge commit messages
+	log            = true
+	# Show base version in conflict markers (<<<, |||, ===, >>>) for better context
+	conflictstyle  = diff3
+
+[rerere]
+	# Remember how you resolved a conflict and reapply it automatically next time
+	enabled = true
+
+[help]
+	# Auto-correct mistyped git commands after a short delay (1 = 0.1s)
+	autocorrect = 1
+
+[advice]
+	# Suppress the hint shown when cherry-picks are skipped during rebase
+	skippedCherryPicks = false
+
+# ── Diff & display ────────────────────────────────────────────────────────────
 
 [color]
+	# Enable colored output in the terminal
 	ui = true
 
 [color "branch"]
 	current = yellow reverse
-	local = yellow
-	remote = green
+	local   = yellow
+	remote  = green
 
 [color "diff"]
-	meta = 11
-	frag = magenta bold
-	old = red bold
-	new = green bold
-	commit = yellow bold
+	meta       = 11
+	frag       = magenta bold
+	old        = red bold
+	new        = green bold
+	commit     = yellow bold
 	whitespace = red reverse
 
 [color "status"]
-	added = green
-	changed = yellow
+	added     = green
+	changed   = yellow
 	untracked = cyan
 
 [diff]
-	# Detect copies as well as renames
-	renames = copies
-	# Enable an experimental heuristic that shifts the hunk boundary in an
-	# attempt to make the resulting patch easier to read.
+	# Detect file renames and copies (not just additions/deletions)
+	renames        = copies
+	# Smarter hunk boundaries — shifts hunks to start at more logical points
 	indentHeuristic = true
-
-[merge]
-	# Include summaries of merged commits in newly created merge commit messages
-	log = true
+	# Highlight moved code blocks in a different color (not just red/green)
+	colorMoved     = default
 
 [diff "bin"]
-	# Use `hexdump` to diff binary files
+	# Diff binary files by converting them to hex first, so changes are readable
 	textconv = hexdump -v -C
 
-[fetch]
-	prune = true
+[interactive]
+	# Use delta in color-only mode for `git add -p` so interactive staging isn't broken
+	diffFilter = delta --color-only
 
-[help]
-	# Automatically correct and execute mistyped commands
-	autocorrect = 1
+[delta]
+	# Enable n/N keybindings to jump between diff hunks in the pager
+	navigate          = true
+	# Show line numbers in the gutter
+	line-numbers      = true
+	# Unified diff (set to true for side-by-side)
+	side-by-side      = false
+	# Syntax highlighting color theme
+	syntax-theme      = Dracula
+	# Make file paths clickable in supported terminals (e.g. iTerm2)
+	hyperlinks        = true
+	# Style for the filename header between diff sections
+	file-style        = bold yellow ul
+	# Show function/class context in hunk headers with syntax highlighting
+	hunk-header-style = syntax bold
+	# Color banding for `git blame` to visually group commits by age
+	blame-palette     = "#1a1a2e #16213e #0f3460 #533483"
 
-[pull]
-	rebase = true
+# ── Aliases ───────────────────────────────────────────────────────────────────
 
-[rerere]
-	enabled = true
+[alias]
+	co = checkout
 
-[push]
-	# `simple` is the default since Git 2.0; push only the current branch to its upstream
-	default = simple
-	# Make `git push` push relevant annotated tags when pushing branches out.
-	followTags = true
+# ── Auth & credentials ────────────────────────────────────────────────────────
 
-[core]
-	pager = diff-so-fancy | less --tabs=4 -RFX
+[credential]
+	# Use macOS Keychain to store credentials
+	helper = osxkeychain
 
-[diff-so-fancy]
-	changeHunkIndicators = false
-	stripLeadingSymbols = false
-	useUnicodeRuler = false
+[credential "https://github.com"]
+	# Use gh CLI for GitHub auth (overrides osxkeychain for github.com)
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential
 
-[color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold 52
-	newNormal = green bold
-	newHighlight = green bold 22
+[credential "https://gist.github.com"]
+	# Use gh CLI for Gist auth
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential
 
-[advice]
-	skippedCherryPicks = false
+# ── Integrations ──────────────────────────────────────────────────────────────
 
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
+	# Git LFS hooks for storing large files outside the repo
+	clean    = git-lfs clean -- %f
+	smudge   = git-lfs smudge -- %f
+	process  = git-lfs filter-process
 	required = true
+
+# ── Conditional includes ──────────────────────────────────────────────────────
+
+# [includeIf "gitdir:~/Documents/"]
+#	path = ~/.gitconfig-personal
