@@ -654,6 +654,7 @@ if __name__ == '__main__':
         Tool('node', 'node'),
         Tool('pyenv', 'pyenv'),
         Tool('python', 'python'),
+        Tool('uv', 'uv', 'curl -LsSf https://astral.sh/uv/install.sh | sh'),
         Tool('tfenv', 'tfenv'),
         Tool('terraform', 'terraform'),
         Tool('java21', 'java21'),
