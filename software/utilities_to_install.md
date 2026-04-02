@@ -28,7 +28,7 @@ Command Line
 5. fd - alternative to find - `brew install fd` - https://github.com/sharkdp/fd/
 6. lsd - alternative to ls - `brew install lsd` - https://github.com/Peltoche/lsd (and give iterm full disk access)
 7. bat - alternative to cat - `brew install bat` - https://github.com/sharkdp/bat
-8. diff-so-fancy - better diff - `brew install diff-so-fancy` - https://github.com/so-fancy/diff-so-fancy
+8. delta - better diff - `brew install git-delta` - https://github.com/dandavison/delta
 9. screen - `brew install screen`
 10. jq - `brew install jq` - https://github.com/stedolan/jq
 11. autoexpect - https://stackoverflow.com/questions/4857702/how-to-provide-password-to-a-command-that-prompts-for-one-in-bash
