@@ -10,7 +10,9 @@
 	# Use delta as the pager for all git output (diff, log, blame, etc.)
 	pager        = delta
 	# Global gitignore file applied to all repos
-	excludesFile = /Users/path-to-file/.gitignore
+	excludesFile = ~/.gitignore
+	# Global hooks directory (e.g. pre-push guard)
+	hooksPath    = ~/.git-hooks
 
 [fetch]
 	# Automatically delete local remote-tracking branches that no longer exist on remote
@@ -21,16 +23,18 @@
 	rebase = true
 
 [push]
-	# Only push the current branch to its upstream
-	default    = simple
+	# Push the current branch (create upstream automatically if needed)
+	default         = current
+	# Automatically set upstream tracking on first push (no -u flag needed)
+	autoSetupRemote = true
 	# Automatically push annotated tags along with branch pushes
-	followTags = true
+	followTags      = true
 
 [merge]
 	# Include one-line summaries of merged commits in merge commit messages
 	log            = true
-	# Show base version in conflict markers (<<<, |||, ===, >>>) for better context
-	conflictstyle  = diff3
+	# Show base version in conflict markers — zdiff3 is cleaner than diff3
+	conflictstyle  = zdiff3
 
 [rerere]
 	# Remember how you resolved a conflict and reapply it automatically next time
@@ -70,11 +74,13 @@
 
 [diff]
 	# Detect file renames and copies (not just additions/deletions)
-	renames        = copies
+	renames         = copies
 	# Smarter hunk boundaries — shifts hunks to start at more logical points
 	indentHeuristic = true
 	# Highlight moved code blocks in a different color (not just red/green)
-	colorMoved     = default
+	colorMoved      = default
+	# Better diff algorithm — finds more natural, human-readable hunks
+	algorithm       = histogram
 
 [diff "bin"]
 	# Diff binary files by converting them to hex first, so changes are readable
@@ -103,6 +109,14 @@
 	blame-palette     = "#1a1a2e #16213e #0f3460 #533483"
 
 # ── Aliases ───────────────────────────────────────────────────────────────────
+
+[branch]
+	# Sort branches by most recently committed (most relevant at top)
+	sort = -committerdate
+
+[commit]
+	# Show full diff in editor when writing commit message
+	verbose = true
 
 [alias]
 	co = checkout

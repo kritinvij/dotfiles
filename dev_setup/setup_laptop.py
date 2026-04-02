@@ -592,6 +592,22 @@ fi
                 run_command(command)
             log(Colors.OKGREEN + f'{self.name} is now installed' + Colors.ENDC)
             return True
+        elif self.name == 'zsh-autosuggestions':
+            run_command(self.install_command)
+            append_to_zshrc_if_missing(
+                '\nsource /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh\n',
+                'zsh-autosuggestions'
+            )
+            log(Colors.OKGREEN + f'{self.name} is now installed' + Colors.ENDC)
+            return True
+        elif self.name == 'zsh-syntax-highlighting':
+            run_command(self.install_command)
+            append_to_zshrc_if_missing(
+                '\nsource /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh\n',
+                'zsh-syntax-highlighting'
+            )
+            log(Colors.OKGREEN + f'{self.name} is now installed' + Colors.ENDC)
+            return True
         elif self.name == 'yarn':
             # Load NVM
             _, nvm_init_script = ensure_nvm_loaded()
@@ -666,6 +682,10 @@ if __name__ == '__main__':
         Tool('postman', 'postman'),
         Tool('awscli', 'awscli'),
         Tool('delta', 'git-delta'),
+        Tool('fzf', 'fzf'),
+        Tool('imgcat', 'imgcat', 'ln -sf /Applications/iTerm.app/Contents/Resources/utilities/imgcat /usr/local/bin/imgcat'),
+        Tool('zsh-autosuggestions', 'zsh-autosuggestions'),
+        Tool('zsh-syntax-highlighting', 'zsh-syntax-highlighting'),
         Tool('lsd', 'lsd'),
         Tool('bat', 'bat'),
         Tool('fd', 'fd'),

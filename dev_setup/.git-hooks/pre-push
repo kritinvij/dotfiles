@@ -1,0 +1,28 @@
+#!/bin/sh
+#
+# pre-push — global hook (installed via git config core.hooksPath ~/.git-hooks)
+#
+# Runs before every `git push`. Two responsibilities:
+#   1. Block direct pushes to main/master — forces all changes through a PR.
+#   2. Delegate to the repo-local pre-push hook if one exists, so per-repo
+#      hooks (e.g. run tests before push) still fire alongside this global one.
+#
+
+# Resolve the current branch name from the symbolic HEAD ref.
+# If HEAD is detached, symbolic-ref exits non-zero and branch will be empty.
+branch=$(git symbolic-ref HEAD 2>/dev/null | sed 's|refs/heads/||')
+
+# Abort the push if targeting a protected branch.
+if [ "$branch" = "main" ] || [ "$branch" = "master" ]; then
+  echo "Direct push to $branch blocked. Use a PR." >&2
+  exit 1
+fi
+
+# If the repo has its own .git/hooks/pre-push, run it too and forward all
+# arguments (remote name and URL) so it behaves as if called directly.
+local_hook="$(git rev-parse --show-toplevel)/.git/hooks/pre-push"
+if [ -f "$local_hook" ]; then
+  "$local_hook" "$@"
+fi
+
+exit 0

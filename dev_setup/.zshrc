@@ -13,6 +13,21 @@ setopt SHARE_HISTORY             # Share history across sessions
 setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks
 setopt HIST_VERIFY               # Show before executing history commands
 
+########################## Up/Down prefix history search ##########################
+autoload -U up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey '^[[A' up-line-or-beginning-search
+bindkey '^[[B' down-line-or-beginning-search
+
+########################## Additional setopt ##########################
+setopt AUTO_CD               # type dir name alone to cd into it
+setopt INTERACTIVE_COMMENTS  # allow # comments in interactive shell
+setopt AUTO_PUSHD                # cd pushes old directory onto stack
+setopt PUSHD_IGNORE_DUPS         # Don't push duplicates
+setopt CORRECT                   # Suggest corrections for typos
+setopt NO_BEEP                   # Disable beep on error
+
 # Security Note: Commands starting with a space won't be saved to history
 # Use this pattern for sensitive commands: ' command_with_password'
 
@@ -119,6 +134,9 @@ brew() {
   fi
 }
 
+# uv related
+. "$HOME/.local/bin/env"
+
 # tfenv
 # Lazy-load tfenv - only initialize when actually used
 export PATH="$HOME/.tfenv/bin:$PATH"
@@ -216,6 +234,19 @@ else
     compinit -C  # Skip check, use cached version
 fi
 
+# zsh plugins
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# iTerm2 Shell Integration
+source ~/.iterm2_shell_integration.zsh
+
+########################## fzf enhancements ##########################
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border"
+export FZF_CTRL_T_OPTS="--preview 'bat --style=numbers --color=always --line-range :300 {}'"
+export FZF_ALT_C_OPTS="--preview 'ls -la {}'"
+
 # Completion options
 setopt COMPLETE_IN_WORD          # Complete from cursor position
 setopt ALWAYS_TO_END             # Move cursor to end after completion
@@ -224,12 +255,6 @@ zstyle ':completion:*' menu select  # Use menu for completion selection
 
 # Case-insensitive completion
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-
-# Shell behavior options
-setopt AUTO_PUSHD                # cd pushes old directory onto stack
-setopt PUSHD_IGNORE_DUPS         # Don't push duplicates
-setopt CORRECT                   # Suggest corrections for typos
-setopt NO_BEEP                   # Disable beep on error
 
 # scala-cli completions setup (fpath already configured above)
 if [[ ! -f "$HOME/Library/Application Support/ScalaCli/completions/zsh/_scala-cli" ]]; then
@@ -355,4 +380,5 @@ alias acane='git add . && git commit --amend --no-edit'
 alias log='git log --graph --oneline --all'
 alias doc='brew upgrade && brew cleanup && brew doctor'
 alias gcp='git cherry-pick '
-alias cl='claude --append-system-prompt "Ask clarifying questions before answering. Do not assume things. I like analogies helpful when learning new concepts. If you request any permissions from me, make sure you edit the ~/.claude/settings.json section to allow for that permission automatically the next time."'
+alias cl='claude'
+alias clf='claude --fork-session --resume '
