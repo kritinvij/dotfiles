@@ -1,5 +1,6 @@
 {
   "env": {
+    "CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING": true,
     "ENABLE_TOOL_SEARCH": "true",
     "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "128000"
   },
