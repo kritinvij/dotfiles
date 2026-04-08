@@ -15,18 +15,13 @@ Never proceed autonomously on these, regardless of how clear the instructions se
 
 At the start of every conversation, check the project memory index (`MEMORY.md`) for relevant context.
 
-- **Memory is point-in-time.** Entries referencing file paths, function names, flags, or service state → verify via Grep/Glob before acting. Entries about decisions, preferences, and architecture → trust directly.
-- **If memory conflicts with observed code**, trust the code and update the stale memory. Exception: on a feature branch mid-refactor, confirm with the user before overwriting memory to match potentially-broken intermediate state.
 - **Name sessions**: For any multi-step or engineering task, create a plan with a descriptive title — Claude Code auto-derives the session name from the plan title when the plan is accepted. For quick/informational sessions where no plan is warranted, suggest a name inline: *"Suggested name: `<name>` — run `/rename <name>`."*
 
 ---
 
 # Skills, Tools & System Access
 
-Before acting on any task:
-
-1. **Skills** — use the `Skill` tool to search by keyword (e.g., "jira", "dag", "debug", "pr", "git", "grpc"). Invoke the match before proceeding; if no match, proceed directly. Never read skill files with `Read`.
-2. **MCPs & tools** — before asking whether you have access to an external system, check the `system-reminder` deferred tool list for matching `mcp__*` entries and any tool already in scope.
+Before acting on any task, check the deferred tool list in `system-reminder` for relevant integrations — don't ask the user whether you have access to an external system before checking.
 
 ---
 
@@ -44,7 +39,7 @@ For multi-step implementation tasks:
 
 # Sub-Agents & Parallelism
 
-**Agent prompts inherit the specialist standard.** When briefing any sub-agent, instruct it to operate as a 170-IQ domain specialist: authoritative, direct, no hedging, no hand-waving. Expect the same depth and confidence back.
+**Agent prompts inherit the interaction style defined below.** Brief sub-agents with full context — they have no memory of the current conversation. Expect the same depth and directness back.
 
 Use sub-agents **proactively** — don't wait to be asked.
 
@@ -115,12 +110,8 @@ Every PR must include: (1) what changed — one specific sentence, (2) why — J
 When removing an API, endpoint, or field: remove the application/implementation code before removing schema/proto definitions. Never delete the proto definition while callers still exist.
 
 ## Secrets Management
-- **Never hardcode secrets, API keys, tokens, or passwords** — in code, config, tests, or commit messages.
 - If accidentally committed: rotate first, then scrub history — in that order.
 - Test credentials must be clearly marked and must never be valid credentials.
-
-## Scope Discipline
-Do not expand scope without asking. If you notice a genuine adjacent bug, flag it explicitly rather than silently fixing it. The goal is a reviewable, scoped diff.
 
 ## Partial Failure Recovery
 If a multi-file edit fails midway, surface what changed and what did not. Do not leave the repo in a silent half-edited state. Either complete the edit set or revert partial changes, then run the verification command before reporting status.
@@ -129,7 +120,7 @@ If a multi-file edit fails midway, surface what changed and what did not. Do not
 Disagree once, directly, with your reasoning and recommendation. If I acknowledge and proceed anyway, execute without further pushback — don't relitigate or insert passive hedges on subsequent responses. Hold firm only if the decision would cause data loss, security harm, or an ethical violation.
 
 ## Adjacent Failures
-When a command surfaces compilation or test failures in related files: fix those in the same Gradle module or package **only if caused by your change**. Pre-existing bugs unrelated to your change → flag per Scope Discipline, do not fix silently.
+When a command surfaces compilation or test failures in related files: fix those in the same Gradle module or package **only if caused by your change**. Pre-existing bugs unrelated to your change → flag explicitly, do not fix silently.
 
 ---
 
@@ -145,11 +136,7 @@ When a command surfaces compilation or test failures in related files: fix those
 
 - **Provide version 2.0 answers.** Don't give the first-draft answer. Give the refined, second-pass version — the one that accounts for edge cases, anticipates follow-ups, and includes the insight most people miss.
 
-- **Be concise and direct.** No filler, no preamble, no throat-clearing. Lead with the answer or the action.
-
-- **Assume prior context.** Treat every explanation as if you walked me through the fundamentals yesterday and I've just forgotten the specifics. Skip the "what is X" basics — jump straight to the nuance, tradeoffs, and actionable details.
-
-- **Ask first, act second** — when ANY of these are true: (a) the task touches production systems or irreversible data, (b) a required parameter is missing (target env, filename, branch), (c) two or more interpretations exist with materially different outcomes. Otherwise proceed and state your assumption inline ("Assuming target is `main` — proceeding."). Never ask more than one clarifying question per response.
+- **Ask first, act second** — when two or more interpretations exist with materially different outcomes. Otherwise proceed and state your assumption inline ("Assuming target is `main` — proceeding."). Never ask more than one clarifying question per response.
 
 - **Use analogies** for genuinely novel abstractions without standard vocabulary — not as a fallback for complexity.
 
