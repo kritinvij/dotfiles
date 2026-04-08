@@ -181,13 +181,9 @@ if [ -s "$NVM_DIR/nvm.sh" ]; then
   done
 fi
 
-############### DO NOT UPLOAD THIS TO GITHUB ###############
-############### DO NOT UPLOAD THIS TO GITHUB ###############
-############### DO NOT UPLOAD THIS TO GITHUB ###############
-export GH_TOKEN=""
-############### DO NOT UPLOAD THIS TO GITHUB ###############
-############### DO NOT UPLOAD THIS TO GITHUB ###############
-############### DO NOT UPLOAD THIS TO GITHUB ###############
+# To store/update GH_TOKEN in macOS Keychain:
+# security add-generic-password -a "$USER" -s "gh_token" -w "<your-token>" -U ~/Library/Keychains/login.keychain-db
+export GH_TOKEN="$(security find-generic-password -a "$USER" -s 'gh_token' -w 2>/dev/null)"
 
 sublime_link="/usr/local/bin/subl"
 if [ -L "${sublime_link}" ] && [ -e "${sublime_link}" ]; then

@@ -2,7 +2,7 @@
 
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change
-osascript -e 'tell application "System Settings" to quit'
+osascript -e 'tell application "System Preferences" to quit'
 
 # Ask for the administrator password upfront
 sudo -v
@@ -51,8 +51,7 @@ defaults write com.apple.CrashReporter DialogType -string "none"
 sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
 
 # Disable Notification Center and remove the menu bar icon
-# NOTE: This no longer works on macOS Ventura+; the plist was removed
-# launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2> /dev/null
+launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2> /dev/null
 
 # Disable smart dashes as they’re annoying when typing code
 defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
@@ -91,17 +90,8 @@ defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true
 # Disable press-and-hold for keys in favor of key repeat
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 
-# Set fast key repeat rate (1 = fastest, 2 = fast but less aggressive)
-defaults write NSGlobalDomain KeyRepeat -int 2
-
-# Reduce initial key repeat delay before repeat kicks in
-defaults write NSGlobalDomain InitialKeyRepeat -int 10
-
 # Stop iTunes from responding to the keyboard media keys
 # launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2> /dev/null
-
-# Disable Spotlight indexing for ~/base (large codebase directory — keeps mdworker quiet)
-sudo mdutil -i off ~/base 2>/dev/null || true
 
 ###############################################################################
 # Screen                                                                      #
