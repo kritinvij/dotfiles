@@ -111,17 +111,6 @@ If spotless fails, run `./gradlew spotlessApply` first, then re-run all four. Ne
 ## PR Description Standards
 Every PR must include: (1) what changed — one specific sentence, (2) why — Jira ticket or motivation, (3) how to test — exact steps, (4) migration impact — schema, feature flag, or config coordination needed, (5) rollback plan for infrastructure/migration changes. Abbreviate to "N/A" only for trivial changes. Follow PR Template for that repository.
 
-## Before Creating a Java PR — Auto-Review Gate
-Applies to repos with `build.gradle` or `settings.gradle`. Gate order: `verification-before-completion` → this gate → `requesting-code-review`.
-
-Fetch prompts at runtime:
-```bash
-gh api repos/webedx-spark/reusable-gha-workflows/contents/agent/java/claude-pr-auto-review-direct-prompt.md --jq '.content' | base64 -d
-gh api repos/webedx-spark/reusable-gha-workflows/contents/agent/java/java-best-practices.md --jq '.content' | base64 -d
-gh api repos/webedx-spark/reusable-gha-workflows/contents/agent/security/security-review.md --jq '.content' | base64 -d
-```
-If any file is unreachable, warn and skip. Cycle until clean (max 3 iterations) — fix or document each finding. If the same finding recurs after being addressed, treat it as a deliberate choice and document it.
-
 ## Deprecation Order
 When removing an API, endpoint, or field: remove the application/implementation code before removing schema/proto definitions. Never delete the proto definition while callers still exist.
 
