@@ -213,10 +213,6 @@ for file in ~/.{path,exports,aliases,functions,extra}; do
 done;
 unset file;
 
-
-# microsoft inshellisense
-[ -f ~/.inshellisense/key-bindings.zsh ] && source ~/.inshellisense/key-bindings.zsh
-
 # scala completions fpath
 # >>> scala-cli completions >>>
 fpath=("$HOME/Library/Application Support/ScalaCli/completions/zsh" $fpath)
