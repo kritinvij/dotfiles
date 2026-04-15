@@ -108,6 +108,11 @@
 	file-style        = bold yellow ul
 	# Show function/class context in hunk headers with syntax highlighting
 	hunk-header-style = syntax bold
+    # Added/removed line background colors - explicit overrides for black background visibility
+    plus-style        = syntax "#005000"
+    plus-emph-style   = syntax "#009000"
+    minus-style       = syntax "#800000"
+    minus-emph-style  = syntax "#c00000"
 	# Color banding for `git blame` to visually group commits by age
 	blame-palette     = "#1a1a2e #16213e #0f3460 #533483"
 
