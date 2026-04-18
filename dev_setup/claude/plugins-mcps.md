@@ -6,6 +6,7 @@
 * terraform
 
 ### Plugins
+* cavemean
 * claude-md-management
 * code-simplifier
 * data
