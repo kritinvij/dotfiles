@@ -1,5 +1,5 @@
--Xms4096m
--Xmx8196m
+-Xms8192m
+-Xmx16384m
 -XX:ReservedCodeCacheSize=1028m
 -XX:+UseG1GC
 -XX:SoftRefLRUPolicyMSPerMB=50
@@ -15,5 +15,7 @@
 -XX:ErrorFile=$USER_HOME/java_error_in_idea_%p.log
 -XX:HeapDumpPath=$USER_HOME/java_error_in_idea.hprof
 -Dide.no.platform.update=true
--Didea.plugins.path=/Users/vikritin/Library/Application Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/211.7142.45/IntelliJ IDEA.app.plugins
--Dide.usages.page.size=12345
+-Dide.usages.page.size=99999
+-Dide.managed.by.toolbox=/Applications/JetBrains Toolbox.app/Contents/MacOS/jetbrains-toolbox
+-Dtoolbox.notification.token=b386a54c-5913-4843-b8c1-7ac47f9a5248
+-Dtoolbox.notification.portFile=/Users/krvij/Library/Caches/JetBrains/Toolbox/ports/32703951-e40e-49ac-a9f0-34c9b811bf78.port
