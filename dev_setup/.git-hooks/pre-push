@@ -4,31 +4,64 @@
 #
 # Runs before every `git push`. Two responsibilities:
 #   1. Block direct pushes to main/master — forces all changes through a PR.
-#   2. Delegate to the repo-local pre-push hook if one exists, so per-repo
-#      hooks (e.g. run tests before push) still fire alongside this global one.
+#      Detection reads the refs actually being pushed from stdin, so it blocks
+#      only when a *remote* ref is main/master — not merely because HEAD is
+#      checked out on main. (The old version keyed off `symbolic-ref HEAD`,
+#      which wrongly blocked unrelated pushes — e.g. the preview pipeline's
+#      push to a $USER-testInProd branch — whenever you happened to be on main.)
+#   2. Delegate to the repo-local pre-push hook if one exists, forwarding both
+#      args and the original stdin so per-repo hooks (e.g. run tests, lint refs)
+#      still fire alongside this global one.
 #
 
-# Resolve the current branch name from the symbolic HEAD ref.
-# If HEAD is detached, symbolic-ref exits non-zero and branch will be empty.
-branch=$(git symbolic-ref HEAD 2>/dev/null | sed 's|refs/heads/||')
+# A pre-push hook receives one line per ref on stdin:
+#   <local_ref> <local_sha> <remote_ref> <remote_sha>
+# Capture it once so we can both inspect it here and replay it to a delegated
+# hook (reading stdin is destructive — a delegated hook would otherwise get
+# nothing).
+stdin_data=$(cat)
 
 # Per-repo opt-out: run `git config hooks.skipMainCheck true` in any repo to
 # disable the main/master protection for it (e.g. personal dotfiles repos).
 skip=$(git config --local hooks.skipMainCheck 2>/dev/null)
 
-# Abort the push if targeting a protected branch (unless opted out).
-if [ "$branch" = "main" ] || [ "$branch" = "master" ]; then
-  if [ "$skip" != "true" ]; then
-    echo "Direct push to $branch blocked. Use a PR." >&2
-    exit 1
-  fi
+zero=0000000000000000000000000000000000000000
+blocked=0
+while read -r local_ref local_sha remote_ref remote_sha; do
+  [ -z "$remote_ref" ] && continue
+  case "$remote_ref" in
+    refs/heads/main | refs/heads/master)
+      # Allow branch deletion (local sha is all zeros) — that is not a content
+      # push and shouldn't require a PR.
+      [ "$local_sha" = "$zero" ] && continue
+      blocked=1
+      ;;
+  esac
+done <<EOF
+$stdin_data
+EOF
+
+if [ "$blocked" = "1" ] && [ "$skip" != "true" ]; then
+  echo "Direct push to main/master blocked. Use a PR." >&2
+  exit 1
 fi
 
-# If the repo has its own .git/hooks/pre-push, run it too and forward all
-# arguments (remote name and URL) so it behaves as if called directly.
+# If the repo has its own pre-push hook, run it too and forward all arguments
+# (remote name and URL) plus the original stdin so it behaves as if called
+# directly. Check the common-dir hooks path first (covers both main checkouts
+# and worktrees, since worktrees share the common gitdir's hooks/), then fall
+# back to the toplevel/.git/hooks path for older setups. Propagate the per-repo
+# hook's exit code so a failing pre-push aborts the push (do NOT swallow it).
+common_dir=$(git rev-parse --git-common-dir 2>/dev/null)
+if [ -n "$common_dir" ] && [ -x "$common_dir/hooks/pre-push" ]; then
+  printf '%s\n' "$stdin_data" | "$common_dir/hooks/pre-push" "$@"
+  exit $?
+fi
+
 local_hook="$(git rev-parse --show-toplevel)/.git/hooks/pre-push"
-if [ -f "$local_hook" ]; then
-  "$local_hook" "$@"
+if [ -x "$local_hook" ]; then
+  printf '%s\n' "$stdin_data" | "$local_hook" "$@"
+  exit $?
 fi
 
 exit 0

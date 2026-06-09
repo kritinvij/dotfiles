@@ -1,8 +1,10 @@
 {
+  "skillListingBudgetFraction": 0.1,
   "env": {
-    "CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING": true,
+    "CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING": "true",
     "ENABLE_TOOL_SEARCH": "true",
-    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "128000"
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "128000",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-4-8"
   },
   "permissions": {
     "allow": [
@@ -12,13 +14,32 @@
       "Write(*)",
       "WebSearch(*)",
       "WebFetch(*)",
-      "Skill(*)",
-      "mcp__*"
+      "Skill(*)"
     ],
-    "defaultMode": "plan"
+    "defaultMode": "auto"
   },
-  "model": "opusplan",
+  "model": "claude-opus-4-8",
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/krvij/.claude/hooks/guard-destructive.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/krvij/.claude/hooks/guard-gitignore.sh"
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "Edit|Write",
@@ -46,14 +67,26 @@
     "command": "bash /Users/krvij/.claude/statusline-command.sh"
   },
   "enabledPlugins": {
-    "superpowers@claude-plugins-official": true,
     "code-simplifier@claude-plugins-official": true,
     "claude-md-management@claude-plugins-official": true,
     "skill-creator@claude-plugins-official": true,
     "playground@claude-plugins-official": true,
     "data@claude-plugins-official": true,
-    "data-engineering@claude-plugins-official": true
+    "data-engineering@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "caveman@caveman": true
   },
-  "effortLevel": "high",
-  "skipAutoPermissionPrompt": true
+  "extraKnownMarketplaces": {
+    "caveman": {
+      "source": {
+        "source": "github",
+        "repo": "JuliusBrussee/caveman"
+      },
+      "autoUpdate": true
+    }
+  },
+  "alwaysThinkingEnabled": true,
+  "showThinkingSummaries": true,
+  "theme": "dark-daltonized",
+  "agentPushNotifEnabled": true
 }

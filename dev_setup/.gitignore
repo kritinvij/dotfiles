@@ -7,6 +7,9 @@ CLAUDE.md
 # Editors — Cursor
 .cursor/
 
+# Editors — VS Code
+.vscode/
+
 # Editors — JetBrains
 .idea/
 *.iml
@@ -54,3 +57,6 @@ venv/
 
 # Worktrees
 .worktrees/
+
+# Lockfiles
+*.lock
