@@ -1,10 +1,11 @@
 {
-  "skillListingBudgetFraction": 0.1,
+  "skillListingBudgetFraction": 0.05,
   "env": {
     "CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING": "true",
     "ENABLE_TOOL_SEARCH": "true",
     "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "128000",
-    "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-4-8"
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-4-5",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-4-5-20250929"
   },
   "permissions": {
     "allow": [
@@ -18,7 +19,6 @@
     ],
     "defaultMode": "auto"
   },
-  "model": "claude-opus-4-8",
   "hooks": {
     "PreToolUse": [
       {
@@ -36,6 +36,15 @@
           {
             "type": "command",
             "command": "/Users/krvij/.claude/hooks/guard-gitignore.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "rtk hook claude"
           }
         ]
       }
@@ -62,19 +71,13 @@
       }
     ]
   },
+  "enableWorkflows": false,
   "statusLine": {
     "type": "command",
     "command": "bash /Users/krvij/.claude/statusline-command.sh"
   },
   "enabledPlugins": {
-    "code-simplifier@claude-plugins-official": true,
-    "claude-md-management@claude-plugins-official": true,
-    "skill-creator@claude-plugins-official": true,
-    "playground@claude-plugins-official": true,
-    "data@claude-plugins-official": true,
-    "data-engineering@claude-plugins-official": true,
-    "frontend-design@claude-plugins-official": true,
-    "caveman@caveman": true
+    "caveman@caveman": true,
   },
   "extraKnownMarketplaces": {
     "caveman": {
@@ -83,10 +86,33 @@
         "repo": "JuliusBrussee/caveman"
       },
       "autoUpdate": true
+    },
+    "nx-claude-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "nrwl/nx-ai-agents-config"
+      }
+    },
+    "claude-plugins-official": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/claude-plugins-official"
+      }
+    },
+    "crit": {
+      "source": {
+        "source": "github",
+        "repo": "tomasz-tomczyk/crit",
+        "ref": "v0.18.0"
+      }
     }
   },
   "alwaysThinkingEnabled": true,
+  "effortLevel": "medium",
+  "tui": "fullscreen",
   "showThinkingSummaries": true,
+  "skipWorkflowUsageWarning": true,
   "theme": "dark-daltonized",
+  "switchModelsOnFlag": false,
   "agentPushNotifEnabled": true
 }
