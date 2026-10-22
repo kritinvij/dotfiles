@@ -1,9 +1,3 @@
-Host *
-  ControlMaster auto
-  ControlPath ~/.ssh/sockets/%r@%h-%p
-  ControlPersist 600
-  ServerAliveInterval 60
-
 Host github.com
   AddKeysToAgent yes
   UseKeychain yes
@@ -17,3 +11,12 @@ Host github-personal
   IdentitiesOnly yes
   ControlMaster no
   ControlPath none
+
+# Wildcard MUST stay last: ssh uses first-match-wins per option, so a leading
+# `Host *` would override the per-host ControlMaster/ControlPath above (that bug
+# made github-personal multiplex onto the work-authenticated github.com socket).
+Host *
+  ControlMaster auto
+  ControlPath ~/.ssh/sockets/%r@%h-%p
+  ControlPersist 600
+  ServerAliveInterval 60
