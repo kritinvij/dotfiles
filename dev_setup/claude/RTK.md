@@ -1,30 +1,32 @@
 # RTK: Rust Token Killer
 
-RTK is a token-optimized CLI proxy that filters bash output before it reaches the model, cutting token usage by up to 90 percent on commands with noisy output.
+RTK is a CLI proxy that filters bash output before it reaches the model. It cuts token use by up to 90 percent on noisy commands.
 
-## Meta Commands
+## Hook-based usage
 
-Always invoke these directly as `rtk ...`; they are not commands RTK proxies, they are RTK's own interface.
+A Claude Code hook routes every shell command through RTK. A plain `git status` runs as `rtk git status`, so write the plain command. Adding the prefix yourself can produce `rtk rtk git status`, which fails.
+
+The filter can hide output you need. If a `diff`, `grep`, or `ls` result looks empty or cut short, rerun it with `rtk proxy <cmd>` for raw output.
+
+## Meta commands
+
+Type these with the `rtk` prefix. They are RTK's own interface, so the hook doesn't proxy them.
 
 ```bash
 rtk gain              # Show cumulative token savings
 rtk gain --history    # Show per-command usage history with savings
-rtk discover          # Scan Claude Code history for commands that could have used RTK but didn't
-rtk proxy <cmd>       # Run <cmd> raw, with no output filtering (use this to debug a suspected filtering problem)
+rtk discover          # Scan Claude Code history for commands that could have used RTK
+rtk proxy <cmd>       # Run <cmd> raw, with no output filtering
 ```
 
-## Installation Verification
+## Installation check
 
-Run all three; each should succeed as shown, not fail:
+Each of these should succeed:
 
 ```bash
 rtk --version         # Prints "rtk X.Y.Z"
-rtk gain              # Runs without a "command not found" error
-which rtk             # Confirms the resolved binary is the intended one
+rtk gain              # Runs without "command not found"
+which rtk             # Shows the resolved binary
 ```
 
-**Name collision:** if `rtk gain` fails or behaves unexpectedly, the `rtk` on `PATH` may resolve to `reachingforthejack/rtk` ("Rust Type Kit," an unrelated tool) instead of this one. Confirm with `which rtk` and fix `PATH` ordering if so.
-
-## Hook-Based Usage
-
-Every other shell command is rewritten transparently by a Claude Code hook to route through RTK, at no extra token cost. For example, a plain `git status` is automatically executed as `rtk git status`; no manual `rtk` prefix is needed for ordinary commands.
+**Name collision.** If `rtk gain` fails or behaves oddly, `PATH` may resolve to `reachingforthejack/rtk`, an unrelated "Rust Type Kit". Check with `which rtk` and fix the `PATH` order.
