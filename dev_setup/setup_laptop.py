@@ -319,15 +319,6 @@ class Tool:
             except subprocess.CalledProcessError:
                 log(Colors.FAIL + f"{self.name} is not installed." + Colors.ENDC)
                 return False
-        elif self.name == 'git-hooks-go':
-            try:
-                # Try to get the version of git-hooks-go
-                subprocess.check_output(['git-hooks', '-v'], shell=True, stderr=subprocess.DEVNULL)
-                log(Colors.OKGREEN + f'{self.name} is already installed.' + Colors.ENDC)
-                return True
-            except subprocess.CalledProcessError:
-                log(Colors.FAIL + f"{self.name} is not installed." + Colors.ENDC)
-                return False
         elif self.name == 'postman':
             # List of common Postman installation directories
             postman_paths = [
@@ -677,7 +668,6 @@ if __name__ == '__main__':
         Tool('yarn', 'yarn'),
         Tool('git', 'git'),
         Tool('gh', 'github-cli'),
-        Tool('git-hooks-go', 'git-hooks-go', 'brew install git-hooks-go --quiet'),
         Tool('jq', 'jq'),
         Tool('postman', 'postman'),
         Tool('awscli', 'awscli'),
