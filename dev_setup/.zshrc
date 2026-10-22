@@ -104,7 +104,7 @@ fpath=($HOME/.docker/completions $fpath)
 
 ########################## Paths ##########################
 # Consolidated PATH - order matters (earlier = higher priority)
-export PATH="$HOME/bin:$HOME/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+export PATH="$HOME/bin:$HOME/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/Library/JetBrains-scripts:$PATH"
 
 # pyenv
 # Lazy-load pyenv - only initialize when actually used
@@ -200,7 +200,7 @@ export EDITOR='subl -w'
 ########################## zsh ##########################
 precmd() {
     setopt PROMPT_SUBST
-    PROMPT="${bold}${yellow}$(date "+%T") ${userStyle}kritin ${white}in ${green}%9c $(prompt_git)${reset}
+    PROMPT="${bold}${yellow}$(date "+%T") ${userStyle}kitten ${white}in ${green}%9c $(prompt_git)${reset}
 $ "
 #  ${white}at ${cyan}${(%):-%m} // to display host address for cloud desktops
 }
@@ -376,4 +376,5 @@ alias log='git log --graph --oneline --all'
 alias doc='brew upgrade && brew cleanup && brew doctor'
 alias gcp='git cherry-pick '
 alias cl='claude'
+alias clo='claude --model claude-opus-5'
 alias clf='claude --fork-session --resume '
