@@ -13,6 +13,11 @@ setopt SHARE_HISTORY             # Share history across sessions
 setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks
 setopt HIST_VERIFY               # Show before executing history commands
 
+########################## Java ##########################
+# Default JDK pinned to 21. Override per shell for older projects:
+#   export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+export JAVA_HOME="$(/usr/libexec/java_home -v 21)"
+
 ########################## Up/Down prefix history search ##########################
 autoload -U up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
@@ -181,9 +186,19 @@ if [ -s "$NVM_DIR/nvm.sh" ]; then
   done
 fi
 
-# To store/update GH_TOKEN in macOS Keychain:
-# security add-generic-password -a "$USER" -s "gh_token" -w "<your-token>" -U ~/Library/Keychains/login.keychain-db
-export GH_TOKEN="$(security find-generic-password -a "$USER" -s 'gh_token' -w 2>/dev/null)"
+# GH_TOKEN is the work GitHub token, loaded from Keychain.
+# It is unset under ~/Documents/ (personal projects) and reloaded elsewhere.
+# To store/update: security add-generic-password -a "$USER" -s "gh_token" -w "<your-token>" -U ~/Library/Keychains/login.keychain-db
+function _manage_gh_token() {
+  if [[ "$PWD" == ~/Documents* ]]; then
+    unset GH_TOKEN
+  else
+    export GH_TOKEN="$(security find-generic-password -a "$USER" -s 'gh_token' -w 2>/dev/null)"
+  fi
+}
+autoload -U add-zsh-hook
+add-zsh-hook chpwd _manage_gh_token
+_manage_gh_token
 
 sublime_link="/usr/local/bin/subl"
 if [ -L "${sublime_link}" ] && [ -e "${sublime_link}" ]; then

@@ -1,0 +1,19 @@
+#!/bin/bash
+# Run the full Java build gate. Execute from the worktree root.
+# Usage: claude-gradle-gate
+
+set -euo pipefail
+
+if [[ ! -f "./gradlew" ]]; then
+  echo "ERROR: no gradlew found in $(pwd). Run from the project root." >&2
+  exit 1
+fi
+
+echo "==> spotlessCheck"
+if ! ./gradlew spotlessCheck 2>&1; then
+  echo "==> spotless failed — applying fixes"
+  ./gradlew spotlessApply
+fi
+
+echo "==> build test checkstyle spotlessCheck"
+./gradlew build test checkstyle spotlessCheck

@@ -1,5 +1,7 @@
 # Git Workflow: Start to PR
 
+Every step in this file is mandatory.
+
 This file is the home of the branch lifecycle and the no-force-push rule. Both apply in every repo, on every branch, in every session.
 
 ## No force-push

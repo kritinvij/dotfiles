@@ -15,9 +15,12 @@ if [ -d "$HOME/.pyenv" ]; then
     export PATH="$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
 fi
 
-# tfenv
-if [ -d "$HOME/.tfenv/bin" ]; then
-    export PATH="$HOME/.tfenv/bin:$PATH"
+# tfenv (Homebrew install)
+if [ -x "/opt/homebrew/bin/tfenv" ]; then
+    case ":$PATH:" in
+        *":/opt/homebrew/bin:"*) ;;
+        *) export PATH="/opt/homebrew/bin:$PATH" ;;
+    esac
 fi
 
 # Write resolved env to CLAUDE_ENV_FILE so Claude Code picks it up

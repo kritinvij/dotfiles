@@ -1,0 +1,6 @@
+extends: occurrence
+message: "Sentence has more than 20 words. Aim for under 20."
+level: suggestion
+scope: sentence
+max: 20
+token: '\b[\w-]+\b'

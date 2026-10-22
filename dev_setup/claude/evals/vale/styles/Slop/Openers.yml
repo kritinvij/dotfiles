@@ -1,0 +1,7 @@
+extends: existence
+message: "'%s' is a stretchy opener. Start with the subject and verb."
+level: warning
+ignorecase: true
+scope: sentence
+raw:
+  - '^(there (is|are|was|were)|it is (\w+ )?that|the fact that)'

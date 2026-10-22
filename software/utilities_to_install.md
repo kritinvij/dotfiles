@@ -1,35 +1,54 @@
-Utility
-1. iTerm
-2. Flux
-3. clipy-app.com
-4. Appcleaner
-5. Caffeine/Amphetamine/NoSleep
-6. ScreenBrush
-7. MeetingBar
-8. Raycast
-9. Hidden Bar
-10. https://github.com/Plutoberth/SonyHeadphonesClient/releases
-11. eq - https://eqmac.app/
+# Software to install on a new Mac
 
-Productivity
-1. BusyCal/Amie
-2. Spotify
-3. SublimeText
-4. Keep Notes
-5. Whatsapp
-6. VLC
-7. Steam
-8. Giphy Capture
+Command-line tools and some apps live in `dev_setup/Brewfile`. Run `brew bundle --file=dev_setup/Brewfile` to install them. The lists below cover everything else.
 
-Command Line
-1. screen - `brew install screen`
-2. autoexpect - https://stackoverflow.com/questions/4857702/how-to-provide-password-to-a-command-that-prompts-for-one-in-bash
-3. pip
-4. tmux
+## Before anything else
 
-Others
-1. Xcode and command line tools - `xcode-select --install`
-2. For cloud desktop to open html links: sudo yum -y install lynx or run python locally `python -m http.server`
+| Step | Command or note |
+|------|-----------------|
+| Xcode command line tools | `xcode-select --install` |
+| Homebrew | Install from https://brew.sh, then run the Brewfile |
 
-For Windows
-1. https://github.com/Aetherinox/pause-windows-updates
+## Mac utilities
+
+| App | Use |
+|-----|-----|
+| iTerm | Terminal |
+| Raycast | Launcher |
+| Flux | Screen color temperature |
+| Clipy (https://clipy-app.com) | Clipboard history |
+| AppCleaner | Uninstalls apps with their leftover files |
+| Caffeine, Amphetamine or NoSleep | Keeps the Mac awake |
+| ScreenBrush | Draws on the screen |
+| MeetingBar | Shows calendar meetings in the menu bar |
+| Hidden Bar | Hides menu bar icons |
+| eqMac (https://eqmac.app) | System-wide audio equalizer |
+| Sony Headphones Client (https://github.com/Plutoberth/SonyHeadphonesClient/releases) | Controls Sony headphones |
+
+## Productivity and media
+
+| App | Use |
+|-----|-----|
+| Sublime Text | Editor |
+| BusyCal or Amie | Calendar |
+| Keep Notes | Notes |
+| WhatsApp | Messaging |
+| Spotify | Music |
+| VLC | Video player |
+| Steam | Games |
+| Giphy Capture | Records screen GIFs |
+
+## Command-line extras (not in the Brewfile)
+
+| Tool | Note |
+|------|------|
+| pip | Comes with Python. `setup_laptop_prereqs.sh` installs Python through pyenv |
+| autoexpect | Scripts commands that prompt for a password. See https://stackoverflow.com/questions/4857702/how-to-provide-password-to-a-command-that-prompts-for-one-in-bash |
+
+## Cloud desktop
+
+To open HTML links on a cloud desktop, install `lynx` with `sudo yum -y install lynx`. Or serve the files from your own machine with `python -m http.server`.
+
+## Windows only
+
+Pause Windows updates with https://github.com/Aetherinox/pause-windows-updates.

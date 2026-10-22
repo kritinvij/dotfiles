@@ -1,0 +1,9 @@
+extends: existence
+message: "Contrast pivot '%s'. State what the thing is."
+level: error
+ignorecase: true
+scope: text
+tokens:
+  - '\bnot (just|only) \w+'
+  - '\bnot [^.,;\n]{1,30}, but\b'
+  - ', never \w+'

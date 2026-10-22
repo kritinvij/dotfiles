@@ -1,0 +1,8 @@
+extends: existence
+message: "No em or en dash. Use a period, comma, or colon."
+level: error
+scope: text
+nonword: true
+tokens:
+  - '—'
+  - '–'

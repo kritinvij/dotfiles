@@ -1,0 +1,6 @@
+extends: occurrence
+message: "Sentence has more than 25 words. Split it."
+level: error
+scope: sentence
+max: 25
+token: '\b[\w-]+\b'
