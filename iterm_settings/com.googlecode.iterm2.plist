@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>AI Timeout</key>
+	<integer>300</integer>
 	<key>AIFeatureFunctionCalling</key>
 	<true/>
 	<key>AIFeatureHostedCodeInterpeter</key>
@@ -12,6 +14,22 @@
 	<true/>
 	<key>AIFeatureStreamingResponses</key>
 	<true/>
+	<key>AIPermissionActInWebBrowser</key>
+	<integer>1</integer>
+	<key>AIPermissionCheckTerminalState</key>
+	<integer>1</integer>
+	<key>AIPermissionRunCommands</key>
+	<integer>1</integer>
+	<key>AIPermissionTypeForYou</key>
+	<integer>1</integer>
+	<key>AIPermissionViewHistory</key>
+	<integer>1</integer>
+	<key>AIPermissionViewManpages</key>
+	<integer>1</integer>
+	<key>AIPermissionWriteToClipboard</key>
+	<integer>1</integer>
+	<key>AIPermissionWriteToFilesystem</key>
+	<integer>1</integer>
 	<key>AITermAPI</key>
 	<integer>2</integer>
 	<key>AIVectorStore</key>
@@ -23,9 +41,9 @@
 	<key>AdjustWindowForFontSizeChange</key>
 	<false/>
 	<key>AiMaxTokens</key>
-	<integer>400000</integer>
+	<integer>1050000</integer>
 	<key>AiModel</key>
-	<string>gpt-5.2</string>
+	<string>gpt-5.5</string>
 	<key>AiResponseMaxTokens</key>
 	<integer>128000</integer>
 	<key>AitermURL</key>
@@ -36,16 +54,51 @@
 	<true/>
 	<key>AutoHideTmuxClientSession</key>
 	<false/>
+	<key>ClaudeCodeTriggersInstalled</key>
+	<false/>
+	<key>ClaudeCodeWorkgroupUpsellSuppressed</key>
+	<true/>
+	<key>CodeReviewSavedPrompts</key>
+	<data>
+	W3sidGV4dCI6IlJldmlldyB0aGUgcGVuZGluZyBjaGFuZ2VzIGluIHRoaXMgcmVwby4g
+	RmxhZyBpc3N1ZXMgYSBjYXJlZnVsIG1haW50YWluZXIgd291bGQgYmxvY2sgb24gYmVm
+	b3JlIG1lcmdlLCBpbiByb3VnaGx5IHRoaXMgb3JkZXI6XG4gIDEuIENvcnJlY3RuZXNz
+	IOKAlCBsb2dpYyBlcnJvcnMsIGJyb2tlbiBpbnZhcmlhbnRzLCBtaXNzZWQgZWRnZSBj
+	YXNlcywgb2ZmLWJ5LW9uZSwgcmFjZXMsIGxpZmV0aW1lXC9tZW1vcnkgYnVncywgZXJy
+	b3IgcGF0aHMgdGhhdCBzd2FsbG93IGZhaWx1cmVzLlxuICAyLiBTZWN1cml0eSDigJQg
+	aW5qZWN0aW9uLCBhdXRoblwvYXV0aHogbWlzdGFrZXMsIHNlY3JldCBoYW5kbGluZywg
+	dW5zYWZlIGRlc2VyaWFsaXphdGlvbiwgdW5zYWZlIGRlZmF1bHRzLCBUT0NUT1UuXG4g
+	IDMuIFJlbGlhYmlsaXR5ICYgcGVyZm9ybWFuY2Ug4oCUIGJsb2NraW5nIHRoZSB3cm9u
+	ZyB0aHJlYWQsIHVuYm91bmRlZCByZXNvdXJjZSB1c2UsIGFjY2lkZW50YWwgTyhOwrIp
+	LCByZXRyaWVzIHdpdGhvdXQgYmFja29mZiwgc2lsZW50IGZhaWx1cmUgcGF0aHMuXG4g
+	IDQuIENvbnRyYWN0IHJpc2sg4oCUIGJlaGF2aW9yIGNoYW5nZXMgY2FsbGVycyByZWx5
+	IG9uLCBzaWxlbnRseSBjaGFuZ2VkIGRlZmF1bHRzLCBicm9rZW4gYmFja3dhcmQgY29t
+	cGF0aWJpbGl0eSwgbWlzc2luZyBtaWdyYXRpb25zLlxuXG5Gb3IgZWFjaCBmaW5kaW5n
+	IGNpdGUgYGZpbGU6bGluZWAsIGV4cGxhaW4gKndoeSogaXQgaXMgd3JvbmcgKG5vdCB3
+	aGF0IHRoZSBjb2RlIGRvZXMpLCBhbmQgcHJvcG9zZSBhIGNvbmNyZXRlIGZpeCB3aGVu
+	IG9uZSBpcyBvYnZpb3VzLiBCZSBjYWxpYnJhdGVkOiBpZiBhIGZpbmRpbmcgaXMgbm90
+	IGhpZ2gtY29uZmlkZW5jZSwgc2F5IHNvIG9yIHNraXAgaXQuIFZlcmlmeSBjbGFpbXMg
+	YWdhaW5zdCB0aGUgYWN0dWFsIGNvZGUgcmF0aGVyIHRoYW4gaW5mZXJyaW5nIGZyb20g
+	bmFtZXMuXG5cblNraXAgcHVyZSBzdHlsZSwgZm9ybWF0dGluZywgbmFtaW5nLCBhbmQg
+	YW55dGhpbmcgYSBsaW50ZXIgb3IgQ0kgYWxyZWFkeSBlbmZvcmNlcy5cblxuSWYgeW91
+	IGZpbmQgbm90aGluZyB3b3J0aCBmaXhpbmcsIHNheSBzbyBwbGFpbmx5LiIsIm5hbWUi
+	OiJEZWZhdWx0IiwidXVpZCI6IjVDQzVEMkU1LTRCMUItNDdDNy04M0E1LTE0NjI2RTIw
+	MzA4NSJ9XQ==
+	</data>
 	<key>Default Bookmark Guid</key>
 	<string>F73D6419-3A6F-4AB7-AA71-4410C127A3ED</string>
+	<key>Default Browser Profile Guid</key>
+	<string>F73D6419-3A6F-4AB7-AA71-4410C127A3ED</string>
 	<key>DimBackgroundWindows</key>
-	<false/>
+	<true/>
+	<key>DimOnlyText</key>
+	<true/>
 	<key>DisableFullscreenTransparency</key>
 	<false/>
 	<key>EnableAPIServer</key>
-	<true/>
-	<key>EnableDivisionView</key>
 	<false/>
+	<key>EnableDivisionView</key>
+	<true/>
 	<key>EnableProxyIcon</key>
 	<false/>
 	<key>GlobalKeyMap</key>
@@ -178,7 +231,7 @@
 	<key>IRMemory</key>
 	<integer>400</integer>
 	<key>LeftTabBarWidth</key>
-	<real>202</real>
+	<real>206</real>
 	<key>NeverWarnAboutPossibleOverrides</key>
 	<true/>
 	<key>NeverWarnAboutPossibleOverrides_selection</key>
@@ -421,6 +474,8 @@
 			<string>F73D6419-3A6F-4AB7-AA71-4410C127A3ED</string>
 			<key>Horizontal Spacing</key>
 			<real>1</real>
+			<key>Icon</key>
+			<integer>1</integer>
 			<key>Idle Code</key>
 			<integer>0</integer>
 			<key>Jobs to Ignore</key>
@@ -964,7 +1019,7 @@
 			<key>Window Type</key>
 			<integer>0</integer>
 			<key>Working Directory</key>
-			<string>/Users/vikritin/Desktop</string>
+			<string>/Users/krvij</string>
 		</dict>
 		<dict>
 			<key>ASCII Anti Aliased</key>
@@ -1561,6 +1616,8 @@
 			<string>xterm-256color</string>
 			<key>Transparency</key>
 			<real>0.20557045118343195</real>
+			<key>Triggers</key>
+			<array/>
 			<key>Unlimited Scrollback</key>
 			<true/>
 			<key>Use Bold Font</key>
@@ -1642,7 +1699,11 @@
 	<false/>
 	<key>SoundForEsc</key>
 	<false/>
+	<key>SplitPaneDimmingAmount</key>
+	<real>0.59999999999999998</real>
 	<key>SshIntegrationForURLs</key>
+	<true/>
+	<key>SuppressShellIntegrationUpgradeAnnouncementForHost_krvij@YYGVJM9C7R</key>
 	<true/>
 	<key>TabStyle</key>
 	<integer>3</integer>
@@ -1650,20 +1711,34 @@
 	<integer>5</integer>
 	<key>TabViewType</key>
 	<integer>2</integer>
+	<key>TerminalMargin</key>
+	<integer>0</integer>
+	<key>TerminalVMargin</key>
+	<integer>0</integer>
 	<key>TmuxPauseModeAgeLimit</key>
 	<integer>120</integer>
+	<key>ToolbeltTools</key>
+	<array>
+		<string>Session Status</string>
+	</array>
 	<key>UseBorder</key>
-	<false/>
+	<true/>
 	<key>UseVirtualKeyCodesForDetectingDigits</key>
 	<true/>
 	<key>VisualIndicatorForEsc</key>
 	<false/>
 	<key>WordCharacters</key>
 	<string>/-+\~_.</string>
+	<key>WorkgroupAutoSendSubmitDelay</key>
+	<real>0.0</real>
+	<key>Workgroups</key>
+	<data>
+	W10=
+	</data>
 	<key>findIgnoreCase_iTerm</key>
 	<true/>
 	<key>findMode_iTerm</key>
-	<integer>0</integer>
+	<integer>2</integer>
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>kCPKSelectionViewPreferredModeKey</key>
