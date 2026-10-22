@@ -1,26 +1,50 @@
 # Git Workflow: Start to PR
 
-This is the full lifecycle for any branch work: starting on main, creating a worktree, opening the PR, and pushing later updates to it. The "Worktrees required" and "Never force-push, under any circumstances" rules in CLAUDE.md's Engineering Practices are absolute and apply throughout this sequence. This file specifies how they apply at each step.
+This file is the home of the branch lifecycle and the no-force-push rule. Both apply in every repo, on every branch, in every session.
+
+## No force-push
+
+Once a commit is pushed, it stays as it is. Don't use `--force`, `--force-with-lease`, `git commit --amend` on a pushed commit, or any rebase that touches one. Fix a pushed commit with a new commit on top.
 
 ## 1. Starting work
 
-1. Start from an updated main branch of the repo: switch to main, then run `git pull`.
-2. Rebase main against `origin/main` before creating anything new, even if `git pull` in step 1 already fetched. This surfaces drift from other people's merged work before it can turn into a conflict later.
-3. Only after that rebase, create a new worktree and branch from the freshly rebased main. Use the `worktree-setup` skill. See "Worktrees required" in Engineering Practices: never create or switch branches inside the main checkout itself.
+1. Update main in the main checkout: `git switch main && git fetch origin && git rebase origin/main`. A rebase surfaces any local commit that drifted onto main, where a plain `git pull` would hide it. If the rebase reports conflicts, resolve them before going further.
+2. Create a worktree and branch from the updated main with the `worktree-setup` skill. Branches are never created or switched inside the main checkout.
 
 ## 2. Before opening a PR
 
-4. Rebase main again inside the worktree, immediately before opening the PR, to pick up anything that landed on main since step 1.
-5. If that rebase produces conflicts, read what changed on both sides and understand why the conflict exists before resolving it. Do not default to keeping "ours" or "theirs" without that review.
-6. Squash every commit on the branch into a single commit, then push that single commit to open the PR. This squash happens locally, before the branch has ever been pushed, so it does not conflict with the no-force-push rule below, which only applies once a commit has been pushed. Use the `commit-standards` skill for the commit message format.
-7. Open the PR using the repository's PR template if one exists, and link the relevant Jira ticket or tickets. Use the `pr-description` skill.
+3. Rebase on main again inside the worktree, right before opening the PR.
+4. If that rebase conflicts, read both sides and understand the conflict before resolving it. Don't default to "ours" or "theirs".
+5. Run the tests and the build, and read the output. In a repo with `build.gradle` or `settings.gradle`, run the `java-pr-gate` skill. A PR opens only on a verified branch.
+6. Squash the branch into one commit, then push it to open the PR. The squash happens before the first push, so it rewrites nothing that was pushed. Use the `commit-standards` skill for the message.
+7. Open the PR with the repo's template if one exists, and link the Jira tickets. Use the `pr-description` skill. Pushing and opening the PR are Hard Stops (see CLAUDE.md).
 
 ## 3. After the PR is open
 
-8. Add any further work as new commits on top of the squashed commit already on the PR. Once a commit is pushed, never rewrite it: no `--force`, no `--force-with-lease`, no `git commit --amend`, no `git rebase -i` touching a pushed commit. If main has since moved and now conflicts with the PR, resolve that with `git merge origin/main`, which creates a merge commit, rather than rebasing the PR branch onto main. To correct something in a commit that is already pushed, add a new commit with the fix instead of amending the old one. This step is the detailed application of "Never force-push, under any circumstances" from Engineering Practices: it is not relaxed for this workflow.
-9. Before pushing any update, run `git pull` (a fetch followed by a merge, not a rebase) against the remote branch, so the push never lands on top of stale local state.
+8. Add further work as new commits on top of the squashed commit.
+9. Before each push, run `git pull`, which fetches and merges. The push then never lands on stale local state.
+10. Don't rebase a pushed branch, even without conflicts. If main now conflicts with the PR, run `git merge origin/main`. If it doesn't conflict, do nothing. Step 3 is the only rebase allowed, because nothing was pushed yet.
+11. Once a PR merges, start the next change fresh from step 1. Don't add commits to a merged PR.
+12. Every new commit on an open PR starts and ends with its review threads. This covers bot threads (the PR-assistant bot, Devin, Copilot, CI-fix bots) and human ones.
+    - **Before the commit:** list every unresolved thread, with its author, file, and line. Also list any commits a bot pushed since your last one, and show the user their diffs.
+      ```bash
+      gh api graphql -f query='query($o:String!,$r:String!,$n:Int!){repository(owner:$o,name:$r){pullRequest(number:$n){reviewThreads(first:100){nodes{isResolved path line comments(first:10){nodes{author{login} body url}}}}}}}' -F o=<owner> -F r=<repo> -F n=<pr> --jq '.data.repository.pullRequest.reviewThreads.nodes[] | select(.isResolved|not)'
+      ```
+      Top-level bot comments outside threads: `gh pr view <pr> --comments`.
+    - **Handle every finding in this iteration.** Fix each valid one. Decline the rest with a stated reason.
+    - **After pushing, draft one inline reply per thread.** It holds the fixing commit SHA or the reason for declining, in one line. Don't post a top-level summary comment.
+    - **Posting the replies is a Hard Stop.** Draft them through the `ship-writing` skill. Show each draft next to its finding, and post only after the user confirms they read every line.
 
-## Resulting Commit Shape
+## Recovering from a rebase on a pushed branch
 
-- The squash in step 6 happens exactly once, before the branch is pushed for the first time.
-- After that first push, the PR's commit history is: one squashed commit, followed by zero or more follow-up commits, none of which are ever rewritten.
+If a pushed branch was rebased locally by mistake, recover with a merge. Don't use `git reset --hard`, `git reset --keep`, or move the branch ref back to the remote tip. Those discard commits. Use this approach without asking which one to pick.
+
+1. Run `git merge origin/<branch>`. Both sides hold the same content, so it usually merges cleanly.
+2. Check the result. `git diff <rebased-sha> HEAD --stat` must be empty. `git diff origin/main...HEAD --stat` must list only the intended files.
+3. Re-run the build and tests on the merge commit, then `git push` with no force flag.
+
+The branch history gains a duplicated pair of commits and a merge commit. That cost is accepted, because the PR's net diff and final tree stay the same. Step 10 prevents the situation.
+
+## Resulting commit shape
+
+The PR holds one squashed commit, then zero or more follow-up commits. The squash in step 6 happens once, before the first push. No commit is rewritten after it is pushed.
