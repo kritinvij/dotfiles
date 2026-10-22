@@ -1,0 +1,14 @@
+[
+  {"id": "yesno-vacuum", "prompt": "Is it safe to run VACUUM FULL on a busy production Postgres table?"},
+  {"id": "yesno-uuid", "prompt": "Should I use a UUID or a bigint primary key for a Postgres table that will hold 50 million rows?"},
+  {"id": "explain-index", "prompt": "Explain what a database index is and when you should not add one."},
+  {"id": "explain-rebase", "prompt": "What does git rebase do differently from git merge?"},
+  {"id": "debug-lag", "prompt": "Our Kafka consumer lag keeps growing during peak hours. What should I check first?"},
+  {"id": "idea-cache", "prompt": "I'm thinking of caching every API response in Redis for 24 hours to cut latency. Thoughts?"},
+  {"id": "idea-monorepo", "prompt": "I want to move our 6 backend services into one monorepo. Good idea?"},
+  {"id": "narrow-flag", "prompt": "What does the -n flag do in grep?"},
+  {"id": "compare-queues", "prompt": "When would you pick SQS over Kafka?"},
+  {"id": "review-sql", "prompt": "Review this query: SELECT * FROM orders WHERE DATE(created_at) = '2026-09-01';"},
+  {"id": "howto-retry", "prompt": "How should I add retries to an HTTP client call that sometimes times out?"},
+  {"id": "incident", "prompt": "Our API p99 latency jumped from 200ms to 2s ten minutes ago. Nothing was deployed. Where do I start?"}
+]
