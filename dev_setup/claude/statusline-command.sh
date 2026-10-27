@@ -7,19 +7,6 @@ used=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
 five_pct=$(echo "$input" | jq -r '.rate_limits.five_hour.used_percentage // empty')
 week_pct=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // empty')
 
-# Caveman mode indicator
-caveman_text=""
-caveman_flag="$HOME/.claude/.caveman-active"
-if [ -f "$caveman_flag" ]; then
-  caveman_mode=$(cat "$caveman_flag" 2>/dev/null)
-  if [ "$caveman_mode" = "full" ] || [ -z "$caveman_mode" ]; then
-    caveman_text=$'\033[38;5;172m🪨 caveman\033[0m'
-  else
-    caveman_suffix=$(echo "$caveman_mode" | tr '[:lower:]' '[:upper:]')
-    caveman_text=$'\033[38;5;172m🪨 caveman:'"${caveman_suffix}"$'\033[0m'
-  fi
-fi
-
 # Build context window progress bar (20 chars wide)
 cwd=$(pwd | sed "s|$HOME|~|")
 
@@ -64,7 +51,6 @@ fi
 output=$(printf "\033[0;36m%s\033[0m" "$model")
 [ -n "$ctx_part" ] && output="$output  $ctx_part"
 [ -n "$rate_part" ] && output="$output  $rate_part"
-[ -n "$caveman_text" ] && output="$output  $caveman_text"
 output="$output  \033[38;5;64m$cwd\033[0m"
 
 printf "%b" "$output"

@@ -5,7 +5,8 @@
     "ENABLE_TOOL_SEARCH": "true",
     "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "128000",
     "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-4-5",
-    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-4-5-20250929"
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-4-5-20250929",
+    "CLAUDE_CODE_SUBAGENT_MODEL": "sonnet"
   },
   "permissions": {
     "allow": [
@@ -74,17 +75,8 @@
     "type": "command",
     "command": "bash /Users/krvij/.claude/statusline-command.sh"
   },
-  "enabledPlugins": {
-    "caveman@caveman": true
-  },
+  "enabledPlugins": {},
   "extraKnownMarketplaces": {
-    "caveman": {
-      "source": {
-        "source": "github",
-        "repo": "JuliusBrussee/caveman"
-      },
-      "autoUpdate": true
-    },
     "nx-claude-plugins": {
       "source": {
         "source": "github",
@@ -101,7 +93,7 @@
       "source": {
         "source": "github",
         "repo": "tomasz-tomczyk/crit",
-        "ref": "v0.18.0"
+        "ref": "v0.21.0"
       }
     }
   },
@@ -112,11 +104,25 @@
   "skipWorkflowUsageWarning": true,
   "theme": "dark-daltonized",
   "switchModelsOnFlag": false,
+  "idleCompaction": false,
   "agentPushNotifEnabled": true,
   "model": "claude-sonnet-5-5",
   "modelSettings": {
     "claude-opus-5": {
       "effortLevel": "high"
+    },
+    "claude-opus-5-5": {
+      "effortLevel": "high"
     }
+  },
+  "pluginConfigs": {},
+  "skillOverrides": {
+    "anthropic-skills:docx": "off",
+    "anthropic-skills:import-memory": "off",
+    "anthropic-skills:morning": "off",
+    "anthropic-skills:pdf": "off",
+    "anthropic-skills:pptx": "off",
+    "anthropic-skills:xlsx": "off",
+    "anthropic-skills:docs": "off"
   }
 }

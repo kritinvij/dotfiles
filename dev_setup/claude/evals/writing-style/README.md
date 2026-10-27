@@ -10,4 +10,4 @@ Measures whether chat replies follow the countable rules in `~/.claude/WRITING.m
 python3 score.py runs/<new> runs/<old>     # compare against a baseline run
 ```
 
-Replies land in `runs/<timestamp>-<model>/`, with `summary.json` alongside. A full run makes 12 model calls. Hooks and plugins still apply, so a style plugin such as caveman changes the result.
+Replies land in `runs/<timestamp>-<model>/`, with `summary.json` alongside. A full run makes 12 model calls. Hooks and plugins still apply, so a style plugin changes the result.
