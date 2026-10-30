@@ -8,8 +8,6 @@ tap "virtuslab/scala-cli"
 # Shell and terminal
 brew "bash-completion"
 brew "lsd"
-brew "screen"
-brew "tmux"
 brew "zoxide"
 brew "zsh-autosuggestions"
 brew "zsh-completions"
@@ -17,18 +15,15 @@ brew "zsh-syntax-highlighting"
 
 # Search, viewing and diffs
 brew "bat"
-brew "diff-so-fancy"
 brew "fd"
 brew "fzf"
 brew "git-delta"
 brew "ripgrep"
-brew "the_silver_searcher"
 
 # Git and GitHub
 brew "actionlint"
 brew "gh"
 brew "git"
-brew "pinentry-mac"
 
 # Languages and build tools
 brew "oven-sh/bun/bun"
@@ -48,14 +43,7 @@ brew "pulumi"
 
 # Files, text and media
 brew "dos2unix"
-brew "exiftool"
-brew "grip"
 brew "jq"
-brew "oxipng"
-brew "poppler"
-brew "sox"
-brew "tectonic"
-brew "tesseract"
 brew "vale"
 brew "wget"
 
@@ -64,7 +52,6 @@ brew "rtk-ai/tap/rtk"
 
 # Apps
 cask "android-platform-tools"
-cask "arc"
 cask "background-music"
 cask "font-hack-nerd-font"
 cask "postman"

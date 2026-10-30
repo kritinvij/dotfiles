@@ -26,8 +26,8 @@ DRY_RUN = False
 # =============================================================================
 # Version Configuration - All tool versions consolidated here
 # =============================================================================
-NODE_VERSION_TO_INSTALL = "20.12.2"
-PYTHON_VERSION_TO_INSTALL = "3.13.2"
+NODE_VERSION_TO_INSTALL = "24.22.2"
+PYTHON_VERSION_TO_INSTALL = "3.15.2"
 TERRAFORM_VERSION_TO_INSTALL = "1.5.5"
 NVM_VERSION_TO_INSTALL = "0.39.1"
 YARN_VERSION_TO_INSTALL = "1.10.1"
@@ -483,7 +483,7 @@ fi
 
             # Load pyenv into current zsh shell
             os.environ['PYENV_ROOT'] = os.path.expanduser('~/.pyenv')
-            os.environ['PATH'] = f'{os.environ["PYENV_ROOT"]}/bin:{os.environ["PATH"]}'
+            os.environ['PATH'] = f'{os.environ["PATH"]}:{os.environ["PYENV_ROOT"]}/bin'
             subprocess.run(['eval "$(pyenv init)"'], shell=True)
 
             # Add pyenv lazy-load to .zshrc (idempotent)
@@ -491,7 +491,7 @@ fi
 # pyenv
 # Lazy-load pyenv - only initialize when actually used
 export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
+export PATH="$PATH:$PYENV_ROOT/bin"
 
 if command -v pyenv &>/dev/null; then
   _pyenv_commands=(pyenv python python3 pip pip3)
@@ -681,7 +681,7 @@ if __name__ == '__main__':
         Tool('bat', 'bat'),
         Tool('fd', 'fd'),
         Tool('ag', 'silver-searcher'),
-        Tool('autoupdate', 'autoupdate', 'brew install pinentry-mac && brew tap domt4/autoupdate && brew autoupdate start 18000 --cleanup --upgrade --immediate --sudo'),
+        Tool('autoupdate', 'autoupdate', 'brew tap domt4/autoupdate && brew autoupdate start 18000 --cleanup --upgrade --immediate --sudo'),
     ]
 
     log("")  # Initial newline for spacing

@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 # Version to install (keep in sync with install-deps-new-laptop.py PYTHON_VERSION_TO_INSTALL)
-PYTHON_VERSION="3.13.2"
+PYTHON_VERSION="3.15.2"
 
 # Check if pyenv is installed
 if ! command -v pyenv &> /dev/null; then
@@ -13,7 +13,7 @@ if ! command -v pyenv &> /dev/null; then
 # pyenv
 # Lazy-load pyenv - only initialize when actually used
 export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
+export PATH="$PATH:$PYENV_ROOT/bin"
 
 if command -v pyenv &>/dev/null; then
   _pyenv_commands=(pyenv python python3 pip pip3)
@@ -36,8 +36,8 @@ fi
 
 # Ensure pyenv is active in this shell (script may run non-interactively without .zshrc)
 export PYENV_ROOT="${PYENV_ROOT:-$HOME/.pyenv}"
-export PATH="$PYENV_ROOT/bin:$PATH"
-if [[ -x "$PYENV_ROOT/bin/pyenv" ]]; then
+export PATH="$PATH:$PYENV_ROOT/bin"
+if command -v pyenv &>/dev/null; then
   eval "$(pyenv init -)"
 fi
 
