@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { margin: 0; padding: 14px 16px; width: 260px; font: 14px -apple-system, sans-serif; color: #1f2328; }
+    h1 { margin: 0 0 10px; font-size: 14px; color: #7a2e0e; }
+    label { display: flex; align-items: flex-start; gap: 8px; cursor: pointer; }
+    input { margin-top: 2px; accent-color: #7a2e0e; }
+    small { display: block; margin-top: 8px; color: #656d76; line-height: 1.4; }
+  </style>
+</head>
+<body>
+  <h1>PR Open Threads Guard</h1>
+  <label>
+    <input type="checkbox" id="block">
+    <span>Block merge buttons while threads are unresolved</span>
+  </label>
+  <small>The warning banner always shows. Changes apply to open GitHub tabs right away.</small>
+  <script src="popup.js"></script>
+</body>
+</html>

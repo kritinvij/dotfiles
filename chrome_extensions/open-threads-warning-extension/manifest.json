@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "PR Open Threads Guard",
+  "version": "1.0.0",
+  "description": "Warns at the top of a GitHub pull request when review threads are unresolved, and blocks the merge buttons until they are resolved.",
+  "permissions": ["storage"],
+  "action": {
+    "default_title": "PR Open Threads Guard",
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://github.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

@@ -40,18 +40,12 @@ defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
 # Remove duplicates in the “Open With” menu (also see `lscleanup` alias)
 /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user
 
-# Disable automatic termination of inactive apps
-defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true
-
 # Disable the crash reporter
 defaults write com.apple.CrashReporter DialogType -string "none"
 
 # Reveal IP address, hostname, OS version, etc. when clicking the clock
 # in the login window
 sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
-
-# Disable Notification Center and remove the menu bar icon
-launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist 2> /dev/null
 
 # Disable smart dashes as they’re annoying when typing code
 defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
@@ -74,9 +68,6 @@ defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool
 defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 
-# Increase sound quality for Bluetooth headphones/headsets
-defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
-
 # Enable full keyboard access for all controls
 # (e.g. enable Tab in modal dialogs)
 defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
@@ -89,6 +80,10 @@ defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true
 
 # Disable press-and-hold for keys in favor of key repeat
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+
+# Faster key repeat (lower is faster)
+defaults write NSGlobalDomain KeyRepeat -int 2
+defaults write NSGlobalDomain InitialKeyRepeat -int 15
 
 # Stop iTunes from responding to the keyboard media keys
 # launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2> /dev/null
@@ -110,12 +105,8 @@ defaults write com.apple.screencapture type -string "jpg"
 # Disable shadow in screenshots
 defaults write com.apple.screencapture disable-shadow -bool true
 
-# Enable subpixel font rendering on non-Apple LCDs
-# Reference: https://github.com/kevinSuttle/macOS-Defaults/issues/17#issuecomment-266633501
-defaults write NSGlobalDomain AppleFontSmoothing -int 1
-
-# Enable HiDPI display modes (requires restart)
-sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
+# Don't show the floating screenshot thumbnail, so the file saves immediately
+defaults write com.apple.screencapture show-thumbnail -bool false
 
 ###############################################################################
 # Finder                                                                      #
@@ -141,8 +132,9 @@ defaults write com.apple.finder AppleShowAllFiles -bool true
 # Finder: show all filename extensions
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 
-# Finder: show path bar
+# Finder: show path bar and status bar
 defaults write com.apple.finder ShowPathbar -bool true
+defaults write com.apple.finder ShowStatusBar -bool true
 
 # Display full POSIX path as Finder window title
 defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
@@ -188,10 +180,6 @@ chflags nohidden ~/Library
 # Show the /Volumes folder
 sudo chflags nohidden /Volumes
 
-# Remove Dropbox’s green checkmark icons in Finder
-file=/Applications/Dropbox.app/Contents/Resources/emblem-dropbox-uptodate.icns
-[ -e "${file}" ] && mv -f "${file}" "${file}.bak"
-
 # Expand the following File Info panes:
 # “General”, “Open with”, and “Sharing & Permissions”
 defaults write com.apple.finder FXInfoPanesExpanded -dict \
@@ -216,9 +204,36 @@ defaults write com.apple.dock autohide-time-modifier -float 0
 
 # Make Dock icons of hidden applications translucent
 defaults write com.apple.dock showhidden -bool true
+
+# Don't animate apps opening from the Dock
+defaults write com.apple.dock launchanim -bool false
+
+# Hide recent apps in the Dock
+defaults write com.apple.dock show-recents -bool false
+
+# Speed up Mission Control animations
+defaults write com.apple.dock expose-animation-duration -float 0.1
+
 ###############################################################################
+# Animations, window management, and Spotlight                                #
 ###############################################################################
-# Activity Monitor                                                            #
+
+# Turn off window open and close animations
+defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
+
+# Clicking the wallpaper does not reveal the desktop
+defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
+
+# Remove the margins around tiled windows
+defaults write com.apple.WindowManager EnableTiledWindowMargins -bool false
+
+# Keep Spotlight out of build and dependency folders to cut mds CPU use
+find "${HOME}/base" -maxdepth 4 -type d \
+	\( -name node_modules -o -name .gradle -o -name .worktrees \) \
+	-prune -exec touch {}/.metadata_never_index \; 2> /dev/null
+
+###############################################################################
+# Activity Monitor                                                           #
 ###############################################################################
 # Show the main window when launching Activity Monitor
 defaults write com.apple.ActivityMonitor OpenMainWindow -bool true
@@ -229,3 +244,11 @@ defaults write com.apple.ActivityMonitor ShowCategory -int 0
 # Sort Activity Monitor results by CPU usage
 defaults write com.apple.ActivityMonitor SortColumn -string "CPUUsage"
 defaults write com.apple.ActivityMonitor SortDirection -int 0
+
+###############################################################################
+# Restart affected apps                                                       #
+###############################################################################
+
+for app in "Dock" "Finder" "SystemUIServer"; do
+	killall "${app}" &> /dev/null
+done
