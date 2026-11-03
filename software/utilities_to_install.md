@@ -18,19 +18,17 @@ Command-line tools and some apps live in `dev_setup/Brewfile`. Run `brew bundle 
 | Flux | Screen color temperature |
 | Clipy (https://clipy-app.com) | Clipboard history |
 | AppCleaner | Uninstalls apps with their leftover files |
-| Caffeine, Amphetamine or NoSleep | Keeps the Mac awake |
+| Caffeine or Amphetamine | Keeps the Mac awake |
 | ScreenBrush | Draws on the screen |
 | MeetingBar | Shows calendar meetings in the menu bar |
 | Hidden Bar | Hides menu bar icons |
-| eqMac (https://eqmac.app) | System-wide audio equalizer |
-| Sony Headphones Client (https://github.com/Plutoberth/SonyHeadphonesClient/releases) | Controls Sony headphones |
 
 ## Productivity and media
 
 | App | Use |
 |-----|-----|
 | Sublime Text | Editor |
-| BusyCal or Amie | Calendar |
+| BusyCal | Calendar |
 | Keep Notes | Notes |
 | WhatsApp | Messaging |
 | Spotify | Music |

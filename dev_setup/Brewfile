@@ -52,7 +52,5 @@ brew "rtk-ai/tap/rtk"
 
 # Apps
 cask "android-platform-tools"
-cask "background-music"
 cask "font-hack-nerd-font"
-cask "postman"
 cask "rectangle"

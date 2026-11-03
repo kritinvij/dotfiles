@@ -333,19 +333,6 @@ class Tool:
                 return True
             log(Colors.FAIL + f"{self.name} is not installed." + Colors.ENDC)
             return False
-        elif self.name == 'postman':
-            # List of common Postman installation directories
-            postman_paths = [
-                os.path.expanduser('~/Applications/Postman.app/'),  # MacOS
-                '/Applications/Postman.app/',  # MacOS
-            ]
-
-            for path in postman_paths:
-                if os.path.exists(path):
-                    log(Colors.OKGREEN + f'{self.name} is already installed.' + Colors.ENDC)
-                    return True
-            log(Colors.FAIL + f"{self.name} is not installed." + Colors.ENDC)
-            return False
         elif self.name == 'awscli':
             try:
                 # Run "aws --version" command to check if awscli is installed
@@ -695,7 +682,6 @@ if __name__ == '__main__':
         Tool('git', 'git'),
         Tool('gh', 'github-cli'),
         Tool('jq', 'jq'),
-        Tool('postman', 'postman'),
         Tool('awscli', 'awscli'),
         Tool('delta', 'git-delta'),
         Tool('fzf', 'fzf'),
