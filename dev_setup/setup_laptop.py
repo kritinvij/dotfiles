@@ -424,7 +424,12 @@ export NVM_DIR="$HOME/.nvm"
 # Add default node version to PATH for non-interactive scripts (e.g., git hooks)
 # This ensures node/npm are available without requiring lazy-load initialization
 if [ -d "$NVM_DIR/versions/node" ]; then
-  DEFAULT_NODE_PATH="$NVM_DIR/versions/node/$(ls -1 $NVM_DIR/versions/node | sort -V | tail -1)/bin"
+  # Match nvm's default alias so PATH agrees with `nvm use default`; fall back to the newest install
+  _nvm_default=$(cat "$NVM_DIR/alias/default" 2>/dev/null)
+  _nvm_ver=$(ls -1 "$NVM_DIR/versions/node" | awk -v p="v${_nvm_default#v}" 'index($0, p) == 1 && (length($0) == length(p) || substr($0, length(p) + 1, 1) == ".")' | sort -V | tail -1)
+  [ -z "$_nvm_ver" ] && _nvm_ver=$(ls -1 "$NVM_DIR/versions/node" | sort -V | tail -1)
+  DEFAULT_NODE_PATH="$NVM_DIR/versions/node/$_nvm_ver/bin"
+  unset _nvm_default _nvm_ver
   export PATH="$DEFAULT_NODE_PATH:$PATH"
 fi
 
