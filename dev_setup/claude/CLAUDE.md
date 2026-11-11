@@ -21,6 +21,8 @@ All text output follows WRITING.md, which is imported here. This chat is include
 
 # Precedence
 
+Every rule in this file and in the linked files is mandatory. It is a rule, not a suggestion. Each **Test** in WRITING.md and DESIGN_DOCS.md is a required check.
+
 When two rules conflict, the higher item in this list wins:
 
 1. Hard Stops and any other safety or irreversibility rule.
@@ -53,6 +55,24 @@ Read-only work needs no confirmation. That covers queries, greps, log searches, 
 
 The `ship-writing` skill drafts, lints, and scores outbound text. Finishing its loop isn't confirmation. Sending the text, or opening a PR, still needs an explicit yes.
 
+"Checking PR comments" below holds the one standing exception, for fix replies on review threads.
+
+---
+
+# Checking PR comments
+
+When the user asks to check comments on a PR, run every step below.
+
+1. Work on the PR the user names or links, and only that PR. When the user says "all", list their open PRs for that work in every related repo instead. Check each PR's state before acting, because a merged PR's branch is deleted and a push recreates it.
+2. Read every unresolved review thread, every review body, and every top-level comment, in full. Reread a thread's current text, because a bot can rewrite its comment after a reply.
+3. List the commits other people pushed since the last push, including bots and GitHub's "Update branch". Read their diffs.
+4. Check each finding against the code or docs. Fix each valid one, and decline the rest with a reason.
+5. Run the repo's tests and lint, then push. A fix for a merged PR goes in a fresh PR from main.
+6. Reply once in each thread with the fixing commit SHA, then resolve the thread. A top-level comment has no thread, so after the reply, hide it with the Resolved reason. Every comment you answer ends resolved.
+7. Report the result per PR, with links.
+
+The request to check comments is the go-ahead for steps 5 and 6: pushing fixes to an open PR, posting one-line "Fixed in `<sha>`" replies, and resolving those threads and comments. A decline, a reply to a person that says more than the fix, a new PR, a PR description edit, or a deletion still follows Hard Stops. Show the text and wait.
+
 ---
 
 # Scope Discipline
@@ -60,6 +80,12 @@ The `ship-writing` skill drafts, lints, and scores outbound text. Finishing its 
 Read only the files the user names or points to. If another file would help, ask first in one sentence: "Want me to also read X?" Then wait.
 
 One exception: you may read files without asking when you need them to verify a claim. The same holds for the two verification rules below. An unverified claim is worse than an extra read. Keep those reads to the narrowest set that settles the question, and name the files in one line.
+
+---
+
+# Jira and Confluence
+
+Use the `twg` CLI for all Jira and Confluence work. Don't use the Atlassian MCP tools or `acli`.
 
 ---
 
@@ -80,6 +106,10 @@ State a cause only after checking it against evidence: logs, code, data, or tool
 - **Worktrees.** Create a worktree before creating or switching branches. The main checkout stays on main.
 - **Claude config lives in `~/.claude/`.** Don't create a `.claude/` directory or config file inside a project repo.
 - **Review each unit of work.** After a class, an algorithm, a schema change, or another self-contained chunk, review it before starting the next one.
+- **Docker through Rancher Desktop.** When a task needs Docker and `docker info` fails, start Rancher Desktop yourself with `open -a "Rancher Desktop"`, then wait for `docker info` to pass. Testcontainers tests need it. Start Rancher before any Gradle test run in a Java repo, including a PR review, because the repo's integration tests need Docker. When the Docker work ends, always shut Rancher down with `rdctl shutdown`, because an idle VM drains the battery. Neither step needs the user's confirmation.
+- **Sonar check on Java.** In a repo with `build.gradle` or `settings.gradle`, run `analyze_code_snippet` from a SonarQube MCP server before every push to a PR. Run it on every Java file in the PR's diff against main: `git diff --name-only origin/main...HEAD -- '*.java'`. That includes test files and files whose only change is a deletion. Send each file's full text as `codeSnippet`, never a partial snippet, and its repo-relative path as `filePath`. Pass `language: java`, `scope: MAIN` or `TEST`, and the repo's `projectKey`. Fix each finding on the PR's changed lines (`git diff -U0 origin/main...HEAD`), or say why you skipped it. Snippet mode can't see `package-info` null annotations, so SonarCloud must confirm null-contract rules.
+- **SonarCloud after every Java push.** The local snippet check misses rules SonarCloud applies. After each push to a Java PR, wait for the SonarCloud check to finish. Then query the PR's open issues with its `pullRequest` key and `issueStatuses: OPEN, CONFIRMED`. Fix every open issue on the PR's lines before you reply "Fixed", resolve a thread, or report the push as done.
+- **Integration tests before a Java push.** `./gradlew build` skips a separate `integrationTest` task. In a repo that registers one, run `./gradlew integrationTest` for the test classes the PR touches before each push. Run the full task when the change reaches shared test setup.
 - **No force-push.** GIT_WORKFLOW.md holds this rule and the full branch lifecycle, from worktree to PR updates and review threads.
 - **Stacked PRs for large work.** When a change needs several dependent PRs, branch each one off the previous one. Review stays scoped per PR, and later PRs merge as earlier ones land.
 - **Follow the repo's PR conventions.** Before opening or editing a PR, look for a PR template, such as `.github/PULL_REQUEST_TEMPLATE.md`. Also look for any repo doc on PR bodies. The repo's conventions win.

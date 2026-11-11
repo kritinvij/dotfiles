@@ -1,25 +1,26 @@
 {
   "skillListingBudgetFraction": 0.05,
   "env": {
-    "CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING": "true",
-    "ENABLE_TOOL_SEARCH": "true",
-    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "128000",
     "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-4-5",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-4-5-20250929",
+    "CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING": "true",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "128000",
+    "ENABLE_TOOL_SEARCH": "true",
     "CLAUDE_CODE_SUBAGENT_MODEL": "sonnet"
   },
   "permissions": {
     "allow": [
       "Bash(*)",
-      "Read(*)",
-      "Edit(*)",
-      "Write(*)",
+      "Read",
+      "Edit",
+      "Write",
       "WebSearch(*)",
       "WebFetch(*)",
       "Skill(*)"
     ],
     "defaultMode": "auto"
   },
+  "model": "claude-opus-5-5",
   "hooks": {
     "PreToolUse": [
       {
@@ -28,15 +29,6 @@
           {
             "type": "command",
             "command": "/Users/krvij/.claude/hooks/guard-destructive.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/krvij/.claude/hooks/sonar-before-pr.sh"
           }
         ]
       },
@@ -75,38 +67,29 @@
     "type": "command",
     "command": "bash /Users/krvij/.claude/statusline-command.sh"
   },
-  "enabledPlugins": {},
   "extraKnownMarketplaces": {
-    "nx-claude-plugins": {
-      "source": {
-        "source": "github",
-        "repo": "nrwl/nx-ai-agents-config"
-      }
-    },
     "claude-plugins-official": {
       "source": {
         "source": "github",
         "repo": "anthropics/claude-plugins-official"
       }
     },
+    "nx-claude-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "nrwl/nx-ai-agents-config"
+      }
+    },
     "crit": {
       "source": {
         "source": "github",
         "repo": "tomasz-tomczyk/crit",
-        "ref": "v0.21.0"
+        "ref": "v0.23.1"
       }
     }
   },
   "alwaysThinkingEnabled": true,
   "effortLevel": "medium",
-  "tui": "fullscreen",
-  "showThinkingSummaries": true,
-  "skipWorkflowUsageWarning": true,
-  "theme": "dark-daltonized",
-  "switchModelsOnFlag": false,
-  "idleCompaction": false,
-  "agentPushNotifEnabled": true,
-  "model": "claude-sonnet-5-5",
   "modelSettings": {
     "claude-opus-5": {
       "effortLevel": "high"
@@ -116,13 +99,11 @@
     }
   },
   "pluginConfigs": {},
-  "skillOverrides": {
-    "anthropic-skills:docx": "off",
-    "anthropic-skills:import-memory": "off",
-    "anthropic-skills:morning": "off",
-    "anthropic-skills:pdf": "off",
-    "anthropic-skills:pptx": "off",
-    "anthropic-skills:xlsx": "off",
-    "anthropic-skills:docs": "off"
-  }
+  "tui": "fullscreen",
+  "showThinkingSummaries": true,
+  "skipWorkflowUsageWarning": true,
+  "theme": "dark-daltonized",
+  "idleCompaction": false,
+  "switchModelsOnFlag": false,
+  "agentPushNotifEnabled": true
 }

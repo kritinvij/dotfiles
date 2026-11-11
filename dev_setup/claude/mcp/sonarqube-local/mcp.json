@@ -1,0 +1,31 @@
+{
+  "mcpServers": {
+    "sonarqube-local": {
+      "command": "docker",
+      "args": [
+        "run",
+        "--init",
+        "--pull=missing",
+        "-i",
+        "--rm",
+        "--cap-drop=ALL",
+        "--security-opt=no-new-privileges",
+        "-e",
+        "SONARQUBE_TOKEN",
+        "-e",
+        "SONARQUBE_ORG",
+        "-e",
+        "TELEMETRY_DISABLED",
+        "-e",
+        "SONARQUBE_FORCE_LOCAL_ANALYSIS",
+        "-v",
+        "${PWD}:/app/mcp-workspace:ro",
+        "sonarsource/sonarqube-mcp@sha256:e1a31da56d1006e45bfb2b0f4f4a9ce2de5051d84e07446c5dafabdff13b0415"
+      ],
+      "env": {
+        "TELEMETRY_DISABLED": "true",
+        "SONARQUBE_FORCE_LOCAL_ANALYSIS": "true"
+      }
+    }
+  }
+}

@@ -6,6 +6,10 @@
 
 Lead with the outcome in one sentence. Then give the motivation: what the change unblocks or fixes. The diff already shows how. Add technical detail only where a reviewer can't infer it from the diff, like cross-repo coordination or a hidden invariant. Follow the repo's PR template when one exists.
 
+## Docs and PR text in a repo with a writing-style review check
+
+When the repo ships a reviewer check for writing style, run it as the reviewer does before showing the draft. Read the check file from the repo's `origin/main`, because a worktree copy can be stale. Apply the rules it lists to the added prose only. Quote each finding with its rule number, fix every finding, then recheck the edited lines. The repo's linter covers the rules the check leaves to it. Skip a doc the repo marks as human-written.
+
 ## Review comments
 
 Each comment holds one finding: the location, the problem, and a concrete fix. Use plain English, and expand acronyms on first use. Skip the preamble and the praise.

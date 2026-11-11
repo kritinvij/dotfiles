@@ -5,6 +5,8 @@ description: Use before drafted text leaves this chat for other readers. That co
 
 # Ship writing
 
+Every step below is mandatory. Skipping the lint, the score, or the self-audit means the draft is not ready to show.
+
 Every draft for other readers goes through this loop before it reaches its destination.
 
 ## 1. Draft in one scratch file

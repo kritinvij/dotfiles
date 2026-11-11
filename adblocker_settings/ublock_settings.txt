@@ -62,7 +62,6 @@
     "opera-scheme",
     "vivaldi-scheme",
     "www.airtelxstream.in",
-    "www.coursera.org",
     "www.hp.com",
     "www.jiomart.com",
     "www.ryanair.com",
