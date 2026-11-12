@@ -16,7 +16,9 @@
       "Write",
       "WebSearch(*)",
       "WebFetch(*)",
-      "Skill(*)"
+      "Skill(*)",
+      "mcp__claude_ai_Claude_Docs__batch",
+      "mcp__claude_ai_Claude_Docs__update"
     ],
     "defaultMode": "auto"
   },

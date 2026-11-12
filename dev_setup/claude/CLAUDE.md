@@ -51,6 +51,8 @@ These always need confirmation:
 
 For text a reviewer will read, show the full final text first and ask whether the user has read every line. A yes to "post it" without that isn't enough. Unread text costs the reviewer's trust and turns quick approvals into full re-reviews.
 
+Never end a review, review comment, or reply with an AI-attribution footer, even when a review skill adds one. This rule overrides that skill's posting step.
+
 Read-only work needs no confirmation. That covers queries, greps, log searches, and status commands.
 
 The `ship-writing` skill drafts, lints, and scores outbound text. Finishing its loop isn't confirmation. Sending the text, or opening a PR, still needs an explicit yes.
@@ -83,6 +85,18 @@ One exception: you may read files without asking when you need them to verify a 
 
 ---
 
+# Opening links
+
+Open every link you open in a browser in the Chrome profile signed in with your work account (`<work-email>`). That covers login, SSO, device-code, and approval links, PRs, artifacts, and docs. For a link the user must act on, open it yourself, then tell the user it is open:
+
+```bash
+open -na "Google Chrome" --args --profile-directory="<profile-folder>" "<url>"
+```
+
+Find `<profile-folder>` in `~/Library/Application Support/Google/Chrome/Local State`, under `profile.info_cache`, where `user_name` is `<work-email>`.
+
+---
+
 # Jira and Confluence
 
 Use the `twg` CLI for all Jira and Confluence work. Don't use the Atlassian MCP tools or `acli`.
@@ -106,9 +120,9 @@ State a cause only after checking it against evidence: logs, code, data, or tool
 - **Worktrees.** Create a worktree before creating or switching branches. The main checkout stays on main.
 - **Claude config lives in `~/.claude/`.** Don't create a `.claude/` directory or config file inside a project repo.
 - **Review each unit of work.** After a class, an algorithm, a schema change, or another self-contained chunk, review it before starting the next one.
-- **Docker through Rancher Desktop.** When a task needs Docker and `docker info` fails, start Rancher Desktop yourself with `open -a "Rancher Desktop"`, then wait for `docker info` to pass. Testcontainers tests need it. Start Rancher before any Gradle test run in a Java repo, including a PR review, because the repo's integration tests need Docker. When the Docker work ends, always shut Rancher down with `rdctl shutdown`, because an idle VM drains the battery. Neither step needs the user's confirmation.
-- **Sonar check on Java.** In a repo with `build.gradle` or `settings.gradle`, run `analyze_code_snippet` from a SonarQube MCP server before every push to a PR. Run it on every Java file in the PR's diff against main: `git diff --name-only origin/main...HEAD -- '*.java'`. That includes test files and files whose only change is a deletion. Send each file's full text as `codeSnippet`, never a partial snippet, and its repo-relative path as `filePath`. Pass `language: java`, `scope: MAIN` or `TEST`, and the repo's `projectKey`. Fix each finding on the PR's changed lines (`git diff -U0 origin/main...HEAD`), or say why you skipped it. Snippet mode can't see `package-info` null annotations, so SonarCloud must confirm null-contract rules.
-- **SonarCloud after every Java push.** The local snippet check misses rules SonarCloud applies. After each push to a Java PR, wait for the SonarCloud check to finish. Then query the PR's open issues with its `pullRequest` key and `issueStatuses: OPEN, CONFIRMED`. Fix every open issue on the PR's lines before you reply "Fixed", resolve a thread, or report the push as done.
+- **Docker through Rancher Desktop.** When a task needs Docker and `docker info` fails, start Rancher Desktop yourself with `open -a "Rancher Desktop"`, then wait for `docker info` to pass. Testcontainers tests and the Sonar check both need it. Start Rancher before any Gradle test run in a Java repo, including a PR review, because the repo's integration tests need Docker. When the Docker work ends, always shut Rancher down with `rdctl shutdown`, because an idle VM drains the battery. Neither step needs the user's confirmation.
+- **Sonar check on Java.** In a repo with `build.gradle` or `settings.gradle`, run `analyze_code_snippet` from a SonarQube MCP server before every push to a PR. Run it on every Java file in the PR's diff against main: `git diff --name-only origin/main...HEAD -- '*.java'`. That includes test files and files whose only change is a deletion. Don't limit it to the files this push touches. Send each file's full text as `codeSnippet`, never a partial snippet, and its repo-relative path as `filePath`. Pass `language: java`, `scope: MAIN` or `TEST`, and the repo's `projectKey` (`<org>_<repo-name>`). Fix each finding on the PR's changed lines (`git diff -U0 origin/main...HEAD`), or say why you skipped it. Ignore S1598. Snippet mode can't see `package-info` null annotations, so SonarCloud must confirm null-contract rules. Claude Code starts the server itself as a Docker container. It needs Rancher Desktop running, the `rancher-desktop` Docker context, and `SONARQUBE_TOKEN` exported in `~/.zshrc`. Check it with `claude mcp list`, which must show the server as connected. A session caches a failed connection for 15 minutes, even after Docker comes back. Then run `SONARQUBE_ORG=<org> python3 ~/.claude/scripts/sonar_run.py <repo> <org>_<repo-name>` from the repo, which starts the same pinned image and analyzes every changed Java file. While the analyzers load, a call can return "Server initialization is taking longer than expected", so rerun those files.
+- **SonarCloud after every Java push.** The local snippet check misses rules SonarCloud applies, such as S5778, S5838, S5853, and S2589. After each push to a Java PR, wait for the SonarCloud check to finish. Then query the PR's open issues with its `pullRequest` key and `issueStatuses: OPEN, CONFIRMED`. Fix every open issue on the PR's lines before you reply "Fixed", resolve a thread, or report the push as done.
 - **Integration tests before a Java push.** `./gradlew build` skips a separate `integrationTest` task. In a repo that registers one, run `./gradlew integrationTest` for the test classes the PR touches before each push. Run the full task when the change reaches shared test setup.
 - **No force-push.** GIT_WORKFLOW.md holds this rule and the full branch lifecycle, from worktree to PR updates and review threads.
 - **Stacked PRs for large work.** When a change needs several dependent PRs, branch each one off the previous one. Review stays scoped per PR, and later PRs merge as earlier ones land.
