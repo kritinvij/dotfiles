@@ -241,6 +241,9 @@ fpath=("$HOME/Library/Application Support/ScalaCli/completions/zsh" $fpath)
 # zsh-completions — extended completions for gradle, aws, docker, terraform, etc.
 fpath=(/opt/homebrew/share/zsh-completions $fpath)
 
+# Homebrew-installed completions (databricks, etc.)
+fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
+
 # Optimize compinit - only rebuild cache if older than 24 hours
 autoload -Uz compinit
 if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then

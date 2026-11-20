@@ -52,5 +52,6 @@ brew "rtk-ai/tap/rtk"
 
 # Apps
 cask "android-platform-tools"
+cask "finicky"
 cask "font-hack-nerd-font"
 cask "rectangle"

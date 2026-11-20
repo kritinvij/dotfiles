@@ -190,7 +190,8 @@ count=0
 
 for i in $REPOS; do
 (
-    cd "$BASE_DIR/$i/.." || exit 1
+    # .git is a file in worktrees, so cd to its parent with dirname.
+    cd "$BASE_DIR/$(dirname "$i")" || exit 1
 
     CUR_FILE_FULLPATH=$(pwd)
     CUR_FILENAME="$(basename -- "$CUR_FILE_FULLPATH")"

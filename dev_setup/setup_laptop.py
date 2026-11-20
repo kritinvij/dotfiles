@@ -29,6 +29,10 @@ DRY_RUN = False
 GRADLE_PROPERTIES_SOURCE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'gradle', 'gradle.properties')
 GRADLE_PROPERTIES_DEST = os.path.expanduser('~/.gradle/gradle.properties')
 
+# Finicky routes every link to one Chrome profile. Config kept next to this script and installed to ~/.finicky.js.
+FINICKY_CONFIG_SOURCE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'finicky', 'finicky.js')
+FINICKY_CONFIG_DEST = os.path.expanduser('~/.finicky.js')
+
 # =============================================================================
 # Version Configuration - All tool versions consolidated here
 # =============================================================================
@@ -313,6 +317,14 @@ class Tool:
             except Exception:
                 log(Colors.FAIL + "tfenv is not installed." + Colors.ENDC)
                 return False
+        elif self.name == 'finicky-config':
+            src = FINICKY_CONFIG_SOURCE
+            dest = FINICKY_CONFIG_DEST
+            if os.path.exists(dest) and filecmp.cmp(src, dest, shallow=False):
+                log(Colors.OKGREEN + f'{self.name} is already installed.' + Colors.ENDC)
+                return True
+            log(Colors.FAIL + f"{self.name} is not installed." + Colors.ENDC)
+            return False
         elif self.name == 'java21':
             try:
                 ans = subprocess.check_output('java --version', shell=True, stderr=subprocess.DEVNULL)
@@ -589,6 +601,16 @@ fi
             shutil.copy2(GRADLE_PROPERTIES_SOURCE, GRADLE_PROPERTIES_DEST)
             log(Colors.OKGREEN + f'{self.name} is now installed' + Colors.ENDC)
             return True
+        elif self.name == 'finicky-config':
+            if DRY_RUN:
+                log(f"{Colors.DIM}  [dry-run] Would copy {FINICKY_CONFIG_SOURCE} to {FINICKY_CONFIG_DEST}{Colors.ENDC}")
+                return True
+            if os.path.exists(FINICKY_CONFIG_DEST):
+                # Keep a copy of any different file that was already there.
+                shutil.copy2(FINICKY_CONFIG_DEST, FINICKY_CONFIG_DEST + '.bak')
+            shutil.copy2(FINICKY_CONFIG_SOURCE, FINICKY_CONFIG_DEST)
+            log(Colors.OKGREEN + f'{self.name} is now installed' + Colors.ENDC)
+            return True
         elif self.name == 'java21':
             # Build the Zulu JDK download URL from version constants
             zulu_archive = f'zulu{ZULU_JDK_VERSION}-ca-jdk{ZULU_JDK_RELEASE}-macosx_aarch64'
@@ -683,6 +705,7 @@ if __name__ == '__main__':
         Tool('terraform', 'terraform'),
         Tool('java21', 'java21'),
         Tool('gradle-properties', 'gradle-properties'),
+        Tool('finicky-config', 'finicky-config'),
         Tool('yarn', 'yarn'),
         Tool('git', 'git'),
         Tool('gh', 'github-cli'),
