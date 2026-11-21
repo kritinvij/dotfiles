@@ -1,119 +1,82 @@
-const username = "<INSERT USER NAME>";
-
-/**
- * Initialized like this so we can still run it from browsers, but also use typescript on a code editor for intellisense.
- */
-let followers = [{ username: "", full_name: "" }];
-let followings = [{ username: "", full_name: "" }];
-let dontFollowMeBack = [{ username: "", full_name: "" }];
-let iDontFollowBack = [{ username: "", full_name: "" }];
-
-followers = [];
-followings = [];
-dontFollowMeBack = [];
-iDontFollowBack = [];
-
+// Run in the browser console on instagram.com while logged in.
+// Everything lives in one function, so pasting it twice never hits "already declared".
+// Progress shows in a banner on the page, and the result downloads as a JSON file.
 (async () => {
-  try {
-    console.log(`Process started! Give it a couple of seconds`);
+  const username = "<INSERT USER NAME>";
+  const headers = { "x-ig-app-id": "936619743392459" };
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-    const userQueryRes = await fetch(
-      `https://www.instagram.com/web/search/topsearch/?query=${username}`
+  document.getElementById("fb-status")?.remove();
+  const banner = document.createElement("div");
+  banner.id = "fb-status";
+  banner.style.cssText =
+    "position:fixed;top:0;left:0;right:0;z-index:999999;padding:10px;background:#000;color:#0f0;font:14px monospace";
+  document.body.appendChild(banner);
+  const say = (msg) => {
+    banner.textContent = msg;
+  };
+
+  const getJson = async (url) => {
+    const res = await fetch(url, { headers, credentials: "include" });
+    if (!res.ok) throw new Error(`${res.status} ${res.statusText} for ${url}`);
+    return res.json();
+  };
+
+  const getUserId = async () => {
+    const cookieId = document.cookie.match(/ds_user_id=(\d+)/)?.[1];
+    if (cookieId) return cookieId;
+    const json = await getJson(
+      `https://www.instagram.com/api/v1/users/web_profile_info/?username=${username}`
     );
+    return json.data.user.id;
+  };
 
-    const userQueryJson = await userQueryRes.json();
-
-    const userId = userQueryJson.users.map(u => u.user)
-                                      .filter(
-                                        u => u.username === username
-                                       )[0].pk;
-
-    let after = null;
-    let has_next = true;
-
-    while (has_next) {
-      await fetch(
-        `https://www.instagram.com/graphql/query/?query_hash=c76146de99bb02f6415203be841dd25a&variables=` +
-          encodeURIComponent(
-            JSON.stringify({
-              id: userId,
-              include_reel: true,
-              fetch_mutual: true,
-              first: 50,
-              after: after,
-            })
-          )
-      )
-        .then((res) => res.json())
-        .then((res) => {
-          has_next = res.data.user.edge_followed_by.page_info.has_next_page;
-          after = res.data.user.edge_followed_by.page_info.end_cursor;
-          followers = followers.concat(
-            res.data.user.edge_followed_by.edges.map(({ node }) => {
-              return {
-                username: node.username,
-                full_name: node.full_name,
-              };
-            })
-          );
-        });
-    }
-
-    console.log({ followers });
-
-    after = null;
-    has_next = true;
-
-    while (has_next) {
-      await fetch(
-        `https://www.instagram.com/graphql/query/?query_hash=d04b0a864b4b54837c0d870b0e77e076&variables=` +
-          encodeURIComponent(
-            JSON.stringify({
-              id: userId,
-              include_reel: true,
-              fetch_mutual: true,
-              first: 50,
-              after: after,
-            })
-          )
-      )
-        .then((res) => res.json())
-        .then((res) => {
-          has_next = res.data.user.edge_follow.page_info.has_next_page;
-          after = res.data.user.edge_follow.page_info.end_cursor;
-          followings = followings.concat(
-            res.data.user.edge_follow.edges.map(({ node }) => {
-              return {
-                username: node.username,
-                full_name: node.full_name,
-              };
-            })
-          );
-        });
-    }
-
-    console.log({ followings });
-
-    dontFollowMeBack = followings.filter((following) => {
-      return !followers.find(
-        (follower) => follower.username === following.username
+  const getAll = async (userId, kind) => {
+    const out = [];
+    let maxId = "";
+    do {
+      const json = await getJson(
+        `https://www.instagram.com/api/v1/friendships/${userId}/${kind}/?count=100` +
+          (maxId ? `&max_id=${maxId}` : "")
       );
-    });
-
-    console.log({ dontFollowMeBack });
-
-    iDontFollowBack = followers.filter((follower) => {
-      return !followings.find(
-        (following) => following.username === follower.username
+      out.push(
+        ...json.users.map((u) => ({ username: u.username, full_name: u.full_name }))
       );
-    });
+      maxId = json.next_max_id || "";
+      say(`${kind}: ${out.length} fetched...`);
+      await sleep(1000 + Math.random() * 1000);
+    } while (maxId);
+    return out;
+  };
 
-    console.log({ iDontFollowBack });
+  try {
+    say("Started. Looking up user id...");
+    const userId = await getUserId();
 
-    console.log(
-      `Process is done: Type 'copy(followers)' or 'copy(followings)' or 'copy(dontFollowMeBack)' or 'copy(iDontFollowBack)' in the console and paste it into a text editor to take a look at it'`
+    const followers = await getAll(userId, "followers");
+    const followings = await getAll(userId, "following");
+
+    const followerNames = new Set(followers.map((u) => u.username));
+    const followingNames = new Set(followings.map((u) => u.username));
+    const dontFollowMeBack = followings.filter((u) => !followerNames.has(u.username));
+    const iDontFollowBack = followers.filter((u) => !followingNames.has(u.username));
+
+    window.fbResult = { followers, followings, dontFollowMeBack, iDontFollowBack };
+
+    say("Fetched everything. Logging in 5s...");
+    await sleep(5000);
+
+    // The iframe console's output doesn't show in the devtools console, so use the page's own.
+    const out = console;
+    out.info("dontFollowMeBack (you follow, they don't):");
+    out.info(dontFollowMeBack);
+    out.info("iDontFollowBack (they follow, you don't):");
+    out.info(iDontFollowBack);
+
+    say(
+      `Done. dontFollowMeBack=${dontFollowMeBack.length} iDontFollowBack=${iDontFollowBack.length}. See the console.`
     );
   } catch (err) {
-    console.log({ err });
+    say(`Error: ${err.message}`);
   }
 })();
