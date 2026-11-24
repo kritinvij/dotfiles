@@ -22,6 +22,7 @@ Command-line tools and some apps live in `dev_setup/Brewfile`. Run `brew bundle 
 | ScreenBrush | Draws on the screen |
 | MeetingBar | Shows calendar meetings in the menu bar |
 | Hidden Bar | Hides menu bar icons |
+| Glance (https://tryglance.app) | Face unlock for the Mac |
 
 ## Productivity and media
 

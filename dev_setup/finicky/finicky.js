@@ -1,4 +1,4 @@
-const personal = { name: "Google Chrome", profile: "Default" };
+const personal = { name: "Google Chrome", profile: "Default", openInBackground: true };
 
 const domain = (...names) =>
   new RegExp(`^https?://([^/]*\\.)?(${names.join("|").replace(/\./g, "\\.")})(/|$|\\?)`);
@@ -7,6 +7,7 @@ export default {
   defaultBrowser: {
     name: "Google Chrome",
     profile: "Profile 1",
+    openInBackground: false,
   },
   handlers: [
     {
@@ -25,10 +26,11 @@ export default {
         domain(
           "amazon.com", "amazon.in", "amazon.co.uk", "amazon.ca", "amazon.de", "amzn.to", "a.co",
           "flipkart.com", "myntra.com", "ebay.com", "etsy.com", "walmart.com", "target.com",
-          "bestbuy.com", "aliexpress.com", "nykaa.com", "meesho.com", "ajio.com"
+          "bestbuy.com", "aliexpress.com", "nykaa.com", "meesho.com", "ajio.com",
+          "facebook.com", "fb.com", "fb.me", "instagram.com"
         ),
       ],
-      browser: "Firefox",
+      browser: { name: "Firefox", openInBackground: false },
     },
   ],
 };
