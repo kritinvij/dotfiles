@@ -17,7 +17,6 @@ Command-line tools and some apps live in `dev_setup/Brewfile`. Run `brew bundle 
 | Raycast | Launcher |
 | Flux | Screen color temperature |
 | Clipy (https://clipy-app.com) | Clipboard history |
-| AppCleaner | Uninstalls apps with their leftover files |
 | Caffeine or Amphetamine | Keeps the Mac awake |
 | ScreenBrush | Draws on the screen |
 | MeetingBar | Shows calendar meetings in the menu bar |
@@ -35,7 +34,6 @@ Command-line tools and some apps live in `dev_setup/Brewfile`. Run `brew bundle 
 | Spotify | Music |
 | VLC | Video player |
 | Steam | Games |
-| Giphy Capture | Records screen GIFs |
 
 ## Command-line extras (not in the Brewfile)
 

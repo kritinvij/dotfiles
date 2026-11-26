@@ -4,6 +4,7 @@
 tap "oven-sh/bun"
 tap "rtk-ai/tap"
 tap "virtuslab/scala-cli"
+tap "vorssaint/tap"
 
 # Shell and terminal
 brew "bash-completion"
@@ -56,3 +57,8 @@ cask "blip"
 cask "finicky"
 cask "font-hack-nerd-font"
 cask "rectangle"
+cask "alt-tab"
+cask "lunar"
+cask "macshot"
+cask "puremac"
+cask "vorssaint/tap/vorssaint"
